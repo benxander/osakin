@@ -18,6 +18,7 @@ application/cache/*
 application/temp/*
 
 uploads/*
+.htaccess
 
 application/config/*
 !application/config/index.html
