@@ -36,18 +36,7 @@
         templateUrl: 'app/pages/usuario/usuario.html',
         controller: 'UsuarioController as vm'
       })
-      // Sorteos
-      .state('sorteo', {
-        url: '/app/sorteo',
-        templateUrl: 'app/pages/sorteo/sorteo_05012020.html',
-        controller: 'SorteoController as vm'
-      })
-      //participante
-      .state('participante', {
-        url: '/app/participante',
-        templateUrl: 'app/pages/participante/participante.html',
-        controller: 'ParticipanteController as vm'
-      })
+
       // configuracion
       // .state('sys-configuracion', {
       //   url: '/app/sys-configuracion',
