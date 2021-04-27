@@ -1,0 +1,82 @@
+<div class="nav-logo pt-md">
+  <span class="text-white">OSAKIN
+  <!-- <img class="mt-sm" ng-src="assets/images/dinamic/empresa/{{fSessionCI.logo_imagen}}" alt="{{ fSessionCI.empresa }}" title="{{ fSessionCI.empresa }}" /> -->
+  </span>
+</div>
+<div class="nav-heading">
+  <h3 class="text-center">MENÚ PRINCIPAL</h3>
+</div>
+<div slimscroll="{
+      height: '100%',
+      size: '4px',
+      borderRadius: '0px',
+      opacity: .2
+     }">
+
+  <ul class="nav nav-sidebar pb-n">
+    <li ng-class="{'active':$state.includes('dashboard')}" ng-if="fArr.valores[0]" class="dashboard">
+      <a ng-click="$state.reload();" ui-sref="dashboard">
+        <span class="nav-text">{{ 'Menu.DASHBOARD' | translate }}</span>
+        <i class="fa fa-home"></i>
+      </a>
+    </li>
+
+
+
+    <li  ng-class="{'active':$state.includes('usuario')}"  ng-if="fArr.valores[4]" >
+
+      <a href="javascript:;">
+        <span class="nav-text">{{ 'Menu.SEGURIDAD' | translate }}</span>
+        <i class="fa fa-key"></i>
+      </a>
+      <ul>
+        <li ng-class="{'active':$state.includes('usuario')}" class="usuario">
+          <a ng-click="$state.reload();" ui-sref="usuario">
+            <span class="nav-text">{{ 'Menu.USUARIOS' | translate }}</span>
+            <i class="fa fa-user"></i>
+          </a>
+        </li>
+        <li ng-class="{'active':$state.includes('grupo')}" class="grupo">
+          <a ng-click="$state.reload();" ui-sref="grupo">
+            <span class="nav-text">{{ 'Menu.GRUPOS' | translate }}</span>
+            <i class="fa fa-users"></i>
+          </a>
+        </li>
+      </ul>
+
+    </li>
+
+    <li ng-class="{'active':$state.includes('paginas')}" ng-if="fArr.valores[5]">
+      <a href="javascript:;">
+        <span class="nav-text">{{ 'Menu.CONFIGURACION' | translate }}</span>
+        <i class="fa fa-wrench"></i>
+      </a>
+      <ul>
+        <li ng-class="{'active':$state.includes('paginas')}" class="paginas">
+          <a ng-click="$state.reload();" ui-sref="paginas">
+            <span class="nav-text">Páginas Dinámicas</span>
+            <i class="fa fa-book"></i>
+          </a>
+        </li>
+
+      </ul>
+    </li>
+
+
+  </ul>
+  <!-- MOSTRAR INFO DE CONTACTO -->
+  <div class="tile contacto" ng-show="fSessionCI.mostrar_info_contacto == 1">
+    <div class="tile-body b-t" style="font-size:12px;text-align: center;">
+      <!-- <p class="mb-n text-info text-center" style="font-weight: bold;font-style: normal;font-size: 16px;"> Contáctanos... </p> -->
+      <p class="mb-n">
+        <i class="fa fa-phone"></i> 99999999 </p>
+      <p class="mb-n"><i class="fa fa-envelope"></i> contacto@cartadigitalplus.es</p>
+      <p class="mb-n"><a target="_blank" href="https://cartadigitalplus.es">
+        <i class="fa fa-globe"></i>https://cartadigitalplus.es</p>
+      <p class="mb-n"> <a target="_blank" href="https://www.facebook.com/">
+        <i style="color:#4267b2;" class="fa fa-facebook-square"></i> /cartadigitalplus </a> </p>
+      <p class="mb-n"> <a target="_blank" href="https://www.linkedin.com/">
+        <i style="color:#0077b5;" class="fa fa-linkedin-square"></i> /cartadigitalplus </a> </p>
+    </div>
+  </div><!--  -->
+</div>

@@ -1,0 +1,39 @@
+<div class="page page-ui pull-to-header">
+	<ol class="breadcrumb bg-white">
+		<li><a ui-sref="dashboard">Dashboard</a></li>
+		<li class="active">QR</li>
+	</ol>
+	<div class="row">
+		<!-- col -->
+		<div class="col-md-12">
+			<!-- tile -->
+			<div class="tile">
+				<!-- tile header -->
+				<section class="tile-header">
+					<h1 class="heading">Código QR</h1>
+
+				</section>
+				<!-- /tile header -->
+				<!-- tile body -->
+				<!-- PANEL PRINCIPAL -->
+				<section class="tile-body col-sm-12 pr-md pl-md">
+					<div>
+						<ul class="form-group demo-btns list-unstyled">
+							<li class="pull-right" style="margin-bottom: 10px;"><button type="button"
+									class="btn btn-warning" ng-click='vm.btnImprimir()'>Imprimir</button></li>
+						</ul>
+					</div>
+					<label class="control-label minotaur-label">Dirección de Carta Digital</label>
+					<a href="{{vm.direccionCarta}}" target="_blank">{{vm.direccionCarta}}</a>
+					<div>
+						<img ng-src="{{vm.codigoQR}}" alt="">
+					</div>
+				</section>
+
+				<!-- /tile body -->
+			</div>
+			<!-- /tile -->
+		</div>
+		<!-- /col -->
+	</div>
+</div>
