@@ -3,18 +3,18 @@
 
   angular
     .module('minotaur')
-    .controller('EmpresaController', EmpresaController)
-    .service('EmpresaServices', EmpresaServices);
+    .controller('CentroMedicoController', CentroMedicoController)
+    .service('CentroMedicoServices', CentroMedicoServices);
 
   /** @ngInject */
-  function EmpresaController(
+  function CentroMedicoController(
     $scope,
     $uibModal,
     $location,
     uiGridConstants,
     alertify,
     SweetAlert,
-    EmpresaServices,
+    CentroMedicoServices,
     UsuarioServices,
     pinesNotifications
   ) {
@@ -23,23 +23,6 @@
     var params = $location.search();
     vm.selectedItem = {};
     vm.options = {};
-    vm.fDemo = {};
-    vm.fArr = {}; // contiene todos los arrays generados por las funciones
-
-    vm.fArr.listaPlanes = [
-      { id: 0, descripcion: '--Seleccione plan--' },
-      { id: 1, descripcion: 'CARTA DIGITAL 1' },
-      { id: 2, descripcion: 'CARTA DIGITAL 2' },
-      { id: 3, descripcion: 'CARTA DIGITAL 3' }
-    ];
-
-    vm.fArr.listaTiposPago = [
-      { id: 0, descripcion: '--Seleccione tipo pago--' },
-      { id: 1, descripcion: 'MENSUAL' },
-      { id: 2, descripcion: 'SEMESTRAL' },
-      { id: 3, descripcion: 'ANUAL' }
-    ];
-
 
 
     vm.remove = function(scope) {
@@ -55,23 +38,16 @@
     };
 
     // GRILLA PRINCIPAL
-      var paginationOptions = {
-        pageNumber: 1,
-        firstRow: 0,
-        pageSize: 10,
-        sort: uiGridConstants.DESC,
-        sortName: null,
-        search: null
-      };
+
       vm.mySelectionGrid = [];
       vm.gridOptions = {
         paginationPageSizes: [10, 50, 100, 500, 1000],
         paginationPageSize: 10,
-        enableFiltering: true,
-        enableSorting: true,
-        useExternalPagination: true,
-        useExternalSorting: true,
-        useExternalFiltering : true,
+        enableFiltering: false,
+        enableSorting: false,
+        useExternalPagination: false,
+        useExternalSorting: false,
+        useExternalFiltering : false,
         enableRowSelection: true,
         enableRowHeaderSelection: false,
         enableFullRowSelection: true,
@@ -79,12 +55,11 @@
         appScopeProvider: vm
       }
       vm.gridOptions.columnDefs = [
-        { field: 'idempresa', name: 'idempresa', displayName: 'ID', width: 80, enableFiltering: false, sort: { direction: uiGridConstants.DESC }},
-        { field: 'nombre_negocio', name:'nombre_negocio', displayName: 'NOMBRE NEGOCIO' },
-        { field: 'usuario', name:'username', displayName: 'USUARIO', width: 120 },
+        { field: 'idcentromedico', name: 'idcentromedico', displayName: 'ID', width: 80, enableFiltering: false},
+        { field: 'nombre', name:'nombre', displayName: 'CENTRO MEDICO' },
         { field: 'telefono', name:'telefono', displayName: 'TELÉFONO', width: 150, },
-        { field: 'descripcion_pl', name:'descripcion_pl', displayName: 'PLAN', minWidth: 150, width:150 },
-        { field: 'descripcion_tp', name: 'descripcion_tp', displayName: 'TIPO PAGO', minWidth: 120, width: 120},
+        { field: 'direccion', name:'direccion', displayName: 'DIRECCION', minWidth: 200, width:200 },
+
         {
           field: 'accion', name: 'accion', displayName: 'ACCIONES', width: 120, enableFiltering: false, enableColumnMenu: false,
           cellTemplate:'<label class="btn text-primary" ng-click="grid.appScope.btnEditar(row);$event.stopPropagation();" tooltip-placement="left" uib-tooltip="EDITAR"> <i class="fa fa-edit"></i> </label>'+
@@ -100,32 +75,12 @@
         gridApi.selection.on.rowSelectionChangedBatch($scope,function(rows){
           vm.mySelectionGrid = gridApi.selection.getSelectedRows();
         });
-        gridApi.pagination.on.paginationChanged($scope, function (newPage, pageSize) {
-          paginationOptions.pageNumber = newPage;
-          paginationOptions.pageSize = pageSize;
-          paginationOptions.firstRow = (paginationOptions.pageNumber - 1) * paginationOptions.pageSize;
-          vm.getPaginationServerSide();
-        });
-        vm.gridApi.core.on.filterChanged( $scope, function(grid, searchColumns) {
-          var grid = this.grid;
-          paginationOptions.search = true;
-          paginationOptions.searchColumn = {
-            'nombre_negocio' : grid.columns[2].filters[0].term,
-            'razon_social' : grid.columns[3].filters[0].term,
-            'telefono' : grid.columns[4].filters[0].term,
-            'contacto' : grid.columns[5].filters[0].term,
-          };
-          vm.getPaginationServerSide();
-        });
+
       }
-      paginationOptions.sortName = vm.gridOptions.columnDefs[0].name;
       vm.getPaginationServerSide = function() {
-        vm.datosGrid = {
-          paginate : paginationOptions
-        };
-        EmpresaServices.sListarEmpresas(vm.datosGrid).then(function (rpta) {
+
+        CentroMedicoServices.sListarCentrosMedicos().then(function (rpta) {
           vm.gridOptions.data = rpta.datos;
-          vm.gridOptions.totalItems = rpta.paginate.totalRows;
           vm.mySelectionGrid = [];
         });
       }
@@ -133,7 +88,7 @@
       /*---------- NUEVA EMPRESA--------*/
       vm.btnNuevo = function () {
         $uibModal.open({
-          templateUrl: 'app/pages/empresa/empresa_formview.php',
+          templateUrl: 'app/pages/centro-medico/centroMedico_formview.php',
           controllerAs: 'mp',
           size: 'lg',
           backdropClass: 'splash splash-2 splash-info splash-ef-12',
@@ -146,14 +101,11 @@
             vm.fData = {};
             vm.modoEdicion = false;
             vm.getPaginationServerSide = arrToModal.getPaginationServerSide;
-            vm.fArr = arrToModal.fArr;
-            vm.verPopupListaUsuarios = arrToModal.verPopupListaUsuarios;
-            vm.fData.plan = vm.fArr.listaPlanes[0];
-            vm.fData.tipo_pago = vm.fArr.listaTiposPago[0];
-            vm.modalTitle = 'Registro de Empresas';
+
+            vm.modalTitle = 'Registro de Centro Médico';
             // BOTONES
             vm.aceptar = function () {
-              EmpresaServices.sRegistrarEmpresa(vm.fData).then(function (rpta) {
+              CentroMedicoServices.sRegistrarCentroMedico(vm.fData).then(function (rpta) {
                 if(rpta.flag == 1){
                   $uibModalInstance.close(vm.fData);
                   vm.getPaginationServerSide();
@@ -225,7 +177,7 @@
             vm.aceptar = function () {
               // console.log('edicion...', vm.fData);
               $uibModalInstance.close(vm.fData);
-              EmpresaServices.sEditarEmpresa(vm.fData).then(function (rpta) {
+              CentroMedicoServices.sEditarEmpresa(vm.fData).then(function (rpta) {
                 if(rpta.flag == 1){
                   vm.getPaginationServerSide();
                   var pTitle = 'OK!';
@@ -258,7 +210,7 @@
       vm.btnAnular = function(row){
         alertify.confirm("¿Realmente desea realizar la acción?", function (ev) {
           ev.preventDefault();
-          EmpresaServices.sAnularEmpresa(row.entity).then(function (rpta) {
+          CentroMedicoServices.sAnularEmpresa(row.entity).then(function (rpta) {
             if(rpta.flag == 1){
               vm.getPaginationServerSide();
               var pTitle = 'OK!';
@@ -335,19 +287,19 @@
         vm.btnNuevo();
       }
   }
-  function EmpresaServices($http, $q, handle) {
+  function CentroMedicoServices($http, $q, handle) {
     return({
-        sListarEmpresas: sListarEmpresas,
+        sListarCentrosMedicos: sListarCentrosMedicos,
         sListarEmpresaCbo: sListarEmpresaCbo,
-        sRegistrarEmpresa: sRegistrarEmpresa,
+        sRegistrarCentroMedico: sRegistrarCentroMedico,
         sEditarEmpresa: sEditarEmpresa,
         sAnularEmpresa: sAnularEmpresa,
     });
-    function sListarEmpresas(pDatos) {
+    function sListarCentrosMedicos(pDatos) {
       var datos = pDatos || {};
       var request = $http({
             method : "post",
-            url :  angular.patchURLCI + "Empresa/listar_empresas",
+            url :  angular.patchURLCI + "CentroMedico/listarCentrosMedicos",
             data : datos
       });
       return (request.then( handle.success,handle.error ));
@@ -356,16 +308,16 @@
       var datos = pDatos || {};
       var request = $http({
             method : "post",
-            url :  angular.patchURLCI + "Empresa/listar_empresa_cbo",
+            url :  angular.patchURLCI + "CentroMedico/listarCentroMedico_cbo",
             data : datos
       });
       return (request.then( handle.success,handle.error ));
     }
-    function sRegistrarEmpresa(pDatos) {
+    function sRegistrarCentroMedico(pDatos) {
       var datos = pDatos || {};
       var request = $http({
             method : "post",
-            url : angular.patchURLCI + "Empresa/registrar_empresa",
+            url : angular.patchURLCI + "CentroMedico/registrarCentroMedico",
             data : datos
       });
       return (request.then(handle.success,handle.error));
@@ -374,7 +326,7 @@
       var datos = pDatos || {};
       var request = $http({
             method : "post",
-            url : angular.patchURLCI + "Empresa/editar_empresa",
+            url : angular.patchURLCI + "CentroMedico/editarCentroMedico",
             data : datos
       });
       return (request.then(handle.success,handle.error));
@@ -383,7 +335,7 @@
       var datos = pDatos || {};
       var request = $http({
             method : "post",
-            url : angular.patchURLCI + "Empresa/anular_empresa",
+            url : angular.patchURLCI + "CentroMedico/anularCentroMedico",
             data : datos
       });
       return (request.then(handle.success,handle.error));

@@ -30,6 +30,12 @@
         specialClass: 'core'
       })
 
+      //centro medico
+      .state('centro-medico', {
+        url: '/app/centro-medico',
+        templateUrl: 'app/pages/centro-medico/centro-medico.html',
+        controller: 'CentroMedicoController as vm'
+      })
       //usuario
       .state('usuario', {
         url: '/app/usuario',

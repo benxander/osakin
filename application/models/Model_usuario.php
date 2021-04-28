@@ -84,7 +84,7 @@ class Model_usuario extends CI_Model {
 	{
 		$this->db->select('mostrar_info_cobro');
 		$this->db->from('usuario');
-		$this->db->where('idusuario',$this->sessionVP['idusuario']);
+		$this->db->where('idusuario',$this->sessionCM['idusuario']);
 		$this->db->limit(1);
 		return $this->db->get()->row_array();
 	}
@@ -126,7 +126,7 @@ class Model_usuario extends CI_Model {
 		$data = array(
 			'mostrar_intro' => 2
 		);
-		$this->db->where('idusuario',$this->sessionVP['idusuario']);
+		$this->db->where('idusuario',$this->sessionCM['idusuario']);
 		return $this->db->update('usuario', $data);
 	}
 

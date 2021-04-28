@@ -4,8 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Usuario extends CI_Controller {
 	public function __construct(){
         parent::__construct();
-        // Se le asigna a la informacion a la variable $sessionVP.
-        $this->sessionVP = @$this->session->userdata('sess_vp_'.substr(base_url(),-8,7));
+        $this->sessionCM = @$this->session->userdata('sess_cm_'.substr(base_url(),-7,6));
 		$this->load->helper(array('security','otros','fechas'));
         $this->load->model(array('model_usuario'));
     }
@@ -183,7 +182,7 @@ class Usuario extends CI_Controller {
 		$arrData['message'] = 'Error al anular los datos, inténtelo nuevamente';
     	$arrData['flag'] = 0;
     	// var_dump($allInputs); exit();
-		if($allInputs['idusuario'] == $this->sessionVP['idusuario']){
+		if($allInputs['idusuario'] == $this->sessionCM['idusuario']){
 			$arrData['message'] = 'No puede eliminar usuario de sesión actual';
 			$this->output
 				->set_content_type('application/json')

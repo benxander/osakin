@@ -14,9 +14,16 @@
      }">
 
   <ul class="nav nav-sidebar pb-n">
-    <li ng-class="{'active':$state.includes('dashboard')}" ng-if="fArr.valores[0]" class="dashboard">
+    <li ng-class="{'active':$state.includes('dashboard')}" class="dashboard">
       <a ng-click="$state.reload();" ui-sref="dashboard">
         <span class="nav-text">{{ 'Menu.DASHBOARD' | translate }}</span>
+        <i class="fa fa-home"></i>
+      </a>
+    </li>
+
+    <li ng-class="{'active':$state.includes('centro-medico')}" class="centro-medico">
+      <a ng-click="$state.reload();" ui-sref="centro-medico">
+        <span class="nav-text">Centros Médicos</span>
         <i class="fa fa-home"></i>
       </a>
     </li>

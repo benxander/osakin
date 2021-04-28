@@ -5,7 +5,7 @@ class Participante extends CI_Controller {
 	public function __construct(){
         parent::__construct();
 
-        $this->sessionVP = @$this->session->userdata('sess_vp_'.substr(base_url(),-8,7));
+        $this->sessionCM = @$this->session->userdata('sess_cmp_'.substr(base_url(),-7,6));
 		$this->load->helper(array('security','otros','fechas'));
         $this->load->model(array('model_participante'));
     }

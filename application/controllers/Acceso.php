@@ -30,7 +30,7 @@ class Acceso extends CI_Controller {
 					$arrData['message'] = 'Usuario inició sesión correctamente';
 					if( isset($arrPerfilUsuario['idusuario']) ){
 						$this->model_acceso->m_actualizar_fecha_ultima_sesion($arrPerfilUsuario);
-						$this->session->set_userdata('sess_vp_'.substr(base_url(),-8,7),$arrPerfilUsuario);
+						$this->session->set_userdata('sess_vp_'.substr(base_url(),-7,6),$arrPerfilUsuario);
 
 					}else{
 						$arrData['flag'] = 0;
@@ -53,10 +53,10 @@ class Acceso extends CI_Controller {
 		$arrData['datos'] = array();
 			// var_dump($_SESSION); exit();
 
-		if( $this->session->has_userdata( 'sess_vp_'.substr(base_url(),-8,7) ) &&
-			!empty($_SESSION['sess_vp_'.substr(base_url(),-8,7) ]['idusuario']) ){
+		if( $this->session->has_userdata( 'sess_vp_'.substr(base_url(),-7,6) ) &&
+			!empty($_SESSION['sess_vp_'.substr(base_url(),-7,6) ]['idusuario']) ){
 			$arrData['flag'] = 1;
-			$arrData['datos'] = $_SESSION['sess_vp_'.substr(base_url(),-8,7) ];
+			$arrData['datos'] = $_SESSION['sess_vp_'.substr(base_url(),-7,6) ];
 		}
 
 		$this->output
@@ -65,7 +65,7 @@ class Acceso extends CI_Controller {
 	}
 
 	public function logoutSessionCI(){
-		$this->session->unset_userdata('sess_vp_'.substr(base_url(),-8,7));
+		$this->session->unset_userdata('sess_vp_'.substr(base_url(),-7,6));
         //$this->cache->clean();
         $arrData['flag'] = 1;
 		$arrData['datos'] = 'Salida OK';
