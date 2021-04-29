@@ -13,6 +13,8 @@
     $location,
     uiGridConstants,
     alertify,
+    $timeout,
+    $document,
     SweetAlert,
     CentroMedicoServices,
     UsuarioServices,
@@ -101,8 +103,30 @@
             vm.fData = {};
             vm.modoEdicion = false;
             vm.getPaginationServerSide = arrToModal.getPaginationServerSide;
-
+            vm.fotoCrop = false;
             vm.modalTitle = 'Registro de Centro Médico';
+            // SUBIDA DE IMAGENES MEDIANTE IMAGE CROP
+            vm.cargarImagen = function () {
+              vm.fData.myImage = '';
+              vm.fData.myCroppedImage = '';
+              vm.cropType = 'square';
+              vm.fotoCrop = true;
+              var handleFileSelect = function (evt) {
+                var file = evt.currentTarget.files[0];
+                var reader = new FileReader();
+                reader.onload = function (evt) {
+                  /* eslint-disable */
+                  $scope.$apply(function () {
+                    vm.fData.myImage = evt.target.result;
+                  });
+                  /* eslint-enable */
+                };
+                reader.readAsDataURL(file);
+              };
+              $timeout(function () { // lo pongo dentro de un timeout sino no funciona
+                angular.element($document[0].querySelector('#fileInput')).on('change', handleFileSelect);
+              });
+            }
             // BOTONES
             vm.aceptar = function () {
               CentroMedicoServices.sRegistrarCentroMedico(vm.fData).then(function (rpta) {
@@ -138,7 +162,7 @@
       /*-------- BOTONES DE EDICION ----*/
       vm.btnEditar = function(row){//datos personales
         $uibModal.open({
-          templateUrl: 'app/pages/empresa/empresa_formview.php',
+          templateUrl: 'app/pages/centro-medico/centroMedico_formview.php',
           controllerAs: 'mp',
           size: 'lg',
           backdropClass: 'splash splash-2 splash-info splash-ef-12',
@@ -148,36 +172,17 @@
           controller: function($scope, $uibModalInstance, arrToModal ){
             var vm = this;
             vm.fData = {};
-            vm.fData = arrToModal.seleccion;
-            // console.log("row",vm.fData);
+            vm.fData = angular.copy(arrToModal.seleccion);
+
             vm.modoEdicion = true;
             vm.getPaginationServerSide = arrToModal.getPaginationServerSide;
-            vm.fArr = arrToModal.fArr;
-            vm.verPopupListaUsuarios = arrToModal.verPopupListaUsuarios;
-            // planes
-            var objIndex = vm.fArr.listaPlanes.filter(function (obj) {
-              return obj.id == vm.fData.idplan;
-            }).shift();
-            if (objIndex) {
-              vm.fData.plan = objIndex;
-            } else {
-              vm.fData.plan = vm.fArr.listaPlanes[0];
-            }
-            // tipo pago
-            objIndex = vm.fArr.listaTiposPago.filter(function (obj) {
-              return obj.id == vm.fData.idtipopago;
-            }).shift();
-            if (objIndex) {
-              vm.fData.tipo_pago = objIndex;
-            } else {
-              vm.fData.tipo_pago = vm.fArr.listaTiposPago[0];
-            }
 
-            vm.modalTitle = 'Edición de Empresas';
+
+            vm.modalTitle = 'Edición de Centro Médico';
             vm.aceptar = function () {
               // console.log('edicion...', vm.fData);
               $uibModalInstance.close(vm.fData);
-              CentroMedicoServices.sEditarEmpresa(vm.fData).then(function (rpta) {
+              CentroMedicoServices.sEditarCentroMedico(vm.fData).then(function (rpta) {
                 if(rpta.flag == 1){
                   vm.getPaginationServerSide();
                   var pTitle = 'OK!';
@@ -200,7 +205,7 @@
               return {
                 getPaginationServerSide : vm.getPaginationServerSide,
                 verPopupListaUsuarios: vm.verPopupListaUsuarios,
-                fArr: vm.fArr,
+
                 seleccion : row.entity
               }
             }
@@ -292,7 +297,7 @@
         sListarCentrosMedicos: sListarCentrosMedicos,
         sListarEmpresaCbo: sListarEmpresaCbo,
         sRegistrarCentroMedico: sRegistrarCentroMedico,
-        sEditarEmpresa: sEditarEmpresa,
+        sEditarCentroMedico: sEditarCentroMedico,
         sAnularEmpresa: sAnularEmpresa,
     });
     function sListarCentrosMedicos(pDatos) {
@@ -322,7 +327,7 @@
       });
       return (request.then(handle.success,handle.error));
     }
-    function sEditarEmpresa(pDatos) {
+    function sEditarCentroMedico(pDatos) {
       var datos = pDatos || {};
       var request = $http({
             method : "post",

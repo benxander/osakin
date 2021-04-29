@@ -16,9 +16,10 @@
 							id="nombre"
 							class="form-control"
 							placeholder="Registra nombre del centro médico"
+							autocomplete="off"
 							required
 						  >
-			              <div ng-messages="formCentroMedico.nombre.$error" ng-if="formCentroMedico.nombre.$dirty" role="alert" class="help-block text-red">
+			              <div ng-messages="formCentroMedico.nombre.$error" ng-show="formCentroMedico.nombre.$dirty" role="alert" class="help-block text-red">
 			                <div ng-messages-include="app/components/templates/messages_tmpl.html"></div>
 			              </div>
 			            </div>
@@ -31,9 +32,10 @@
 							id="direccion"
 							class="form-control"
 							placeholder="Registra dirección"
+							autocomplete="off"
 							required
 						  >
-			              <div ng-messages="formCentroMedico.direccion.$error" ng-if="formCentroMedico.direccion.$dirty" role="alert" class="help-block text-red">
+			              <div ng-messages="formCentroMedico.direccion.$error" ng-show="formCentroMedico.direccion.$dirty" role="alert" class="help-block text-red">
 			                <div ng-messages-include="app/components/templates/messages_tmpl.html"></div>
 			              </div>
 			            </div>
@@ -52,9 +54,10 @@
 								id="horario"
 								class="form-control"
 								placeholder="Registra horario del centro"
+								autocomplete="off"
 								required
 							>
-							<div ng-messages="formCentroMedico.horario.$error" ng-if="formCentroMedico.horario.$dirty" role="alert"
+							<div ng-messages="formCentroMedico.horario.$error" ng-show="formCentroMedico.horario.$dirty" role="alert"
 								class="help-block text-red">
 								<div ng-messages-include="app/components/templates/messages_tmpl.html"></div>
 							</div>
@@ -70,8 +73,9 @@
 								class="form-control"
 								placeholder="Registra telefono"
 								ng-pattern="/([0-9]{9})$/"
+								autocomplete="off"
 							>
-			              	<div ng-messages="formCentroMedico.telefono.$error" ng-if="formCentroMedico.telefono.$dirty" role="alert" class="help-block text-red">
+			              	<div ng-messages="formCentroMedico.telefono.$error" ng-show="formCentroMedico.telefono.$dirty" role="alert" class="help-block text-red">
 			                	<div ng-messages-include="app/components/templates/messages_tmpl.html"></div>
 			              	</div>
 			            </div>
@@ -84,8 +88,9 @@
 								id="email"
 								class="form-control"
 								placeholder="Registra email"
+								autocomplete="off"
 							>
-			              	<div ng-messages="formCentroMedico.email.$error" ng-if="formCentroMedico.email.$dirty" role="alert" class="help-block text-red">
+			              	<div ng-messages="formCentroMedico.email.$error" ng-show="formCentroMedico.email.$dirty" role="alert" class="help-block text-red">
 			                	<div ng-messages-include="app/components/templates/messages_tmpl.html"></div>
 			              	</div>
 			            </div>
@@ -102,9 +107,10 @@
 								id="titulo"
 								class="form-control"
 								placeholder="Título del apartado"
+								autocomplete="off"
 								required
 							>
-							<div ng-messages="formCentroMedico.titulo.$error" ng-if="formCentroMedico.titulo.$dirty" role="alert"
+							<div ng-messages="formCentroMedico.titulo.$error" ng-show="formCentroMedico.titulo.$dirty" role="alert"
 								class="help-block text-red">
 								<div ng-messages-include="app/components/templates/messages_tmpl.html"></div>
 							</div>
@@ -114,8 +120,36 @@
 						</div>
 
 						<div class="form-group col-md-6">
-							<label for="titulo" class="control-label minotaur-label">Imagen </label>
-							<input type="file" name="" id="">
+							<label class="control-label minotaur-label">Imagen </label>
+
+							<!-- <input  type="file" class="filestyle" nv-file-select="" uploader="uploader" filestyle button-text="Img" icon-name="fa fa-inbox" accept="image/*"> -->
+
+							<!-- <div class="text-center" ng-if="!mp.fotoCrop">
+								<img ng-src="assets/images/sin-imagen.png" style="width: 100%">
+							</div> -->
+							<div class="row" >
+								<div class="col-md-12">
+									<div class="p-10 bg-white b-a b-solid" style="height:250px">
+
+									<img-crop
+										image="mp.fData.myImage"
+										result-image="mp.fData.myCroppedImage"
+										result-image-size="160"
+										area-type="{{mp.cropType}}"
+									></img-crop>
+									</div>
+								</div>
+								<div class="col-md-12" ng-show="false">
+									<div class="p-15 bg-white b-a b-solid inline-block">
+									<img ng-src="{{mp.fData.myCroppedImage}}" />
+									</div>
+								</div>
+							</div>
+							<input type="file"
+								class="filestyle"
+								id="fileInput"
+								ng-click="mp.cargarImagen();"
+							>
 						</div>
 
 					</div>

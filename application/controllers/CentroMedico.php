@@ -76,4 +76,29 @@ class CentroMedico extends CI_Controller {
 		    ->set_output(json_encode($arrData));
 	}
 
+	public function editarCentroMedico(){
+		$allInputs = json_decode(trim($this->input->raw_input_stream),true);
+		$arrData['message'] = 'Error al editar los datos, inténtelo nuevamente';
+    	$arrData['flag'] = 0;
+
+		$data = array(
+			'nombre' => strtoupper_total($allInputs['nombre']),
+			'direccion' => $allInputs['direccion'],
+			'titulo' => strtoupper_total($allInputs['titulo']),
+			'descripcion' => $allInputs['descripcion'],
+			'telefono' => empty($allInputs['telefono'])? null : $allInputs['telefono'],
+			'email' => empty($allInputs['email'])? null : $allInputs['email'],
+			'horario' => empty($allInputs['horario'])? null : $allInputs['horario'],
+			'updated_at' => date('Y-m-d H:i:s')
+		);
+
+		if($this->model_centro_medico->m_editar($data,$allInputs['idcentromedico'])){
+			$arrData['message'] = 'Se editaron los datos correctamente ';
+    		$arrData['flag'] = 1;
+		}
+		$this->output
+		    ->set_content_type('application/json')
+		    ->set_output(json_encode($arrData));
+	}
+
 }

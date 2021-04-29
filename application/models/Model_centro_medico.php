@@ -21,6 +21,7 @@ class Model_centro_medico extends CI_Model {
 			cm.estado
 		", FALSE);
 		$this->db->from('centro_medico cm');
+		$this->db->where('estado', 1);
 		$this->db->order_by('idcentromedico', 'ASC');
 		return $this->db->get()->result_array();
 	}
@@ -30,6 +31,9 @@ class Model_centro_medico extends CI_Model {
 		$this->db->insert('centro_medico', $data);
 		return $this->db->insert_id();
 	}
-
+	public function m_editar($data,$id){
+		$this->db->where('idcentromedico',$id);
+		return $this->db->update('centro_medico', $data);
+	}
 
 }

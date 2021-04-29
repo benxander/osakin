@@ -27,7 +27,7 @@
       'ui.select',
       // 'validation.match',
       'angularFileUpload',
-      // 'ngImgCrop',
+      'ngImgCrop',
       'ui.grid.selection',
       'ui.grid.edit',
       'ui.grid.rowEdit',
