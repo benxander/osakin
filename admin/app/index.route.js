@@ -42,6 +42,12 @@
         templateUrl: 'app/pages/usuario/usuario.html',
         controller: 'UsuarioController as vm'
       })
+      //usuario
+      .state('paginas-dinamicas', {
+        url: '/app/paginas-dinamicas',
+        templateUrl: 'app/pages/paginas-dinamicas/paginas-dinamicas.html',
+        controller: 'PaginasDinamicasController as vm'
+      })
 
       // configuracion
       // .state('sys-configuracion', {

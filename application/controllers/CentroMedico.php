@@ -6,7 +6,14 @@ class CentroMedico extends CI_Controller {
         parent::__construct();
 
         $this->sessionCM = @$this->session->userdata('sess_cm_'.substr(base_url(),-7,6));
-		$this->load->helper(array('security','otros','fechas'));
+		$this->load->helper(
+			array(
+				'security',
+				'otros',
+				'fechas',
+				'imagen_helper'
+			)
+		);
         $this->load->model(array('model_centro_medico'));
     }
 	public function listarCentrosMedicos()
@@ -48,6 +55,11 @@ class CentroMedico extends CI_Controller {
 			    ->set_output(json_encode($arrData));
 			return;
     	}
+		if(!empty($allInputs['myCroppedImage'])){
+    		$allInputs['nombre_foto'] = $allInputs['nombre'].date('YmdHis').'.png';
+    		$subir = subir_imagen_Base64($allInputs['myCroppedImage'], 'uploads/centros/', $allInputs['nombre_foto']);
+
+    	}
 
     	// INICIA EL REGISTRO
 		$data = array(
@@ -58,6 +70,7 @@ class CentroMedico extends CI_Controller {
 			'telefono' => empty($allInputs['telefono'])? null : $allInputs['telefono'],
 			'email' => empty($allInputs['email'])? null : $allInputs['email'],
 			'horario' => empty($allInputs['horario'])? null : $allInputs['horario'],
+			'imagen' => empty($allInputs['nombre_foto'])? null : $allInputs['nombre_foto'],
 			'created_at' => date('Y-m-d H:i:s'),
 			'updated_at' => date('Y-m-d H:i:s')
 		);

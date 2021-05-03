@@ -43,14 +43,13 @@
 	<div class="collapse navbar-collapse" id="navbarSupportedContent">
 		<ul class="navbar-nav mr-auto">
 			<li class="nav-item active">
-				<a class="nav-link" href="/">Inicio <span class="sr-only">(current)</span></a>
+				<a class="nav-link" href="/">INICIO <span class="sr-only">(current)</span></a>
 			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="#">Servicios</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="#">Contacto</a>
-			</li>
+			<?php foreach ($centros as $centro):  ?>
+				<li class="nav-item">
+					<a class="nav-link" href="#"><?php echo $centro['nombre'] ?></a>
+				</li>
+			<?php endforeach; ?>
 
 		</ul>
 		<div class="my-2 my-lg-0">

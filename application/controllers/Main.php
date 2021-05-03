@@ -7,7 +7,8 @@ class Main extends CI_Controller {
 		$this->load->model(
 			array(
 				'Model_banner',
-				'Model_pagina_dinamica'
+				'Model_pagina_dinamica',
+				'Model_centro_medico'
 			)
 		);
 		$this->load->helper(
@@ -36,6 +37,7 @@ class Main extends CI_Controller {
 		// exit();
 
 		$datos['pag_din'] = $this->Model_pagina_dinamica->m_get_pagina_dinamica('mensaje');
+		$datos['centros'] = $this->Model_centro_medico->m_cargar_centros_medicos();
 
 		$datos['vista'] = 'inicio_view';
 		$this->load->view('home',$datos);
