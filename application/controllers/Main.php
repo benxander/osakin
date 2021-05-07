@@ -8,7 +8,7 @@ class Main extends CI_Controller {
 			array(
 				'Model_banner',
 				'Model_pagina_dinamica',
-				'Model_centro_medico'
+				'Model_sede'
 			)
 		);
 		$this->load->helper(
@@ -35,14 +35,30 @@ class Main extends CI_Controller {
 
 		// var_dump($config['metadata']['titulo-web']);
 		// exit();
+		$siteLang = $this->session->userdata('site_lang');
+		$idioma = $siteLang == 'euskera' ? 'EUS' : 'CAS';
+		$idioma_next = $siteLang == 'euskera' ? 'CAS' : 'EUS';
+		$allInputs['idioma'] = $idioma;
+		$allInputs['segmento'] = 'mensaje';
+		$datos['pag_din'] = $this->Model_pagina_dinamica->m_get_pagina_dinamica($allInputs);
+		$datos['sedes'] = $this->Model_sede->m_cargar_sedes();
 
-		$datos['pag_din'] = $this->Model_pagina_dinamica->m_get_pagina_dinamica('mensaje');
-		$datos['centros'] = $this->Model_centro_medico->m_cargar_centros_medicos();
+		$datos['info_mensaje'] = $this->lang->line('info_cambio');
+		$datos['info_btn'] = $this->lang->line('info_aqui');
+		$datos['info_url'] = base_url('main/switchLang/'.$idioma_next);
 
 		$datos['vista'] = 'inicio_view';
 		$this->load->view('home',$datos);
 	}
-
+	public function switchLang($language = "")
+    {
+        if($language == 'EUS'){
+			$this->session->set_userdata('site_lang', 'euskera');
+		}else{
+			$this->session->set_userdata('site_lang', 'spanish');
+		}
+        redirect('/');
+    }
 	/**
 	 * Muestra el contenido de una Ficha
 	 * @param  string

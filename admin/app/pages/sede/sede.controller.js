@@ -3,11 +3,11 @@
 
   angular
     .module('minotaur')
-    .controller('CentroMedicoController', CentroMedicoController)
-    .service('CentroMedicoServices', CentroMedicoServices);
+    .controller('SedeController', SedeController)
+    .service('SedeServices', SedeServices);
 
   /** @ngInject */
-  function CentroMedicoController(
+  function SedeController(
     $scope,
     $uibModal,
     $location,
@@ -16,7 +16,7 @@
     $timeout,
     $document,
     SweetAlert,
-    CentroMedicoServices,
+    SedeServices,
     UsuarioServices,
     pinesNotifications
   ) {
@@ -57,10 +57,10 @@
         appScopeProvider: vm
       }
       vm.gridOptions.columnDefs = [
-        { field: 'idcentromedico', name: 'idcentromedico', displayName: 'ID', width: 80, enableFiltering: false},
-        { field: 'nombre', name:'nombre', displayName: 'CENTRO MEDICO' },
+        { field: 'idsede', name: 'idsede', displayName: 'ID', width: 80, enableFiltering: false},
+        { field: 'descripcion_se', name:'descripcion_se', displayName: 'SEDE' },
         { field: 'telefono', name:'telefono', displayName: 'TELÉFONO', width: 150, },
-        { field: 'direccion', name:'direccion', displayName: 'DIRECCION', minWidth: 200, width:200 },
+        { field: 'email', name:'email', displayName: 'EMAIL', minWidth: 200, width:200 },
 
         {
           field: 'accion', name: 'accion', displayName: 'ACCIONES', width: 120, enableFiltering: false, enableColumnMenu: false,
@@ -80,8 +80,10 @@
 
       }
       vm.getPaginationServerSide = function() {
-
-        CentroMedicoServices.sListarCentrosMedicos().then(function (rpta) {
+        var paramDatos = {
+          idioma: 'CAS'
+        }
+        SedeServices.sListarSedes(paramDatos).then(function (rpta) {
           vm.gridOptions.data = rpta.datos;
           vm.mySelectionGrid = [];
         });
@@ -90,7 +92,7 @@
       /*---------- NUEVA EMPRESA--------*/
       vm.btnNuevo = function () {
         $uibModal.open({
-          templateUrl: 'app/pages/centro-medico/centroMedico_formview.php',
+          templateUrl: 'app/pages/sede/sede_formview.php',
           controllerAs: 'mp',
           size: 'lg',
           backdropClass: 'splash splash-2 splash-info splash-ef-12',
@@ -104,7 +106,7 @@
             vm.modoEdicion = false;
             vm.getPaginationServerSide = arrToModal.getPaginationServerSide;
             vm.fotoCrop = false;
-            vm.modalTitle = 'Registro de Centro Médico';
+            vm.modalTitle = 'Registro de Sede';
             // SUBIDA DE IMAGENES MEDIANTE IMAGE CROP
             vm.cargarImagen = function () {
               vm.fData.myImage = '';
@@ -129,7 +131,7 @@
             }
             // BOTONES
             vm.aceptar = function () {
-              CentroMedicoServices.sRegistrarCentroMedico(vm.fData).then(function (rpta) {
+              SedeServices.sRegistrarSede(vm.fData).then(function (rpta) {
                 if(rpta.flag == 1){
                   $uibModalInstance.close(vm.fData);
                   vm.getPaginationServerSide();
@@ -162,7 +164,7 @@
       /*-------- BOTONES DE EDICION ----*/
       vm.btnEditar = function(row){//datos personales
         $uibModal.open({
-          templateUrl: 'app/pages/centro-medico/centroMedico_formview.php',
+          templateUrl: 'app/pages/sede/sede_formview.php',
           controllerAs: 'mp',
           size: 'lg',
           backdropClass: 'splash splash-2 splash-info splash-ef-12',
@@ -178,11 +180,33 @@
             vm.getPaginationServerSide = arrToModal.getPaginationServerSide;
 
 
-            vm.modalTitle = 'Edición de Centro Médico';
+            vm.modalTitle = 'Edición de Sede';
+            // SUBIDA DE IMAGENES MEDIANTE IMAGE CROP
+            vm.cargarImagen = function () {
+              vm.fData.myImage = '';
+              vm.fData.myCroppedImage = '';
+              vm.cropType = 'square';
+              vm.fotoCrop = true;
+              var handleFileSelect = function (evt) {
+                var file = evt.currentTarget.files[0];
+                var reader = new FileReader();
+                reader.onload = function (evt) {
+                  /* eslint-disable */
+                  $scope.$apply(function () {
+                    vm.fData.myImage = evt.target.result;
+                  });
+                  /* eslint-enable */
+                };
+                reader.readAsDataURL(file);
+              };
+              $timeout(function () { // lo pongo dentro de un timeout sino no funciona
+                angular.element($document[0].querySelector('#fileInput')).on('change', handleFileSelect);
+              });
+            }
             vm.aceptar = function () {
               // console.log('edicion...', vm.fData);
               $uibModalInstance.close(vm.fData);
-              CentroMedicoServices.sEditarCentroMedico(vm.fData).then(function (rpta) {
+              SedeServices.sEditarSede(vm.fData).then(function (rpta) {
                 if(rpta.flag == 1){
                   vm.getPaginationServerSide();
                   var pTitle = 'OK!';
@@ -215,7 +239,7 @@
       vm.btnAnular = function(row){
         alertify.confirm("¿Realmente desea realizar la acción?", function (ev) {
           ev.preventDefault();
-          CentroMedicoServices.sAnularEmpresa(row.entity).then(function (rpta) {
+          SedeServices.sAnularSede(row.entity).then(function (rpta) {
             if(rpta.flag == 1){
               vm.getPaginationServerSide();
               var pTitle = 'OK!';
@@ -292,55 +316,55 @@
         vm.btnNuevo();
       }
   }
-  function CentroMedicoServices($http, $q, handle) {
+  function SedeServices($http, $q, handle) {
     return({
-        sListarCentrosMedicos: sListarCentrosMedicos,
-        sListarEmpresaCbo: sListarEmpresaCbo,
-        sRegistrarCentroMedico: sRegistrarCentroMedico,
-        sEditarCentroMedico: sEditarCentroMedico,
-        sAnularEmpresa: sAnularEmpresa,
+        sListarSedes: sListarSedes,
+        sListarSedeCbo: sListarSedeCbo,
+        sRegistrarSede: sRegistrarSede,
+        sEditarSede: sEditarSede,
+        sAnularSede: sAnularSede,
     });
-    function sListarCentrosMedicos(pDatos) {
+    function sListarSedes(pDatos) {
       var datos = pDatos || {};
       var request = $http({
             method : "post",
-            url :  angular.patchURLCI + "CentroMedico/listarCentrosMedicos",
+            url :  angular.patchURLCI + "Sede/listarSedes",
             data : datos
       });
       return (request.then( handle.success,handle.error ));
     }
-    function sListarEmpresaCbo(pDatos) {
+    function sListarSedeCbo(pDatos) {
       var datos = pDatos || {};
       var request = $http({
             method : "post",
-            url :  angular.patchURLCI + "CentroMedico/listarCentroMedico_cbo",
+            url :  angular.patchURLCI + "Sede/listarSede_cbo",
             data : datos
       });
       return (request.then( handle.success,handle.error ));
     }
-    function sRegistrarCentroMedico(pDatos) {
+    function sRegistrarSede(pDatos) {
       var datos = pDatos || {};
       var request = $http({
             method : "post",
-            url : angular.patchURLCI + "CentroMedico/registrarCentroMedico",
+            url : angular.patchURLCI + "Sede/registrarSede",
             data : datos
       });
       return (request.then(handle.success,handle.error));
     }
-    function sEditarCentroMedico(pDatos) {
+    function sEditarSede(pDatos) {
       var datos = pDatos || {};
       var request = $http({
             method : "post",
-            url : angular.patchURLCI + "CentroMedico/editarCentroMedico",
+            url : angular.patchURLCI + "Sede/editarSede",
             data : datos
       });
       return (request.then(handle.success,handle.error));
     }
-    function sAnularEmpresa(pDatos) {
+    function sAnularSede(pDatos) {
       var datos = pDatos || {};
       var request = $http({
             method : "post",
-            url : angular.patchURLCI + "CentroMedico/anularCentroMedico",
+            url : angular.patchURLCI + "Sede/anularSede",
             data : datos
       });
       return (request.then(handle.success,handle.error));

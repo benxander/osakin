@@ -10,7 +10,10 @@ class Paginas_dinamicas extends CI_Controller {
 	}
 
 	public function mostrar($segmento_amigable) {
-        $data = $this->Model_pagina_dinamica->m_get_pagina_dinamica($segmento_amigable);
+		$allInputs['segmento'] = $segmento_amigable;
+		$allInputs['ididioma'] = 1;
+
+        $data = $this->Model_pagina_dinamica->m_get_pagina_dinamica($allInputs);
         if(empty($data))
 			$datos['contenido'] = '<h1>ESTA PAGINA ESTA EN CONSTRUCCION</h1>Disculpe la molestia.<br>Gracias';
 		else $datos = $data;

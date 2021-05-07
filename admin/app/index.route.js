@@ -30,11 +30,11 @@
         specialClass: 'core'
       })
 
-      //centro medico
-      .state('centro-medico', {
-        url: '/app/centro-medico',
-        templateUrl: 'app/pages/centro-medico/centro-medico.html',
-        controller: 'CentroMedicoController as vm'
+      //Sede
+      .state('sede', {
+        url: '/app/sede',
+        templateUrl: 'app/pages/sede/sede.html',
+        controller: 'SedeController as vm'
       })
       //usuario
       .state('usuario', {

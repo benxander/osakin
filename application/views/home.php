@@ -45,23 +45,23 @@
 			<li class="nav-item active">
 				<a class="nav-link" href="/">INICIO <span class="sr-only">(current)</span></a>
 			</li>
-			<?php foreach ($centros as $centro):  ?>
+			<?php foreach ($sedes as $sede):  ?>
 				<li class="nav-item">
-					<a class="nav-link" href="#"><?php echo $centro['nombre'] ?></a>
+					<a class="nav-link" href="#"><?php echo $sede['descripcion_se'] ?></a>
 				</li>
 			<?php endforeach; ?>
 
 		</ul>
 		<div class="my-2 my-lg-0">
-			<button type="button" class="btn btn-link my-2 my-sm-0">EUS</button>
-			<button type="button" class="btn btn-link my-2 my-sm-0">CAS</button>
+			<a href="<?=base_url('main/switchLang/EUS') ?>" class="btn btn-link my-2 my-sm-0">EUS</a>
+			<a href="<?=base_url('main/switchLang/CAS') ?>" class="btn btn-link my-2 my-sm-0">CAS</a>
 		</div>
 	</div>
 </nav>
 
 
 	<!-- Principal -->
-	<div class="container">
+	<div class="container-fluid">
 
 		<?php $this->load->view($vista) ?>
 

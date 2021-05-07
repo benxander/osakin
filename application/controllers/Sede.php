@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class CentroMedico extends CI_Controller {
+class Sede extends CI_Controller {
 	public function __construct(){
         parent::__construct();
 
@@ -14,13 +14,13 @@ class CentroMedico extends CI_Controller {
 				'imagen_helper'
 			)
 		);
-        $this->load->model(array('model_centro_medico'));
+        $this->load->model(array('model_sede'));
     }
-	public function listarCentrosMedicos()
+	public function listarSedes()
 	{
 		$allInputs = json_decode(trim($this->input->raw_input_stream),true);
 
-		$lista = $this->model_centro_medico->m_cargar_centros_medicos();
+		$lista = $this->model_sede->m_cargar_sedes_pagina($allInputs);
 		$arrListado = array();
 
 		if(empty($lista)){
@@ -41,13 +41,13 @@ class CentroMedico extends CI_Controller {
 		    ->set_content_type('application/json')
 		    ->set_output(json_encode($arrData));
 	}
-	public function registrarCentroMedico()
+	public function registrarSede()
 	{
 		$allInputs = json_decode(trim($this->input->raw_input_stream),true);
 		$arrData['message'] = 'Error al registrar los datos, inténtelo nuevamente';
     	$arrData['flag'] = 0;
     	// AQUI ESTARAN LAS VALIDACIONES
-    	if(empty($allInputs['nombre'])){
+    	if(empty($allInputs['descripcion_se'])){
     		$arrData['message'] = 'El nombre es obligatorio.';
 			$arrData['flag'] = 0;
 			$this->output
@@ -56,26 +56,27 @@ class CentroMedico extends CI_Controller {
 			return;
     	}
 		if(!empty($allInputs['myCroppedImage'])){
-    		$allInputs['nombre_foto'] = $allInputs['nombre'].date('YmdHis').'.png';
-    		$subir = subir_imagen_Base64($allInputs['myCroppedImage'], 'uploads/centros/', $allInputs['nombre_foto']);
+    		$allInputs['nombre_foto'] = $allInputs['descripcion_se'].date('YmdHis').'.png';
+    		$subir = subir_imagen_Base64($allInputs['myCroppedImage'], 'uploads/sedes/', $allInputs['nombre_foto']);
 
     	}
 
     	// INICIA EL REGISTRO
 		$data = array(
-			'nombre' => strtoupper_total($allInputs['nombre']),
-			'direccion' => $allInputs['direccion'],
-			'titulo' => strtoupper_total($allInputs['titulo']),
-			'descripcion' => $allInputs['descripcion'],
+			'descripcion_se' => strtoupper_total($allInputs['descripcion_se']),
+			// 'direccion' => $allInputs['direccion'],
+			// 'titulo' => strtoupper_total($allInputs['titulo']),
+			// 'descripcion' => $allInputs['descripcion'],
+			// 'horario' => empty($allInputs['horario'])? null : $allInputs['horario'],
 			'telefono' => empty($allInputs['telefono'])? null : $allInputs['telefono'],
 			'email' => empty($allInputs['email'])? null : $allInputs['email'],
-			'horario' => empty($allInputs['horario'])? null : $allInputs['horario'],
-			'imagen' => empty($allInputs['nombre_foto'])? null : $allInputs['nombre_foto'],
-			'created_at' => date('Y-m-d H:i:s'),
-			'updated_at' => date('Y-m-d H:i:s')
+			'imagen_se' => empty($allInputs['nombre_foto'])? null : $allInputs['nombre_foto']
+
 		);
 
-		if($idcentromedico = $this->model_centro_medico->m_registrar($data)){
+
+
+		if($idcentromedico = $this->model_sede->m_registrar($data)){
 			$arrData['message'] = 'Se registró el nuevo centro médico correctamente';
 			$arrData['datos'] = $idcentromedico;
     		$arrData['flag'] = 1;
@@ -89,23 +90,29 @@ class CentroMedico extends CI_Controller {
 		    ->set_output(json_encode($arrData));
 	}
 
-	public function editarCentroMedico(){
+	public function editarSede(){
 		$allInputs = json_decode(trim($this->input->raw_input_stream),true);
 		$arrData['message'] = 'Error al editar los datos, inténtelo nuevamente';
     	$arrData['flag'] = 0;
 
+		if(!empty($allInputs['myCroppedImage'])){
+    		$allInputs['nombre_foto'] = $allInputs['descripcion_se'].date('YmdHis').'.png';
+    		$subir = subir_imagen_Base64($allInputs['myCroppedImage'], 'uploads/sedes/', $allInputs['nombre_foto']);
+
+    	}
+
 		$data = array(
-			'nombre' => strtoupper_total($allInputs['nombre']),
-			'direccion' => $allInputs['direccion'],
-			'titulo' => strtoupper_total($allInputs['titulo']),
-			'descripcion' => $allInputs['descripcion'],
+			'descripcion_se' => strtoupper_total($allInputs['descripcion_se']),
+			// 'direccion' => $allInputs['direccion'],
+			// 'titulo' => strtoupper_total($allInputs['titulo']),
+			// 'descripcion' => $allInputs['descripcion'],
 			'telefono' => empty($allInputs['telefono'])? null : $allInputs['telefono'],
 			'email' => empty($allInputs['email'])? null : $allInputs['email'],
-			'horario' => empty($allInputs['horario'])? null : $allInputs['horario'],
-			'updated_at' => date('Y-m-d H:i:s')
+			'imagen_se' => empty($allInputs['nombre_foto'])? null : $allInputs['nombre_foto']
+			// 'horario' => empty($allInputs['horario'])? null : $allInputs['horario']
 		);
 
-		if($this->model_centro_medico->m_editar($data,$allInputs['idcentromedico'])){
+		if($this->model_sede->m_editar($data,$allInputs['idsede'])){
 			$arrData['message'] = 'Se editaron los datos correctamente ';
     		$arrData['flag'] = 1;
 		}

@@ -4,21 +4,23 @@ class Model_pagina_dinamica extends CI_Model {
 	{
 		parent::__construct();
 	}
-	public function m_get_pagina_dinamica($segmento)
+	public function m_get_pagina_dinamica($datos)
 	{
 		$this->db->select("
-			idpaginadinamica,
-			nombre,
-			segmento_amigable,
-			titulo,
-			contenido,
-			imagen,
-			posicion_imagen,
-			url_imagen,
-			destino_url_imagen
+			pd.idpaginadinamica,
+			pd.nombre,
+			pd.segmento_amigable,
+			pd.titulo,
+			pd.contenido,
+			pd.imagen,
+			pd.posicion_imagen,
+			pd.url_imagen,
+			pd.destino_url_imagen
 		", FALSE);
 		$this->db->from('pagina_dinamica pd');
-		$this->db->where('segmento_amigable', $segmento);
+		$this->db->join('idioma idi', 'pd.ididioma = idi.ididioma');
+		$this->db->where('segmento_amigable', $datos['segmento']);
+		$this->db->where('idi.abreviatura', $datos['idioma']);
 		$this->db->limit('1');
 		return $this->db->get()->row_array();
 	}
