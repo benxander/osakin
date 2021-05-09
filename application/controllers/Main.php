@@ -8,7 +8,8 @@ class Main extends CI_Controller {
 			array(
 				'Model_banner',
 				'Model_pagina_dinamica',
-				'Model_sede'
+				'Model_sede',
+				'Model_servicio'
 			)
 		);
 		$this->load->helper(
@@ -41,7 +42,13 @@ class Main extends CI_Controller {
 		$allInputs['idioma'] = $idioma;
 		$allInputs['segmento'] = 'mensaje';
 		$datos['pag_din'] = $this->Model_pagina_dinamica->m_get_pagina_dinamica($allInputs);
-		$datos['sedes'] = $this->Model_sede->m_cargar_sedes();
+		$datos['sedes'] = $this->Model_sede->m_cargar_sedes_pagina($allInputs);
+
+		foreach ($datos['sedes'] as $key => $row) {
+			$row['idioma'] = $allInputs['idioma'];
+			$servicios = $this->Model_servicio->m_cargar_sede_servicio($row);
+			$datos['sedes'][$key]['servicios'] = $servicios;
+		}
 
 		$datos['info_mensaje'] = $this->lang->line('info_cambio');
 		$datos['info_btn'] = $this->lang->line('info_aqui');

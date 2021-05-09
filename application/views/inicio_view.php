@@ -32,7 +32,42 @@
 
 
 <div class="container">
-	<h1 class="mt-5 text-center"><?=$pag_din['titulo']?></h1>
-	<p class="text-center"><?=$pag_din['contenido'] ?></p>
+	<div>
+		<h1 class="mt-5 text-center"><?=$pag_din['titulo']?></h1>
+		<p class="text-center"><?=$pag_din['contenido'] ?></p>
+	</div>
+
+	<div class="row">
+		<? foreach($sedes AS $sede): ?>
+		<div class="col-md-6 ficha">
+			<div class="row">
+				<div class="col-md-3">
+					<img class="w-100" src="uploads/sedes/<?=$sede['icono'] ?>" alt="">
+				</div>
+				<div class="col-md-9">
+					<h3 class="titulo"><?= $sede['descripcion_se'] ?></h3>
+					<p><?= $sede['direccion'] ?><br/>
+					<?= $sede['telefono'] . ' - ' . $sede['email'] ?><br/>
+					<?= $sede['horario'] ?></p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+					<img src="uploads/sedes/<?=$sede['imagen_se'] ?>" alt="">
+				</div>
+				<div class="col-md-6 servicios">
+					<ul>
+						<? foreach ($sede['servicios'] as $row): ?>
+							<li><?=$row['servicio'] ?></li>
+						<? endforeach; ?>
+						<li class="btn"><?=$this->lang->line('info_ver_centro') . ' ' . $sede['descripcion_se'] ?></li>
+					</ul>
+				</div>
+			</div>
+
+
+		</div>
+		<? endforeach; ?>
+	</div>
 </div>
 

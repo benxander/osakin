@@ -173,12 +173,16 @@ a:hover, a:focus, a:active {
 .fondo_gris{ background: #EFEFEF;}
 .precio{font-size: 2em; margin-right: 18px;line-height: 1em;}
 .ficha p{text-shadow: 0px 0px 1px rgba(153, 153, 153, 0.42);margin-top: 8px;}
-.ficha .titulo{color: #2D62A9;
+.ficha .titulo{color: #CE161C;
 	font-size: 2.2em;
 	line-height: 1.2em;
 	text-shadow: 4px 4px 4px rgba(186, 186, 186, 0.75);
 	font-weight: normal;
 	text-align: left;  display: inline-block;
+}
+.ficha .servicios ul{
+	background-color: #8197b8;
+	color: white
 }
 /* footer */
 .btn-share{
