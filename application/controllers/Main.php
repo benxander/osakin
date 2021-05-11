@@ -30,12 +30,6 @@ class Main extends CI_Controller {
 
 	public function index()
 	{
-
-		// $datos['recaptcha'] = $this->recaptcha->create_box();
-		// $config = getConfig();
-
-		// var_dump($config['metadata']['titulo-web']);
-		// exit();
 		$siteLang = $this->session->userdata('site_lang');
 		$idioma = $siteLang == 'euskera' ? 'EUS' : 'CAS';
 		$idioma_next = $siteLang == 'euskera' ? 'CAS' : 'EUS';
@@ -44,17 +38,48 @@ class Main extends CI_Controller {
 		$datos['pag_din'] = $this->Model_pagina_dinamica->m_get_pagina_dinamica($allInputs);
 		$datos['sedes'] = $this->Model_sede->m_cargar_sedes_pagina($allInputs);
 
+		$listaMenu = array();
 		foreach ($datos['sedes'] as $key => $row) {
 			$row['idioma'] = $allInputs['idioma'];
 			$servicios = $this->Model_servicio->m_cargar_sede_servicio($row);
 			$datos['sedes'][$key]['servicios'] = $servicios;
+
+			array_push(
+				$listaMenu,
+				array(
+					'descripcion' 	=> $row['descripcion_se'],
+					'link'			=> base_url('centro/'.$row['descripcion_se'])
+				)
+			);
 		}
 
+		$datos['listaMenu'] = $listaMenu;
 		$datos['info_mensaje'] = $this->lang->line('info_cambio');
 		$datos['info_btn'] = $this->lang->line('info_aqui');
 		$datos['info_url'] = base_url('main/switchLang/'.$idioma_next);
 
 		$datos['vista'] = 'inicio_view';
+		$this->load->view('home',$datos);
+	}
+
+	public function sede($sede)
+	{
+		$listaMenu = array(
+			array(
+				'descripcion' 	=> $sede,
+				'link'			=> base_url('centro/'.$sede)
+			),
+			array(
+				'descripcion' 	=> 'SERVICIOS',
+				'link'			=> base_url('servicios/'.$sede)
+			),
+			array(
+				'descripcion' 	=> 'CONTACTO',
+				'link'			=> base_url('contacto/'.$sede)
+			),
+		);
+		$datos['listaMenu'] = $listaMenu;
+		$datos['vista'] = 'sede_view';
 		$this->load->view('home',$datos);
 	}
 	public function switchLang($language = "")

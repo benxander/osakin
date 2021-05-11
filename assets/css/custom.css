@@ -180,10 +180,11 @@ a:hover, a:focus, a:active {
 	font-weight: normal;
 	text-align: left;  display: inline-block;
 }
-.ficha .servicios ul{
+.ficha .servicios{
 	background-color: #8197b8;
 	color: white
 }
+
 /* footer */
 .btn-share{
 	color: #fff;
