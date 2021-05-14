@@ -1,5 +1,7 @@
 <?php
 	$config = getConfig();
+	$siteLang = $this->session->userdata('site_lang');
+	$idioma = $siteLang == 'euskera' ? 'EUS' : 'CAS';
 ?>
 
 <!DOCTYPE html>
@@ -52,16 +54,16 @@
 			<?php endforeach; ?>
 
 		</ul>
-		<div class="my-2 my-lg-0">
-			<a href="<?=base_url('main/switchLang/EUS') ?>" class="btn btn-link my-2 my-sm-0">EUS</a>
-			<a href="<?=base_url('main/switchLang/CAS') ?>" class="btn btn-link my-2 my-sm-0">CAS</a>
+		<div class="my-2 my-lg-0 idioma">
+			<a href="<?=base_url('main/switchLang/EUS') ?>" class="btn btn-link my-2 my-sm-0 <?= $idioma == 'EUS'? 'active':'' ?>">EUS</a>
+			<a href="<?=base_url('main/switchLang/CAS') ?>" class="btn btn-link my-2 my-sm-0 <?= $idioma == 'CAS'? 'active':'' ?>">CAS</a>
 		</div>
 	</div>
 </nav>
 
 
 	<!-- Principal -->
-	<div class="container-fluid">
+	<div class="">
 
 		<?php $this->load->view($vista) ?>
 
@@ -93,7 +95,7 @@
 				</div>
 
 				<div class="text-center">
-					<p><a title="Aviso Legal" rel="shadowbox" href="<?=site_url('aviso-legal')?>">Aviso Legal</a> - &copy; <?=date('Y')?> <?=SITIO_WEB?> - Diseño web: <a href="https://www.hementxe.com">Hementxe Comunicación</a></p>
+					<p><a title="<?= $this->lang->line('aviso_legal') ?>" rel="shadowbox" href="<?=site_url('aviso-legal')?>"><?= $this->lang->line('aviso_legal') ?></a> - &copy; <?=date('Y')?> <?=SITIO_WEB?> - <?= $this->lang->line('design') ?>: <a href="https://www.hementxe.com">Hementxe Comunicación</a></p>
 
 					<!--<a href="/es/sitemap/">Sitemap</a>--><br>
 

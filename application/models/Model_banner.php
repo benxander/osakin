@@ -5,7 +5,7 @@ class Model_banner extends CI_Model {
 		parent::__construct();
 	}
 
-	public function m_get_banners_zona($zona) {
+	public function m_get_banners_zona($datos) {
 		$this->db->select("
 			idbanner,
 			titulo,
@@ -17,11 +17,13 @@ class Model_banner extends CI_Model {
 		",FALSE);
     	$this->db->from('banner');
     	$this->db->where('estado_ba', 1);
-    	$this->db->where('zona', $zona);
-    	// $this->db->order_by('rand()');
+    	$this->db->where('zona', $datos['zona']);
+		$this->db->where('idsede', $datos['idsede']);
+    	$this->db->where('idioma', $datos['idioma']);
+		// $this->db->order_by('rand()');
     	return $this->db->get()->result_array();
     }
-	
+
 	public function m_get_promociones() {
 		$this->db->select("
 			idpromocion,

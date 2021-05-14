@@ -31,12 +31,16 @@ a:hover, a:focus, a:active {
   text-decoration: none;
 }
 
+/* menu idioma */
+.idioma a.active, .idioma a:hover{
+	font-weight: 700;
+}
 
 /* a:focus {outline: thin dotted #333; outline: 5px auto -webkit-focus-ring-color; outline-offset: -2px; } */
 .caja-slide{
 	height: 20rem;
     width: 25rem;
-    background-color: #8297B9;
+    /* background-color: #8297B9; */
     position: absolute;
     top: 9rem;
     right: 2rem;

@@ -6,10 +6,10 @@ class Main extends CI_Controller {
 		parent::__construct();
 		$this->load->model(
 			array(
-				'Model_banner',
-				'Model_pagina_dinamica',
-				'Model_sede',
-				'Model_servicio'
+				'model_banner',
+				'model_pagina_dinamica',
+				'model_sede',
+				'model_servicio'
 			)
 		);
 		$this->load->helper(
@@ -35,20 +35,42 @@ class Main extends CI_Controller {
 		$idioma_next = $siteLang == 'euskera' ? 'CAS' : 'EUS';
 		$allInputs['idioma'] = $idioma;
 		$allInputs['segmento'] = 'mensaje';
-		$datos['pag_din'] = $this->Model_pagina_dinamica->m_get_pagina_dinamica($allInputs);
-		$datos['sedes'] = $this->Model_sede->m_cargar_sedes_pagina($allInputs);
+		$datos['pag_din'] = $this->model_pagina_dinamica->m_get_pagina_dinamica($allInputs);
+		$datos['sedes'] = $this->model_sede->m_cargar_sedes_pagina($allInputs);
 
+		$data = array(
+			'zona' => 'cabecera',
+			'idsede' => 0,
+			'idioma' => $idioma
+		);
+		$listaBanners = $this->model_banner->m_get_banners_zona($data);
+		$banners = array();
+		$activo = true;
+		foreach ($listaBanners as $key => $row) {
+			array_push(
+				$banners,
+				array(
+					'idbanner' => $row['idbanner'],
+					'titulo' => $row['titulo'],
+					'imagen' => $row['imagen'],
+					'activo' => $activo? 'active' : '',
+				)
+			);
+			$activo = false;
+		}
+
+		$datos['banners'] = $banners;
 		$listaMenu = array();
 		foreach ($datos['sedes'] as $key => $row) {
 			$row['idioma'] = $allInputs['idioma'];
-			$servicios = $this->Model_servicio->m_cargar_sede_servicio($row);
+			$servicios = $this->model_servicio->m_cargar_sede_servicio($row);
 			$datos['sedes'][$key]['servicios'] = $servicios;
 
 			array_push(
 				$listaMenu,
 				array(
 					'descripcion' 	=> $row['descripcion_se'],
-					'link'			=> base_url('centro/'.$row['descripcion_se'])
+					'link'			=> base_url('centro/'.$row['segmento_amigable'])
 				)
 			);
 		}
@@ -64,9 +86,25 @@ class Main extends CI_Controller {
 
 	public function sede($sede)
 	{
+		$siteLang = $this->session->userdata('site_lang');
+		$idioma = $siteLang == 'euskera' ? 'EUS' : 'CAS';
+
+		$data = array(
+			'segmento' => $sede,
+			'idioma' => $idioma
+		);
+		$rowSede = $this->model_sede->m_cargar_sede_por_segmento($data);
+
+		$data = array(
+			'idsede' => $rowSede['idsede'],
+			'idioma' => $idioma
+		);
+		$rowSede['servicios'] = $this->model_servicio->m_cargar_sede_servicio($data);
+
+		// menu
 		$listaMenu = array(
 			array(
-				'descripcion' 	=> $sede,
+				'descripcion' 	=> $rowSede['descripcion_se'],
 				'link'			=> base_url('centro/'.$sede)
 			),
 			array(
@@ -79,6 +117,33 @@ class Main extends CI_Controller {
 			),
 		);
 		$datos['listaMenu'] = $listaMenu;
+
+		// banner
+		$data = array(
+			'zona' => 'cabecera',
+			'idsede' => $rowSede['idsede'],
+			'idioma' => $idioma
+		);
+		$listaBanners = $this->model_banner->m_get_banners_zona($data);
+		$banners = array();
+		$activo = true;
+		foreach ($listaBanners as $key => $row) {
+			array_push(
+				$banners,
+				array(
+					'idbanner' => $row['idbanner'],
+					'titulo' => $row['titulo'],
+					'imagen' => $row['imagen'],
+					'activo' => $activo? 'active' : '',
+				)
+			);
+			$activo = false;
+		}
+
+		$datos['sede'] = $rowSede;
+		$datos['banners'] = $banners;
+
+		// vista
 		$datos['vista'] = 'sede_view';
 		$this->load->view('home',$datos);
 	}
@@ -89,7 +154,8 @@ class Main extends CI_Controller {
 		}else{
 			$this->session->set_userdata('site_lang', 'spanish');
 		}
-        redirect('/');
+        // redirect('/');
+		redirect($_SERVER['HTTP_REFERER'], 'refresh');
     }
 	/**
 	 * Muestra el contenido de una Ficha
