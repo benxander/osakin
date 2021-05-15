@@ -21,17 +21,15 @@ class Model_servicio extends CI_Model {
 	{
 		$this->db->select("
 			ser.idservicio,
-			si.nombre_serv AS servicio,
-			ser.icono
+			ss.nombre_serv AS servicio,
+			ss.icono
 		", FALSE);
 		$this->db->from('servicio ser');
 		$this->db->join('sede_servicio ss', 'ser.idservicio = ss.idservicio');
-		$this->db->join('servicio_idioma si', 'ser.idservicio = si.idservicio');
 		$this->db->where('ss.idsede', $datos['idsede']);
-		$this->db->where('si.idioma', $datos['idioma']);
+		$this->db->where('ss.idioma', $datos['idioma']);
 		$this->db->where('ser.estado_ser', 1);
 		$this->db->where('ss.estado_ss', 1);
-		$this->db->where('si.estado_si', 1);
 		$this->db->order_by('idservicio', 'ASC');
 		return $this->db->get()->result_array();
 	}

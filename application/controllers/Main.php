@@ -170,29 +170,29 @@ class Main extends CI_Controller {
 
 		// DATOS DEL BODY
 
-		// $datos['scripts'] = '
-		// 	<script src="' . base_url() . 'js/fancybox/jquery.fancybox.pack.js"></script>
-		// 	<script type="text/javascript">
-		// 		$(document).ready(function() {
-		// 			$(".fancybox").fancybox({
+		$datos['scripts'] = '
+			<script src="' . base_url() . 'js/fancybox/jquery.fancybox.pack.js"></script>
+			<script type="text/javascript">
+				$(document).ready(function() {
+					$(".fancybox").fancybox({
 
-		// 	    	openEffect	: \'elastic\',
-		// 	    	closeEffect	: \'elastic\',
-		// 			nextEffect	: \'fade\',
-		// 	    	prevEffect	: \'fade\',
-		// 			openSpeed : \'slow\',
-		// 			closeSpeed : \'slow\',
-		// 			padding: 5
-		// 			});
-		// 		});
-		// 	</script>
-		// ';
-		// if($datos['anuncio'] = $this->Ficha_model->m_cargar_ficha($id)){
-		// 	$datos['fotos'] = $this->Ficha_model->m_cargar_fotos_ficha($id);
-		// }
+			    	openEffect	: \'elastic\',
+			    	closeEffect	: \'elastic\',
+					nextEffect	: \'fade\',
+			    	prevEffect	: \'fade\',
+					openSpeed : \'slow\',
+					closeSpeed : \'slow\',
+					padding: 5
+					});
+				});
+			</script>
+		';
+		if($datos['anuncio'] = $this->Ficha_model->m_cargar_ficha($id)){
+			$datos['fotos'] = $this->Ficha_model->m_cargar_fotos_ficha($id);
+		}
 
-		$datos['ficha'] = $this->Model_evento->m_cargar_ficha($id);
-		$datos['dir_imagen'] = base_url() . 'uploads/fichas/';
+		// $datos['ficha'] = $this->Model_evento->m_cargar_ficha($id);
+		// $datos['dir_imagen'] = base_url() . 'uploads/fichas/';
 
 		$datos['vista'] = 'ficha_view';
 		$this->load->view('home',$datos);

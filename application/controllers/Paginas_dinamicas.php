@@ -11,7 +11,7 @@ class Paginas_dinamicas extends CI_Controller {
 
 	public function mostrar($segmento_amigable) {
 		$allInputs['segmento'] = $segmento_amigable;
-		$allInputs['ididioma'] = 1;
+		$allInputs['idioma'] = 'CAS';
 
         $data = $this->Model_pagina_dinamica->m_get_pagina_dinamica($allInputs);
         if(empty($data))

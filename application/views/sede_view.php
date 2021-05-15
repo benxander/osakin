@@ -36,6 +36,9 @@
 	<div>
 		<h2 class="text-danger text-center">UBICACION</h2>
 
-		<iframe allowfullscreen="" frameborder="0" height="450" src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d11613.244049928804!2d-1.980978!3d43.3077484!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xa12448603421f8d8!2sSIDRERIA+SALABERRIA!5e0!3m2!1ses-419!2spe!4v1560657825106!5m2!1ses-419!2spe" style="border:0" width="100%"></iframe></div>
+		<div>
+			<?= $sede{'ubicacion'} ?>
+		</div>
+
 	</div>
 </div>
