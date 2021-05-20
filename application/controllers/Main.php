@@ -63,7 +63,7 @@ class Main extends CI_Controller {
 		$listaMenu = array();
 		foreach ($datos['sedes'] as $key => $row) {
 			$row['idioma'] = $allInputs['idioma'];
-			$servicios = $this->model_servicio->m_cargar_sede_servicio($row);
+			$servicios = $this->model_servicio->m_cargar_sede_servicios($row);
 			$datos['sedes'][$key]['servicios'] = $servicios;
 
 			array_push(
@@ -99,7 +99,7 @@ class Main extends CI_Controller {
 			'idsede' => $rowSede['idsede'],
 			'idioma' => $idioma
 		);
-		$rowSede['servicios'] = $this->model_servicio->m_cargar_sede_servicio($data);
+		$rowSede['servicios'] = $this->model_servicio->m_cargar_sede_servicios($data);
 
 		// menu
 		$listaMenu = array(
@@ -162,16 +162,84 @@ class Main extends CI_Controller {
 	 * @param  string
 	 * @return [type]
 	 */
-	public function ver_ficha($url) {
-        $partes = explode("-", $url);
+	public function ver_servicio($url) {
+		$partes = explode("-", $url);
         $id = $partes[count($partes) - 1];
+
+
+        $siteLang = $this->session->userdata('site_lang');
+		$idioma = $siteLang == 'euskera' ? 'EUS' : 'CAS';
+
+		$data = array(
+			'idsedeservicio' => $id,
+			'idioma' => $idioma
+		);
+
+		if($datos['servicio'] = $this->model_servicio->m_cargar_servicio_sede($data)){
+			$datos['fotos'] = json_decode($datos['servicio']['imagenes'], TRUE);
+		}
+
+		$sede = $datos['servicio']['segmento_amigable'];
+		// $data = array(
+		// 	'segmento' => $sede,
+		// 	'idioma' => $idioma
+		// );
+		// $rowSede = $this->model_sede->m_cargar_sede_por_segmento($data);
+
+		// $data = array(
+		// 	'idsede' => $rowSede['idsede'],
+		// 	'idioma' => $idioma
+		// );
+		// $rowSede['servicios'] = $this->model_servicio->m_cargar_sede_servicios($data);
+
+		// menu
+		$listaMenu = array(
+			array(
+				'descripcion' 	=> $datos['servicio']['descripcion_se'],
+				'link'			=> base_url('centro/'.$sede)
+			),
+			array(
+				'descripcion' 	=> 'SERVICIOS',
+				'link'			=> base_url('servicios/'.$sede)
+			),
+			array(
+				'descripcion' 	=> 'CONTACTO',
+				'link'			=> base_url('contacto/'.$sede)
+			),
+		);
+		$datos['listaMenu'] = $listaMenu;
+
+		// banner
+		$data = array(
+			'zona' => 'cabecera',
+			'idsede' => $datos['servicio']['idsede'],
+			'idioma' => $idioma
+		);
+		$listaBanners = $this->model_banner->m_get_banners_zona($data);
+		$banners = array();
+		$activo = true;
+		foreach ($listaBanners as $key => $row) {
+			array_push(
+				$banners,
+				array(
+					'idbanner' => $row['idbanner'],
+					'titulo' => $row['titulo'],
+					'imagen' => $row['imagen'],
+					'activo' => $activo? 'active' : '',
+				)
+			);
+			$activo = false;
+		}
+
+		// $datos['sede'] = $rowSede;
+		$datos['banners'] = $banners;
 
 
 
 		// DATOS DEL BODY
 
 		$datos['scripts'] = '
-			<script src="' . base_url() . 'js/fancybox/jquery.fancybox.pack.js"></script>
+			<script src="' . base_url() . 'assets/js/fancybox/jquery.fancybox.pack.js"></script>
 			<script type="text/javascript">
 				$(document).ready(function() {
 					$(".fancybox").fancybox({
@@ -187,14 +255,9 @@ class Main extends CI_Controller {
 				});
 			</script>
 		';
-		if($datos['anuncio'] = $this->Ficha_model->m_cargar_ficha($id)){
-			$datos['fotos'] = $this->Ficha_model->m_cargar_fotos_ficha($id);
-		}
 
-		// $datos['ficha'] = $this->Model_evento->m_cargar_ficha($id);
-		// $datos['dir_imagen'] = base_url() . 'uploads/fichas/';
 
-		$datos['vista'] = 'ficha_view';
+		$datos['vista'] = 'servicio_view';
 		$this->load->view('home',$datos);
 
     }

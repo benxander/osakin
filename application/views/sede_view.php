@@ -19,14 +19,17 @@
 	</div>
 
 	<div>
-		<h2 class="text-danger text-center">SERVICIOS</h2>
+		<h2 class="text-danger text-center"><?= $this->lang->line('servicios'); ?></h2>
 
 		<div class="row">
 			<? foreach ($sede['servicios'] as $item): ?>
 				<div class="col-md-4 mb-5">
 					<div class="ficha p-5">
-						<img class="w-100" src="<?= base_url('uploads/servicios/' . $item['icono']) ?>" alt="">
-						<h4 class="text-center"><?= $item['servicio'] ?></h4>
+						<a href="<?= site_url('servicio/' . url_title(convert_accented_characters(($item['servicio'] . '-' . $item['id'])),'-',TRUE));?>">
+							<img class="w-100" src="<?= base_url('uploads/servicios/iconos/' . $item['icono']) ?>" alt="">
+							<h4 class="text-center"><?= $item['servicio'] ?></h4>
+
+						</a>
 					</div>
 				</div>
 			<? endforeach; ?>
@@ -34,7 +37,7 @@
 	</div>
 
 	<div>
-		<h2 class="text-danger text-center">UBICACION</h2>
+		<h2 class="text-danger text-center"><?= $this->lang->line('ubicacion'); ?></h2>
 
 		<div>
 			<?= $sede{'ubicacion'} ?>

@@ -34,32 +34,32 @@
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  	<a class="navbar-brand" href="/">
-  		<img src="<?=base_url('uploads/' . $config['imagen']['logo_header'])?>" alt="" style="max-width: 60px;">
-	</a>
-  	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    	<span class="navbar-toggler-icon"></span>
-  	</button>
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<a class="navbar-brand" href="/">
+			<img src="<?=base_url('uploads/' . $config['imagen']['logo_header'])?>" alt="" style="max-width: 60px;">
+		</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
 
-	<div class="collapse navbar-collapse" id="navbarSupportedContent">
-		<ul class="navbar-nav mr-auto">
-			<li class="nav-item active">
-				<a class="nav-link" href="<?= base_url() ?>">INICIO <span class="sr-only">(current)</span></a>
-			</li>
-			<?php foreach ($listaMenu as $item):  ?>
-				<li class="nav-item">
-					<a class="nav-link" href="<?= $item['link'] ?>"><?php echo $item['descripcion'] ?></a>
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item active">
+					<a class="nav-link" href="<?= base_url() ?>">INICIO <span class="sr-only">(current)</span></a>
 				</li>
-			<?php endforeach; ?>
+				<?php foreach ($listaMenu as $item):  ?>
+					<li class="nav-item">
+						<a class="nav-link" href="<?= $item['link'] ?>"><?php echo $item['descripcion'] ?></a>
+					</li>
+				<?php endforeach; ?>
 
-		</ul>
-		<div class="my-2 my-lg-0 idioma">
-			<a href="<?=base_url('main/switchLang/EUS') ?>" class="btn btn-link my-2 my-sm-0 <?= $idioma == 'EUS'? 'active':'' ?>">EUS</a>
-			<a href="<?=base_url('main/switchLang/CAS') ?>" class="btn btn-link my-2 my-sm-0 <?= $idioma == 'CAS'? 'active':'' ?>">CAS</a>
+			</ul>
+			<div class="my-2 my-lg-0 idioma">
+				<a href="<?=base_url('main/switchLang/EUS') ?>" class="btn btn-link my-2 my-sm-0 <?= $idioma == 'EUS'? 'active':'' ?>">EUS</a>
+				<a href="<?=base_url('main/switchLang/CAS') ?>" class="btn btn-link my-2 my-sm-0 <?= $idioma == 'CAS'? 'active':'' ?>">CAS</a>
+			</div>
 		</div>
-	</div>
-</nav>
+	</nav>
 
 
 	<!-- Principal -->
@@ -79,86 +79,85 @@
 		</ul>
 	</div>
 	<!-- Footer -->
-		<footer class="footer mt-5">
+	<footer class="footer mt-5">
 
-			<div id="creditos">
-				<div class="text-center">
+		<div id="creditos">
+			<div class="text-center">
 
-						<a href="<?php echo $config['redes']['facebook'] ?>" target="_blank">
-							<i class="icon-facebook" style="font-size:33px"></i>
-						</a>
-						<a href="<?php echo $config['redes']['instagram'] ?>" target="_blank">
-							<i class="icon-instagram" style="font-size:33px"></i>
-						</a>
-
-
-				</div>
-
-				<div class="text-center">
-					<p><a title="<?= $this->lang->line('aviso_legal') ?>" rel="shadowbox" href="<?=site_url('aviso-legal')?>"><?= $this->lang->line('aviso_legal') ?></a> - &copy; <?=date('Y')?> <?=SITIO_WEB?> - <?= $this->lang->line('design') ?>: <a href="https://www.hementxe.com">Hementxe Comunicación</a></p>
-
-					<!--<a href="/es/sitemap/">Sitemap</a>--><br>
-
-				</div>
+					<a href="<?php echo $config['redes']['facebook'] ?>" target="_blank">
+						<i class="icon-facebook" style="font-size:33px"></i>
+					</a>
+					<a href="<?php echo $config['redes']['instagram'] ?>" target="_blank">
+						<i class="icon-instagram" style="font-size:33px"></i>
+					</a>
 
 
 			</div>
-			<!-- <a href="#arriba" id="toTop" class="flecha scroll"><i class="fa fa-chevron-up"></i></a> -->
-		</footer>
 
-		<!-- jQuery and JS bundle w/ Popper.js -->
-		<!-- <script type="text/javascript" src="<?= base_url() ?>assets/js/jquery/jquery-1.11.0.min.js"></script> -->
+			<div class="text-center">
+				<p><a title="<?= $this->lang->line('aviso_legal') ?>" rel="shadowbox" href="<?=site_url('aviso-legal')?>"><?= $this->lang->line('aviso_legal') ?></a> - &copy; <?=date('Y')?> <?=SITIO_WEB?> - <?= $this->lang->line('design') ?>: <a href="https://www.hementxe.com">Hementxe Comunicación</a></p>
 
-		<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-		<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+				<!--<a href="/es/sitemap/">Sitemap</a>--><br>
 
-		<script type="text/javascript" src="<?= base_url() ?>assets/js/shadowbox/shadowbox.js"></script>
-		<script src="<?= base_url()?>assets/js/main.js"></script>
+			</div>
 
-		<script type="text/javascript" src="<?=base_url();?>assets/js/cookies.js"></script>
-		<script type="text/javascript">
-			$(document).ready(function(){
-				// Cookie setting script wrapper
-				var cookieScripts = function () {
-					// Internal javascript called
-					console.log("Running");
 
-					// Loading external javascript file
-					$.cookiesDirective.loadScript({
-						uri:'external.js',
-						appendTo: 'eantics'
-					});
-				}
+		</div>
+		<!-- <a href="#arriba" id="toTop" class="flecha scroll"><i class="fa fa-chevron-up"></i></a> -->
+	</footer>
 
-				$.cookiesDirective({
-					explicitConsent: false,
-					duration: 10,
-					backgroundOpacity: '90',
-					privacyPolicyUri: 'politica-de-cookies',
-					inlineAction: true,
-					message: '<div style="font-size:1.5em"><b>ATENCION</b></div>',
-					multipleCookieScriptBeginningLabel: ' Este sitio usa scripts de ',
-					and: ' y ',
-					multipleCookieScriptEndLabel: ' los cuales emplean cookies.',
-					impliedSubmitText: 'OK',
-					impliedDisclosureText: ' Para más información, vea nuestra ',
-					position : 'bottom',
-					cookieScripts: 'google,session',
-					scriptWrapper: cookieScripts,
-					privacyPolicyLinkText: ' politica de cookies',
-					backgroundColor: 'rgb(56, 169, 163)',
-					linkColor: '#FDC609',
-					explicitCookieDeletionWarning: ' Tu puedes borrar los cookies.<br>'
+	<!-- jQuery and JS bundle w/ Popper.js -->
+	<!-- <script type="text/javascript" src="<?= base_url() ?>assets/js/jquery/jquery-1.11.0.min.js"></script> -->
+
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+
+	<script type="text/javascript" src="<?= base_url() ?>assets/js/shadowbox/shadowbox.js"></script>
+	<script src="<?= base_url()?>assets/js/main.js"></script>
+
+	<script type="text/javascript" src="<?=base_url();?>assets/js/cookies.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			// Cookie setting script wrapper
+			var cookieScripts = function () {
+				// Internal javascript called
+				console.log("Running");
+
+				// Loading external javascript file
+				$.cookiesDirective.loadScript({
+					uri:'external.js',
+					appendTo: 'eantics'
 				});
+			}
+
+			$.cookiesDirective({
+				explicitConsent: false,
+				duration: 10,
+				backgroundOpacity: '90',
+				privacyPolicyUri: 'politica-de-cookies',
+				inlineAction: true,
+				message: '<div style="font-size:1.5em"><b>ATENCION</b></div>',
+				multipleCookieScriptBeginningLabel: ' Este sitio usa scripts de ',
+				and: ' y ',
+				multipleCookieScriptEndLabel: ' los cuales emplean cookies.',
+				impliedSubmitText: 'OK',
+				impliedDisclosureText: ' Para más información, vea nuestra ',
+				position : 'bottom',
+				cookieScripts: 'google,session',
+				scriptWrapper: cookieScripts,
+				privacyPolicyLinkText: ' politica de cookies',
+				backgroundColor: 'rgb(56, 169, 163)',
+				linkColor: '#FDC609',
+				explicitCookieDeletionWarning: ' Tu puedes borrar los cookies.<br>'
 			});
-		</script>
+		});
+	</script>
 	<script type="text/javascript">
 		Shadowbox.init();
 	</script>
 
-<script>
+	<script>
 		// var altura = window.innerHeight;
-
 		$(function(){
 			margin = 50;
 			posicionInicial = 0;
@@ -236,6 +235,7 @@
 			init();
 		});
 	</script>
+	<?= empty($scripts)? null : $scripts ?>
 
 </body>
 </html>
