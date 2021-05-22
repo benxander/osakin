@@ -6,6 +6,14 @@
 <div class="nav-heading">
   <h3 class="text-center">MENÚ PRINCIPAL</h3>
 </div>
+
+<select
+  class="form-control"
+  ng-model="fArr.idioma"
+  ng-options="item as item.descripcion for item in fArr.listaIdiomas"
+  ng-change="main.onChangeLanguaje()"
+></select>
+
 <div slimscroll="{
       height: '100%',
       size: '4px',

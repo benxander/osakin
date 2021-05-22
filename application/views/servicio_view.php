@@ -11,7 +11,7 @@
 		</div>
 	</div>
 </header>
-<link rel="stylesheet" href="<?=base_url();?>css/fancybox/jquery.fancybox.css" />
+<link rel="stylesheet" href="<?=base_url();?>assets/js/fancybox/css/jquery.fancybox.css" />
 <div class="container mt-5">
 	<div class="row pt-lg pb-lg pl pr">
 		<?if($servicio['estado_ss'] == 1):?>

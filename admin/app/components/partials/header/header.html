@@ -46,5 +46,31 @@
         </div>
       </div>
     </li>
+    <li>
+      <div uib-dropdown>
+        <button id="language" type="button" class="btn no-bg" uib-dropdown-toggle>
+          <img ng-show="main.currentLanguage == 'es'" src="assets/images/flags/Spain.png"
+            class="img-responsive img-circle hidden-xs" alt="">
+          <img ng-show="main.currentLanguage == 'eus'" src="assets/images/flags/Euskera.png"
+            class="img-responsive img-circle hidden-xs" alt="">
+
+          <span class="nav-text"><i class="fa fa-language"></i> Language</span>
+        </button>
+        <ul class="dropdown-menu with-arrow animated littleFadeInRight language" uib-dropdown-menu role="menu"
+          aria-labelledby="language">
+
+          <li ng-class="{selected: main.currentLanguage == 'es'}">
+            <a href="javascript:;" ng-click="main.changeLanguage('es')">
+              <img src="assets/images/flags/Spain.png" alt=""> Castellano
+            </a>
+          </li>
+          <li ng-class="{selected: main.currentLanguage == 'eus'}">
+            <a href="javascript:;" ng-click="main.changeLanguage('eus')">
+              <img src="assets/images/flags/Euskera.png" alt=""> Euskera
+            </a>
+          </li>
+        </ul>
+      </div>
+    </li>
   </ul>
 </div>

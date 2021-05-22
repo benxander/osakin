@@ -129,7 +129,7 @@
   /** @ngInject */
   function MainController($translate, $scope, $timeout, $state, rootServices, $uibModal,UsuarioServices,$location,pinesNotifications) {
     var vm = this;
-    
+
     $scope.fSessionCI = {};
     $scope.isLoggedIn = false;
     $scope.metodos = {};
@@ -235,6 +235,14 @@
     $scope.CargaMenu = function() {
       var opciones = ['opDashboard', 'opEmpresas', 'opCartas', 'opAlergenos', 'opSeguridad', 'opConfiguracion', 'opSecciones', 'opPlatos'];
       $scope.fArr.arrSteps = [];
+
+      $scope.fArr.listaIdiomas = [
+        {id: 'CAS', descripcion: 'CASTELLANO'},
+        {id: 'EUS', descripcion: 'EUSKERA'}
+      ];
+
+      $scope.fArr.idioma = $scope.fArr.listaIdiomas[0];
+
       if($scope.fSessionCI.idgrupo == 1){
         $scope.fArr.valores = [true,true,true,true,true,true,false,false];
       }
@@ -299,6 +307,10 @@
       steps: $scope.fArr.arrSteps
     };
 
+    vm.onChangeLanguaje = () => {
+      $scope.fSessionCI.idioma = $scope.fArr.idioma.id;
+      console.log('idioma cambiado', $scope.fSessionCI);
+    }
     vm.changeLanguage = function (langKey) {
       $translate.use(langKey);
       vm.currentLanguage = langKey;
@@ -315,7 +327,7 @@
     }
     vm.changeLanguage('es');
 
-    
+
     $scope.logOut = function() {
       $scope.isLoggedIn = false;
       $scope.captchaValido = false;

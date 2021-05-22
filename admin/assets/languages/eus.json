@@ -1,0 +1,10 @@
+{
+	"Menu": {
+		"DASHBOARD": "Dashboard",
+		"SEDES": "Configuración",
+		"SEGURIDAD": "Seguridad",
+		"CONFIGURACION": "Configuración",
+		"USUARIOS": "Usuarios",
+		"GRUPOS": "Grupos"
+	}
+}
