@@ -31,6 +31,9 @@ a:hover, a:focus, a:active {
   text-decoration: none;
 }
 
+.text-principal{
+	color: #1C3B85 !important;
+}
 /* menu idioma */
 .idioma a.active, .idioma a:hover{
 	font-weight: 700;
@@ -169,15 +172,17 @@ a:hover, a:focus, a:active {
 .ficha{
 	max-width: 1200px;
 	list-style: none;
-	border: 1px solid #ccc;
-	border-radius: 4px;
+	/* border: 1px solid #ccc;
+	border-radius: 4px; */
 	text-align: left;
 	line-height: 1.7em;
   }
+
+.ficha .horario p{ margin-top: 0 !important;}
 .fondo_gris{ background: #EFEFEF;}
 .precio{font-size: 2em; margin-right: 18px;line-height: 1em;}
 .ficha p{text-shadow: 0px 0px 1px rgba(153, 153, 153, 0.42);margin-top: 8px;}
-.ficha .titulo{color: #CE161C;
+.ficha .titulo{color: #1C3B85;
 	font-size: 2.2em;
 	line-height: 1.2em;
 	text-shadow: 4px 4px 4px rgba(186, 186, 186, 0.75);
@@ -185,7 +190,7 @@ a:hover, a:focus, a:active {
 	text-align: left;  display: inline-block;
 }
 .ficha .servicios{
-	background-color: #8197b8;
+	background-color: #8197B8;
 	color: white
 }
 
@@ -240,7 +245,7 @@ a:hover, a:focus, a:active {
     content: "\e92b";
 }
 footer {
-	background-color: #8197B8;
+	background-color: #1C3B85;
     background-repeat: no-repeat;
     background-position: center bottom;
 	color: #fff;

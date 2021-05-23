@@ -13,21 +13,21 @@
 </header>
 <div class="container mt-5">
 	<div>
-		<h2 class="text-danger text-center"><?= $sede['titulo'] ?></h2>
+		<h2 class="text-principal text-center"><?= $sede['titulo'] ?></h2>
 
 		<p><?= $sede['descripcion'] ?></p>
 	</div>
 
 	<div>
-		<h2 class="text-danger text-center"><?= $this->lang->line('servicios'); ?></h2>
+		<h2 class="text-principal text-center"><?= $this->lang->line('servicios'); ?></h2>
 
-		<div class="row">
+		<div class="row mt-5">
 			<? foreach ($sede['servicios'] as $item): ?>
 				<div class="col-md-4 mb-5">
-					<div class="ficha p-5">
+					<div class="ficha text-center">
 						<a href="<?= site_url('servicio/' . url_title(convert_accented_characters(($item['servicio'] . '-' . $item['id'])),'-',TRUE));?>">
-							<img class="w-100" src="<?= base_url('uploads/servicios/iconos/' . $item['icono']) ?>" alt="">
-							<h4 class="text-center"><?= $item['servicio'] ?></h4>
+							<img style="width:10rem" src="<?= base_url('uploads/servicios/iconos/' . $item['icono']) ?>" alt="">
+							<h4 class="text-center mt-2" style="color: #1C3B85"><?= $item['servicio'] ?></h4>
 
 						</a>
 					</div>
@@ -37,7 +37,7 @@
 	</div>
 
 	<div>
-		<h2 class="text-danger text-center"><?= $this->lang->line('ubicacion'); ?></h2>
+		<h2 class="text-principal text-center"><?= $this->lang->line('ubicacion'); ?></h2>
 
 		<div>
 			<?= $sede{'ubicacion'} ?>

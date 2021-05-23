@@ -38,6 +38,9 @@ class Main extends CI_Controller {
 		$datos['pag_din'] = $this->model_pagina_dinamica->m_get_pagina_dinamica($allInputs);
 		$datos['sedes'] = $this->model_sede->m_cargar_sedes_pagina($allInputs);
 
+
+
+
 		$data = array(
 			'zona' => 'cabecera',
 			'idsede' => 0,
@@ -61,10 +64,16 @@ class Main extends CI_Controller {
 
 		$datos['banners'] = $banners;
 		$listaMenu = array();
+		$order   = array("\r\n", "\n", "\r");
+		$replace = '<br />';
+
 		foreach ($datos['sedes'] as $key => $row) {
 			$row['idioma'] = $allInputs['idioma'];
 			$servicios = $this->model_servicio->m_cargar_sede_servicios($row);
 			$datos['sedes'][$key]['servicios'] = $servicios;
+
+			// Procesa primero \r\n así no es convertido dos veces.
+			$datos['sedes'][$key]['horario'] = str_replace($order, $replace, $row['horario']);
 
 			array_push(
 				$listaMenu,

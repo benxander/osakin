@@ -88,6 +88,7 @@ class Sede extends CI_Controller {
 			$data = array(
 				'idsede' => $idsede,
 				'direccion' => $allInputs['direccion'],
+				'direccion2' => empty($allInputs['direccion2'])? null : $allInputs['direccion2'],
 				'titulo' => strtoupper_total($allInputs['titulo']),
 				'descripcion' => $allInputs['descripcion'],
 				'horario' => empty($allInputs['horario'])? null : $allInputs['horario'],
@@ -143,6 +144,7 @@ class Sede extends CI_Controller {
 				'idsede' => $allInputs['idsede'],
 				'horario' => empty($allInputs['horario'])? null : $allInputs['horario'],
 				'direccion' => $allInputs['direccion'],
+				'direccion2' => empty($allInputs['direccion2'])? null : $allInputs['direccion2'],
 				'titulo' => strtoupper_total($allInputs['titulo']),
 				'descripcion' => $allInputs['descripcion'],
 				'idioma' => $idioma
@@ -153,6 +155,7 @@ class Sede extends CI_Controller {
 			$data = array(
 				'horario' => empty($allInputs['horario'])? null : $allInputs['horario'],
 				'direccion' => $allInputs['direccion'],
+				'direccion2' => empty($allInputs['direccion2'])? null : $allInputs['direccion2'],
 				'titulo' => strtoupper_total($allInputs['titulo']),
 				'descripcion' => $allInputs['descripcion']
 			);

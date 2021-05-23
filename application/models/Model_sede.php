@@ -32,7 +32,8 @@ class Model_sede extends CI_Model {
 			sp.titulo,
 			sp.descripcion,
 			sp.horario,
-			sp.direccion
+			sp.direccion,
+			sp.direccion2
 		", FALSE);
 		$this->db->from('sede se');
 		$this->db->join('sede_pagina sp', 'se.idsede = sp.idsede AND sp.estado_sp = 1 AND sp.idioma = ' . $this->db->escape($datos['idioma']),'left');
@@ -57,6 +58,7 @@ class Model_sede extends CI_Model {
 			sp.descripcion,
 			sp.horario,
 			sp.direccion,
+			sp.direccion2,
 			sp.ubicacion
 		", FALSE);
 		$this->db->from('sede se');

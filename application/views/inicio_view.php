@@ -26,15 +26,30 @@
 		<? foreach($sedes AS $sede): ?>
 		<div class="col-md-6">
 			<div class="ficha p-3">
-				<div class="row">
+				<div class="row" style="min-height: 250px;">
 					<div class="col-md-3">
 						<img class="w-100" src="uploads/sedes/<?=$sede['icono'] ?>" alt="">
 					</div>
 					<div class="col-md-9">
 						<h3 class="titulo"><?= $sede['descripcion_se'] ?></h3>
-						<p><?= $sede['direccion'] ?><br/>
-						<?= $sede['telefono'] . ' - ' . $sede['email'] ?><br/>
-						<?= $sede['horario'] ?></p>
+						<div class="row">
+							<div class="col-1"><i class="icon-location2"></i></div>
+							<div class="col-11"><?= $sede['direccion'] ?><br/></div>
+
+							<div class="col-1" style="min-height: 27px;"></div>
+							<div class="col-11"><?= $sede['direccion2'] ?></div>
+
+							<div class="col-1"><i class="icon-phone"></i></div>
+							<div class="col-11"><?= $sede['telefono']  ?></div>
+
+							<div class="col-1"><i class="icon-mail"></i></div>
+							<div class="col-11"><?= $sede['email'] ?></div>
+
+							<div class="col-1"><i class="icon-clock2"></i></div>
+							<div class="col-11 horario"><?= $sede['horario'] ?></div>
+						</div>
+
+
 					</div>
 				</div>
 				<div class="row align-items-center">

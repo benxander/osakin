@@ -99,7 +99,7 @@
 		    </div>
 
 			<div class="row">
-				<div class="form-group col-md-12">
+				<div class="form-group col-md-6">
 					<label for="direccion" class="control-label minotaur-label">DIRECCIÓN <small class="text-red">(*)</small> </label>
 					<input
 					ng-model="mp.fData.direccion"
@@ -115,11 +115,27 @@
 					<div ng-messages-include="app/components/templates/messages_tmpl.html"></div>
 					</div>
 				</div>
+				<div class="form-group col-md-6">
+					<label for="direccion" class="control-label minotaur-label">DIRECCIÓN 2 <small class="text-red">(*)</small> </label>
+					<input
+					ng-model="mp.fData.direccion2"
+					type="text"
+					name="direccion2"
+					id="direccion2"
+					class="form-control"
+					placeholder="Registra segunda dirección"
+					autocomplete="off"
 
-				<div class="form-group col-md-12">
+					>
+					<div ng-messages="formSede.direccion.$error" ng-show="formSede.direccion.$dirty" role="alert" class="help-block text-red">
+					<div ng-messages-include="app/components/templates/messages_tmpl.html"></div>
+					</div>
+				</div>
+
+				<div class="form-group col-md-6">
 					<label for="horario" class="control-label minotaur-label">Horario <small
 							class="text-red">(*)</small></label>
-					<input
+					<!-- <input
 						ng-model="mp.fData.horario"
 						type="text"
 						name="horario"
@@ -128,7 +144,9 @@
 						placeholder="Registra horario del centro"
 						autocomplete="off"
 						required
-					>
+					> -->
+					<textarea class="form-control" name="horario" id="horario" cols="30" rows="5" ng-model="mp.fData.horario"></textarea>
+					<!-- <text-angular ng-model="mp.fData.horario"></text-angular> -->
 					<div ng-messages="formSede.horario.$error" ng-show="formSede.horario.$dirty" role="alert"
 						class="help-block text-red">
 						<div ng-messages-include="app/components/templates/messages_tmpl.html"></div>
