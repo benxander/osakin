@@ -127,7 +127,17 @@
     }]);
 
   /** @ngInject */
-  function MainController($translate, $scope, $timeout, $state, rootServices, $uibModal,UsuarioServices,$location,pinesNotifications) {
+  function MainController(
+    $translate,
+    $scope,
+    $timeout,
+    $state,
+    rootServices,
+    $uibModal,
+    UsuarioServices,
+    $location,
+    pinesNotifications
+  ) {
     var vm = this;
 
     $scope.fSessionCI = {};
@@ -271,11 +281,22 @@
       });
       vm.introOptions.steps = result;
     }
+    console.log('idioma localstorage', localStorage.getItem('language'));
     $scope.getValidateSession = function () {
       rootServices.sGetSessionCI().then(function (response) {
         //console.log(response);
         if(response.flag == 1){
+          var idioma = localStorage.getItem('language');
+          console.log('idioma', idioma);
+          if(!idioma){
+            localStorage.setItem('language', 'es');
+            idioma = 'es';
+          }
           $scope.fSessionCI = response.datos;
+          $scope.fSessionCI.idioma = idioma;
+          vm.changeLanguage(idioma);
+
+
           $scope.fArr.boolAutoStart = ($scope.fSessionCI.mostrar_intro == 1) ? true : false;
           $scope.logIn();
           $scope.CargaMenu();
@@ -314,6 +335,9 @@
     vm.changeLanguage = function (langKey) {
       $translate.use(langKey);
       vm.currentLanguage = langKey;
+      localStorage.setItem('language', langKey);
+      $scope.fSessionCI.idioma = langKey;
+      $state.go($state.current.name, $state.params, { reload: true });
     };
     vm.onChangeStep = function(obj,scope) {
       if($(obj).hasClass('contacto')){
@@ -325,7 +349,8 @@
       // actualizar valor de intro
       UsuarioServices.sActualizarIntroNoMostrar();
     }
-    vm.changeLanguage('es');
+
+    // vm.changeLanguage('es');
 
 
     $scope.logOut = function() {

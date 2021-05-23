@@ -23,41 +23,8 @@
 			                <div ng-messages-include="app/components/templates/messages_tmpl.html"></div>
 			              </div>
 			            </div>
-			            <!-- <div class="form-group col-md-12">
-			              <label for="direccion" class="control-label minotaur-label">DIRECCIÓN <small class="text-red">(*)</small> </label>
-			              <input
-							ng-model="mp.fData.direccion"
-							type="text"
-							name="direccion"
-							id="direccion"
-							class="form-control"
-							placeholder="Registra dirección"
-							autocomplete="off"
-							required
-						  >
-			              <div ng-messages="formSede.direccion.$error" ng-show="formSede.direccion.$dirty" role="alert" class="help-block text-red">
-			                <div ng-messages-include="app/components/templates/messages_tmpl.html"></div>
-			              </div>
-			            </div> -->
 
-						<!-- <div class="form-group col-md-12">
-							<label for="horario" class="control-label minotaur-label">Horario <small
-									class="text-red">(*)</small></label>
-							<input
-								ng-model="mp.fData.horario"
-								type="text"
-								name="horario"
-								id="horario"
-								class="form-control"
-								placeholder="Registra horario del centro"
-								autocomplete="off"
-								required
-							>
-							<div ng-messages="formSede.horario.$error" ng-show="formSede.horario.$dirty" role="alert"
-								class="help-block text-red">
-								<div ng-messages-include="app/components/templates/messages_tmpl.html"></div>
-							</div>
-						</div> -->
+
 
 						<div class="form-group col-md-6">
 			              	<label for="telefono" class="control-label minotaur-label">Teléfono </label>
@@ -131,7 +98,42 @@
 				</div>
 		    </div>
 
-			<!-- <div class="row">
+			<div class="row">
+				<div class="form-group col-md-12">
+					<label for="direccion" class="control-label minotaur-label">DIRECCIÓN <small class="text-red">(*)</small> </label>
+					<input
+					ng-model="mp.fData.direccion"
+					type="text"
+					name="direccion"
+					id="direccion"
+					class="form-control"
+					placeholder="Registra dirección"
+					autocomplete="off"
+					required
+					>
+					<div ng-messages="formSede.direccion.$error" ng-show="formSede.direccion.$dirty" role="alert" class="help-block text-red">
+					<div ng-messages-include="app/components/templates/messages_tmpl.html"></div>
+					</div>
+				</div>
+
+				<div class="form-group col-md-12">
+					<label for="horario" class="control-label minotaur-label">Horario <small
+							class="text-red">(*)</small></label>
+					<input
+						ng-model="mp.fData.horario"
+						type="text"
+						name="horario"
+						id="horario"
+						class="form-control"
+						placeholder="Registra horario del centro"
+						autocomplete="off"
+						required
+					>
+					<div ng-messages="formSede.horario.$error" ng-show="formSede.horario.$dirty" role="alert"
+						class="help-block text-red">
+						<div ng-messages-include="app/components/templates/messages_tmpl.html"></div>
+					</div>
+				</div>
 				<div class="form-group col-md-12">
 					<label for="titulo" class="control-label minotaur-label">Título <small class="text-red">(*)</small> </label>
 					<input
@@ -157,7 +159,7 @@
 
 					<text-angular ng-model="mp.fData.descripcion"></text-angular>
 				</div>
-			</div> -->
+			</div>
 
 		</form>
 	</section>

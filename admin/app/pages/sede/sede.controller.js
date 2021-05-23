@@ -80,8 +80,9 @@
 
       }
       vm.getPaginationServerSide = function() {
+        console.log('sesion', $scope.fSessionCI);
         var paramDatos = {
-          idioma: 'CAS'
+          idioma: localStorage.getItem('language')
         }
         SedeServices.sListarSedes(paramDatos).then(function (rpta) {
           vm.gridOptions.data = rpta.datos;
@@ -131,6 +132,7 @@
             }
             // BOTONES
             vm.aceptar = function () {
+              vm.fData.idioma = localStorage.getItem('language');
               SedeServices.sRegistrarSede(vm.fData).then(function (rpta) {
                 if(rpta.flag == 1){
                   $uibModalInstance.close(vm.fData);
@@ -205,9 +207,10 @@
             }
             vm.aceptar = function () {
               // console.log('edicion...', vm.fData);
-              $uibModalInstance.close(vm.fData);
+              vm.fData.idioma = localStorage.getItem('language');
               SedeServices.sEditarSede(vm.fData).then(function (rpta) {
                 if(rpta.flag == 1){
+                  $uibModalInstance.close(vm.fData);
                   vm.getPaginationServerSide();
                   var pTitle = 'OK!';
                   var pType = 'success';

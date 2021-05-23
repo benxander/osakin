@@ -19,7 +19,11 @@ class Sede extends CI_Controller {
 	public function listarSedes()
 	{
 		$allInputs = json_decode(trim($this->input->raw_input_stream),true);
-
+		if( $allInputs['idioma'] === 'es' ){
+				$allInputs['idioma'] = 'CAS';
+			}else{
+				$allInputs['idioma'] = 'EUS';
+			}
 		$lista = $this->model_sede->m_cargar_sedes_pagina($allInputs);
 		$arrListado = array();
 
@@ -62,12 +66,14 @@ class Sede extends CI_Controller {
     	}
 
     	// INICIA EL REGISTRO
+		if( $allInputs['idioma'] === 'es' ){
+			$idioma = 'CAS';
+		}else{
+			$idioma = 'EUS';
+		}
+
 		$data = array(
 			'descripcion_se' => strtoupper_total($allInputs['descripcion_se']),
-			// 'direccion' => $allInputs['direccion'],
-			// 'titulo' => strtoupper_total($allInputs['titulo']),
-			// 'descripcion' => $allInputs['descripcion'],
-			// 'horario' => empty($allInputs['horario'])? null : $allInputs['horario'],
 			'telefono' => empty($allInputs['telefono'])? null : $allInputs['telefono'],
 			'email' => empty($allInputs['email'])? null : $allInputs['email'],
 			'imagen_se' => empty($allInputs['nombre_foto'])? null : $allInputs['nombre_foto']
@@ -76,9 +82,22 @@ class Sede extends CI_Controller {
 
 
 
-		if($idcentromedico = $this->model_sede->m_registrar($data)){
-			$arrData['message'] = 'Se registró el nuevo centro médico correctamente';
-			$arrData['datos'] = $idcentromedico;
+		if($idsede = $this->model_sede->m_registrar($data)){
+
+			//REGISTRO DE PAGINA
+			$data = array(
+				'idsede' => $idsede,
+				'direccion' => $allInputs['direccion'],
+				'titulo' => strtoupper_total($allInputs['titulo']),
+				'descripcion' => $allInputs['descripcion'],
+				'horario' => empty($allInputs['horario'])? null : $allInputs['horario'],
+				'idioma' => $idioma
+			);
+
+			$this->model_sede->m_registrar_sede_pagina($data);
+
+			$arrData['message'] = 'Se registraron los datos correctamente';
+			$arrData['datos'] = $idsede;
     		$arrData['flag'] = 1;
 		}else{
 			$arrData['message'] = 'Ocurrió un error. Inténtelo nuevamente';
@@ -95,26 +114,49 @@ class Sede extends CI_Controller {
 		$arrData['message'] = 'Error al editar los datos, inténtelo nuevamente';
     	$arrData['flag'] = 0;
 
+		$data = array(
+			'descripcion_se' => strtoupper_total($allInputs['descripcion_se']),
+			'telefono' => empty($allInputs['telefono'])? null : $allInputs['telefono'],
+			'email' => empty($allInputs['email'])? null : $allInputs['email'],
+		);
 		if(!empty($allInputs['myCroppedImage'])){
     		$allInputs['nombre_foto'] = $allInputs['descripcion_se'].date('YmdHis').'.png';
     		$subir = subir_imagen_Base64($allInputs['myCroppedImage'], 'uploads/sedes/', $allInputs['nombre_foto']);
 
+			$data['imagen_se'] = $allInputs['nombre_foto'];
     	}
 
-		$data = array(
-			'descripcion_se' => strtoupper_total($allInputs['descripcion_se']),
-			// 'direccion' => $allInputs['direccion'],
-			// 'titulo' => strtoupper_total($allInputs['titulo']),
-			// 'descripcion' => $allInputs['descripcion'],
-			'telefono' => empty($allInputs['telefono'])? null : $allInputs['telefono'],
-			'email' => empty($allInputs['email'])? null : $allInputs['email'],
-			'imagen_se' => empty($allInputs['nombre_foto'])? null : $allInputs['nombre_foto']
-			// 'horario' => empty($allInputs['horario'])? null : $allInputs['horario']
-		);
 
 		if($this->model_sede->m_editar($data,$allInputs['idsede'])){
 			$arrData['message'] = 'Se editaron los datos correctamente ';
     		$arrData['flag'] = 1;
+		}
+
+		// Sede Pagina
+		if( empty($allInputs['idsedepagina']) ){ // se registra
+			if( $allInputs['idioma'] === 'es' ){
+				$idioma = 'CAS';
+			}else{
+				$idioma = 'EUS';
+			}
+			$data = array(
+				'idsede' => $allInputs['idsede'],
+				'horario' => empty($allInputs['horario'])? null : $allInputs['horario'],
+				'direccion' => $allInputs['direccion'],
+				'titulo' => strtoupper_total($allInputs['titulo']),
+				'descripcion' => $allInputs['descripcion'],
+				'idioma' => $idioma
+			);
+			$this->model_sede->m_registrar_sede_pagina($data);
+
+		}else{
+			$data = array(
+				'horario' => empty($allInputs['horario'])? null : $allInputs['horario'],
+				'direccion' => $allInputs['direccion'],
+				'titulo' => strtoupper_total($allInputs['titulo']),
+				'descripcion' => $allInputs['descripcion']
+			);
+			$this->model_sede->m_editar_sede_pagina($data,$allInputs['idsedepagina']);
 		}
 		$this->output
 		    ->set_content_type('application/json')

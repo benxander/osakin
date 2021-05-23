@@ -77,4 +77,13 @@ class Model_sede extends CI_Model {
 		return $this->db->update('sede', $data);
 	}
 
+	public function m_registrar_sede_pagina($data)
+	{
+		$this->db->insert('sede_pagina', $data);
+		return $this->db->insert_id();
+	}
+	public function m_editar_sede_pagina($data,$id){
+		$this->db->where('idsedepagina',$id);
+		return $this->db->update('sede_pagina', $data);
+	}
 }
