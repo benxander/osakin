@@ -140,6 +140,12 @@
   ) {
     var vm = this;
 
+    vm.idioma = localStorage.getItem('language');
+    if (!vm.idioma) {
+      vm.idioma = 'es';
+      localStorage.setItem('language', vm.idioma);
+    }
+
     $scope.fSessionCI = {};
     $scope.isLoggedIn = false;
     $scope.metodos = {};
@@ -281,21 +287,14 @@
       });
       vm.introOptions.steps = result;
     }
-    console.log('idioma localstorage', localStorage.getItem('language'));
+
     $scope.getValidateSession = function () {
       rootServices.sGetSessionCI().then(function (response) {
         //console.log(response);
         if(response.flag == 1){
-          var idioma = localStorage.getItem('language');
-          console.log('idioma', idioma);
-          if(!idioma){
-            localStorage.setItem('language', 'es');
-            idioma = 'es';
-          }
-          $scope.fSessionCI = response.datos;
-          $scope.fSessionCI.idioma = idioma;
-          vm.changeLanguage(idioma);
 
+          $scope.fSessionCI = response.datos;
+          $scope.fSessionCI.idioma = localStorage.getItem('language');
 
           $scope.fArr.boolAutoStart = ($scope.fSessionCI.mostrar_intro == 1) ? true : false;
           $scope.logIn();
@@ -328,10 +327,13 @@
       steps: $scope.fArr.arrSteps
     };
 
-    vm.onChangeLanguaje = () => {
-      $scope.fSessionCI.idioma = $scope.fArr.idioma.id;
-      console.log('idioma cambiado', $scope.fSessionCI);
+    vm.onInitLanguaje = () => {
+      $translate.use(vm.idioma);
+      vm.currentLanguage = vm.idioma;
     }
+    vm.onInitLanguaje();
+
+    // solo debe usarse con el boton de idiomas
     vm.changeLanguage = function (langKey) {
       $translate.use(langKey);
       vm.currentLanguage = langKey;
@@ -339,6 +341,7 @@
       $scope.fSessionCI.idioma = langKey;
       $state.go($state.current.name, $state.params, { reload: true });
     };
+
     vm.onChangeStep = function(obj,scope) {
       if($(obj).hasClass('contacto')){
         // actualizar valor de intro

@@ -15,7 +15,7 @@
 <div class="container mt-5">
 	<div class="row pt-lg pb-lg pl pr">
 		<?if($servicio['estado_ss'] == 1):?>
-			<div class="col-md-9">
+			<div class="col-lg-9">
 				<div class="row">
 					<h3 class="col-sm-12 titulo"><?=$servicio['titulo']?></h3>
 
@@ -49,7 +49,7 @@
 				</div>
 			</div>
 
-			<col-md-3>
+			<div class="col-lg-3">
 				<div class="ficha fondo_gris p-3 text-center">
 					<h5><?= $this->lang->line('solicitar'); ?></h5>
 					<h3><?= $this->lang->line('cita_previa'); ?></h3>
@@ -62,7 +62,7 @@
 						</div>
 						<div class="input-group mb-3">
 							<div class="input-group-prepend">
-								<span class="input-group-text"><i class="icon-email"></i></span>
+								<span class="input-group-text"><i class="icon-mail"></i></span>
 							</div>
 							<input type="email" class="form-control" placeholder="<?= $this->lang->line('correo'); ?>">
 						</div>
@@ -80,7 +80,7 @@
 						<button type="button" class="btn btn-primary"><?= $this->lang->line('enviar'); ?></button>
 					</form>
 				</div>
-			</col-md-3>
+			</div>
 
 
 		<?else:?>

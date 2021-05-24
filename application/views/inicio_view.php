@@ -33,26 +33,33 @@
 					<div class="col-md-9">
 						<h3 class="titulo"><?= $sede['descripcion_se'] ?></h3>
 						<div class="row">
-							<div class="col-1"><i class="icon-location2"></i></div>
-							<div class="col-11"><?= $sede['direccion'] ?><br/></div>
+							<div class="col-xs-1"><i class="icon-location2"></i></div>
+							<div class="col-xs-11 ml-2"><?= $sede['direccion'] ?></div>
+						</div>
 
-							<div class="col-1" style="min-height: 27px;"></div>
-							<div class="col-11"><?= $sede['direccion2'] ?></div>
+						<div class="row">
+							<div class="col-xs-12 ml-4" style="min-height: 27px;"><?= $sede['direccion2'] ?></div>
+						</div>
 
-							<div class="col-1"><i class="icon-phone"></i></div>
-							<div class="col-11"><?= $sede['telefono']  ?></div>
+						<div class="row">
+							<div class="col-xs-1"><i class="icon-phone"></i></div>
+							<div class="col-xs-11 ml-2"><?= $sede['telefono']  ?></div>
+						</div>
 
-							<div class="col-1"><i class="icon-mail"></i></div>
-							<div class="col-11"><?= $sede['email'] ?></div>
+						<div class="row">
+							<div class="col-xs-1"><i class="icon-mail"></i></div>
+							<div class="col-xs-11 ml-2"><?= $sede['email'] ?></div>
+						</div>
 
-							<div class="col-1"><i class="icon-clock2"></i></div>
-							<div class="col-11 horario"><?= $sede['horario'] ?></div>
+						<div class="row">
+							<div class="col-xs-1"><i class="icon-clock2"></i></div>
+							<div class="col-xs-11 ml-2 horario"><?= $sede['horario'] ?></div>
 						</div>
 
 
 					</div>
 				</div>
-				<div class="row align-items-center">
+				<div class="row mt-3">
 					<div class="col-md-6">
 						<img class="w-100" src="uploads/sedes/<?=$sede['imagen_se'] ?>" alt="">
 					</div>

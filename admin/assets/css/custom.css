@@ -59,6 +59,10 @@
     font-style: oblique !important;
 }
 
+.modal-body{
+	max-height: 75vh !important;
+	overflow-y: scroll !important;
+}
 section.tile-body{
 	margin-top: 0;
 }

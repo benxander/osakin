@@ -116,7 +116,7 @@
 					</div>
 				</div>
 				<div class="form-group col-md-6">
-					<label for="direccion" class="control-label minotaur-label">DIRECCIÓN 2 <small class="text-red">(*)</small> </label>
+					<label for="direccion" class="control-label minotaur-label">DIRECCIÓN 2 </label>
 					<input
 					ng-model="mp.fData.direccion2"
 					type="text"

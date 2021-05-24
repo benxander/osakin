@@ -58,7 +58,10 @@
 		}
 
 		vm.getPaginationServerSide = function () {
-			PaginasDnamicasServices.sListarPaginasDinamicas().then(function (rpta) {
+			var datos = {
+				idioma: localStorage.getItem('language')
+			}
+			PaginasDnamicasServices.sListarPaginasDinamicas(datos).then(function (rpta) {
 				vm.gridOptions.data = rpta.datos;
 				// vm.gridOptions.totalItems = rpta.paginate.totalRows;
 				vm.mySelectionGrid = [];
@@ -120,7 +123,7 @@
 			$uibModal.open({
 				templateUrl: 'app/pages/paginas-dinamicas/paginas_formview.php',
 				controllerAs: 'mp',
-				size: 'md',
+				size: 'lg',
 				backdropClass: 'splash splash-2 splash-info splash-ef-12',
 				windowClass: 'splash splash-2 splash-ef-12',
 				backdrop: 'static',
@@ -132,14 +135,14 @@
 					vm.getPaginationServerSide = arrToModal.getPaginationServerSide;
 					vm.fArr = arrToModal.fArr;
 
-					var objIndex = vm.fArr.listaGrupos.filter(function (obj) {
-						return obj.id == vm.fData.grupo.idgrupo;
-					}).shift();
-					if (objIndex) {
-						vm.fData.grupo = objIndex;
-					} else {
-						vm.fData.grupo = vm.fArr.listaGrupos[0];
-					}
+					// var objIndex = vm.fArr.listaGrupos.filter(function (obj) {
+					// 	return obj.id == vm.fData.grupo.idgrupo;
+					// }).shift();
+					// if (objIndex) {
+					// 	vm.fData.grupo = objIndex;
+					// } else {
+					// 	vm.fData.grupo = vm.fArr.listaGrupos[0];
+					// }
 
 					vm.modalTitle = 'Edición de Página dinámica';
 					// BOTONES

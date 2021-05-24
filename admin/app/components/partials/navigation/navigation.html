@@ -7,13 +7,6 @@
   <h3 class="text-center">MENÚ PRINCIPAL</h3>
 </div>
 
-<select
-  class="form-control"
-  ng-model="fArr.idioma"
-  ng-options="item as item.descripcion for item in fArr.listaIdiomas"
-  ng-change="main.onChangeLanguaje()"
-></select>
-
 <div slimscroll="{
       height: '100%',
       size: '4px',
@@ -31,8 +24,8 @@
 
     <li ng-class="{'active':$state.includes('sede')}" class="sede">
       <a ng-click="$state.reload();" ui-sref="sede">
-        <span class="nav-text">Sedes</span>
-        <i class="fa fa-home"></i>
+        <span class="nav-text">{{ 'Menu.SEDES' | translate }}</span>
+        <i class="fa fa-bank"></i>
       </a>
     </li>
 
@@ -79,19 +72,5 @@
 
 
   </ul>
-  <!-- MOSTRAR INFO DE CONTACTO -->
-  <div class="tile contacto" ng-show="fSessionCI.mostrar_info_contacto == 1">
-    <div class="tile-body b-t" style="font-size:12px;text-align: center;">
-      <!-- <p class="mb-n text-info text-center" style="font-weight: bold;font-style: normal;font-size: 16px;"> Contáctanos... </p> -->
-      <p class="mb-n">
-        <i class="fa fa-phone"></i> 99999999 </p>
-      <p class="mb-n"><i class="fa fa-envelope"></i> contacto@cartadigitalplus.es</p>
-      <p class="mb-n"><a target="_blank" href="https://cartadigitalplus.es">
-        <i class="fa fa-globe"></i>https://cartadigitalplus.es</p>
-      <p class="mb-n"> <a target="_blank" href="https://www.facebook.com/">
-        <i style="color:#4267b2;" class="fa fa-facebook-square"></i> /cartadigitalplus </a> </p>
-      <p class="mb-n"> <a target="_blank" href="https://www.linkedin.com/">
-        <i style="color:#0077b5;" class="fa fa-linkedin-square"></i> /cartadigitalplus </a> </p>
-    </div>
-  </div><!--  -->
+
 </div>

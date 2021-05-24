@@ -1,10 +1,10 @@
 {
 	"Menu": {
 		"DASHBOARD": "Dashboard",
-		"SEDES": "Configuración",
-		"SEGURIDAD": "Seguridad",
-		"CONFIGURACION": "Configuración",
-		"USUARIOS": "Usuarios",
-		"GRUPOS": "Grupos"
+		"SEDES": "Lekuak",
+		"SEGURIDAD": "Segurtasuna",
+		"CONFIGURACION": "Ezarpena",
+		"USUARIOS": "Erabiltzaileak",
+		"GRUPOS": "Taldeak"
 	}
 }

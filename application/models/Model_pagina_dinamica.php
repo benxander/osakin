@@ -24,21 +24,28 @@ class Model_pagina_dinamica extends CI_Model {
 		$this->db->limit('1');
 		return $this->db->get()->row_array();
 	}
-	public function m_cargar_paginas_dinamicas()
+	public function m_cargar_paginas_dinamicas($datos)
 	{
 		$this->db->select("
-			idpaginadinamica,
-			nombre,
-			segmento_amigable,
-			titulo,
-			contenido,
-			imagen,
-			posicion_imagen,
-			url_imagen,
-			destino_url_imagen
+			pd.idpaginadinamica,
+			pd.nombre,
+			pd.segmento_amigable,
+			pd.titulo,
+			pd.contenido,
+			pd.imagen,
+			pd.posicion_imagen,
+			pd.url_imagen,
+			pd.destino_url_imagen
 		", FALSE);
 		$this->db->from('pagina_dinamica pd');
+		$this->db->join('idioma idi', 'pd.ididioma = idi.ididioma');
+		$this->db->where('idi.abreviatura', $datos['idioma']);
 		$this->db->order_by('idpaginadinamica', 'ASC');
 		return $this->db->get()->result_array();
+	}
+
+	public function m_editar($data,$id){
+		$this->db->where('idpaginadinamica',$id);
+		return $this->db->update('pagina_dinamica', $data);
 	}
 }

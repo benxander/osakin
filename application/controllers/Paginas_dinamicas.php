@@ -25,7 +25,12 @@ class Paginas_dinamicas extends CI_Controller {
     {
         $allInputs = json_decode(trim($this->input->raw_input_stream),true);
 
-		$lista = $this->Model_pagina_dinamica->m_cargar_paginas_dinamicas();
+		if( $allInputs['idioma'] === 'es' ){
+			$allInputs['idioma'] = 'CAS';
+		}else{
+			$allInputs['idioma'] = 'EUS';
+		}
+		$lista = $this->Model_pagina_dinamica->m_cargar_paginas_dinamicas($allInputs);
 		$arrListado = array();
 
 		if(empty($lista)){
@@ -46,4 +51,25 @@ class Paginas_dinamicas extends CI_Controller {
 		    ->set_output(json_encode($arrData));
 
     }
+
+	public function editarPaginaDinamica()
+	{
+		$allInputs = json_decode(trim($this->input->raw_input_stream),true);
+		$arrData['message'] = 'Error al editar los datos, inténtelo nuevamente';
+    	$arrData['flag'] = 0;
+
+		$data = array(
+			 'titulo' => $allInputs['titulo'],
+			 'contenido' => $allInputs['contenido']
+		);
+		if($this->Model_pagina_dinamica->m_editar($data,$allInputs['idpaginadinamica'])){
+			$arrData['message'] = 'Se editaron los datos correctamente ';
+    		$arrData['flag'] = 1;
+		}
+
+		$this->output
+		    ->set_content_type('application/json')
+		    ->set_output(json_encode($arrData));
+
+	}
 }

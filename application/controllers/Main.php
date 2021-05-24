@@ -116,10 +116,7 @@ class Main extends CI_Controller {
 				'descripcion' 	=> $rowSede['descripcion_se'],
 				'link'			=> base_url('centro/'.$sede)
 			),
-			array(
-				'descripcion' 	=> 'SERVICIOS',
-				'link'			=> base_url('servicios/'.$sede)
-			),
+
 			array(
 				'descripcion' 	=> 'CONTACTO',
 				'link'			=> base_url('contacto/'.$sede)
@@ -206,10 +203,6 @@ class Main extends CI_Controller {
 			array(
 				'descripcion' 	=> $datos['servicio']['descripcion_se'],
 				'link'			=> base_url('centro/'.$sede)
-			),
-			array(
-				'descripcion' 	=> 'SERVICIOS',
-				'link'			=> base_url('servicios/'.$sede)
 			),
 			array(
 				'descripcion' 	=> 'CONTACTO',
