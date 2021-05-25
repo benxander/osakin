@@ -28,6 +28,12 @@
         <i class="fa fa-bank"></i>
       </a>
     </li>
+    <li ng-class="{'active':$state.includes('servicio')}" class="servicio">
+      <a ng-click="$state.reload();" ui-sref="servicio">
+        <span class="nav-text">{{ 'Menu.SERVICIOS' | translate }}</span>
+        <i class="fa fa-bank"></i>
+      </a>
+    </li>
 
 
 

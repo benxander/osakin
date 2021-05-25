@@ -36,6 +36,12 @@
         templateUrl: 'app/pages/sede/sede.html',
         controller: 'SedeController as vm'
       })
+      // Servicio
+      .state('servicio', {
+        url: '/app/servicio',
+        templateUrl: 'app/pages/servicio/servicio.html',
+        controller: 'ServicioController as vm'
+      })
       //usuario
       .state('usuario', {
         url: '/app/usuario',

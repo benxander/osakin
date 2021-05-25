@@ -12,7 +12,7 @@ class Model_servicio extends CI_Model {
 			ser.estado_ser
 		", FALSE);
 		$this->db->from('servicio ser');
-		$this->db->where('se.estado_ser', 1);
+		$this->db->where('ser.estado_ser', 1);
 		$this->db->order_by('idservicio', 'ASC');
 		return $this->db->get()->result_array();
 	}

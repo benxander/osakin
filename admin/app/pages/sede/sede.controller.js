@@ -27,17 +27,17 @@
     vm.options = {};
 
 
-    vm.remove = function(scope) {
-      scope.remove();
-    };
+    // vm.remove = function(scope) {
+    //   scope.remove();
+    // };
 
-    vm.toggle = function(scope) {
-      scope.toggle();
-    };
+    // vm.toggle = function(scope) {
+    //   scope.toggle();
+    // };
 
-    vm.expandAll = function() {
-      vm.$broadcast('angular-ui-tree:expand-all');
-    };
+    // vm.expandAll = function() {
+    //   vm.$broadcast('angular-ui-tree:expand-all');
+    // };
 
     // GRILLA PRINCIPAL
 
