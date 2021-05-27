@@ -8,7 +8,7 @@
     <!-- col -->
     <div class="col-md-12">
       <!-- tile -->
-      <div class="tile">
+      <div class="tile" ng-if="!vm.verServicios">
         <!-- tile header -->
         <section class="tile-header">
           <h1 class="heading">Sedes</h1>
@@ -25,12 +25,30 @@
               <li class="pull-right" style="margin-bottom: 10px;"><button type="button" class="btn btn-success" ng-click='vm.btnNuevo()'>Nuevo</button></li>
             </ul>
           </div>
-          <div id="grid1" ui-grid="vm.gridOptions" ui-grid-selection ui-grid-auto-resize class="grid table-responsive clear"></div>
+          <div id="grid1" ui-grid="vm.gridOptions" ui-grid-auto-resize class="grid table-responsive clear"></div>
         </section>
 
         <!-- /tile body -->
       </div>
       <!-- /tile -->
+      <div class="tile" ng-if="vm.verServicios">
+        <section class="tile-header">
+          <h1 class="heading">Servicios de {{vm.serv.fData.descripcion_se}}</h1>
+          <div class="controls">
+          <button class="btn text-success" ng-click="vm.verServicios = false">Volver</button>
+            <minotaur-tile-refresh ng-click="vm.getPaginationServServerSide();"></minotaur-tile-refresh>
+          </div>
+        </section>
+        <section class="tile-body col-sm-12 pr-md pl-md">
+          <div>
+            <ul class="form-group demo-btns list-unstyled">
+              <li class="pull-right" style="margin-bottom: 10px;"><button type="button" class="btn btn-success"
+                  ng-click='vm.btnAgregarServicio()'>Agregar</button></li>
+            </ul>
+          </div>
+          <div id="grid1" ui-grid="vm.gridServOptions" ui-grid-auto-resize class="grid table-responsive clear"></div>
+        </section>
+      </div>
     </div>
     <!-- /col -->
   </div>

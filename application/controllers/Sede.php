@@ -14,16 +14,16 @@ class Sede extends CI_Controller {
 				'imagen_helper'
 			)
 		);
-        $this->load->model(array('model_sede'));
+        $this->load->model(array('model_sede','model_servicio'));
     }
 	public function listarSedes()
 	{
 		$allInputs = json_decode(trim($this->input->raw_input_stream),true);
 		if( $allInputs['idioma'] === 'es' ){
-				$allInputs['idioma'] = 'CAS';
-			}else{
-				$allInputs['idioma'] = 'EUS';
-			}
+			$allInputs['idioma'] = 'CAS';
+		}else{
+			$allInputs['idioma'] = 'EUS';
+		}
 		$lista = $this->model_sede->m_cargar_sedes_pagina($allInputs);
 		$arrListado = array();
 
@@ -166,4 +166,22 @@ class Sede extends CI_Controller {
 		    ->set_output(json_encode($arrData));
 	}
 
+	public function listarServiciosSede()
+	{
+		$allInputs = json_decode(trim($this->input->raw_input_stream),true);
+		if( $allInputs['idioma'] === 'es' ){
+			$allInputs['idioma'] = 'CAS';
+		}else{
+			$allInputs['idioma'] = 'EUS';
+		}
+		$lista = $this->model_servicio->m_cargar_sede_servicios($allInputs);
+
+		$arrData['datos'] = $lista;
+    	$arrData['message'] = '';
+    	$arrData['flag'] = 1;
+
+		$this->output
+		    ->set_content_type('application/json')
+		    ->set_output(json_encode($arrData));
+	}
 }
