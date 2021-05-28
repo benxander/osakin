@@ -292,6 +292,7 @@
           field: 'accion', name: 'accion', displayName: 'ACCIONES', width: 180, enableFiltering: false, enableColumnMenu: false,
           cellTemplate:
             '<label class="btn text-primary" ng-click="grid.appScope.btnEditarServicio(row);$event.stopPropagation();" tooltip-placement="left" uib-tooltip="EDITAR"> <i class="fa fa-edit"></i> </label>' +
+            '<label class="btn text-success" ng-click="grid.appScope.btnGaleriaServicio(row);$event.stopPropagation();" tooltip-placement="left" uib-tooltip="GALERIA"> <i class="fa fa-photo"></i> </label>' +
             '<label class="btn text-red" ng-click="grid.appScope.btnAnularServicio(row);$event.stopPropagation();"> <i class="fa fa-trash" tooltip-placement="left" uib-tooltip="ELIMINAR!"></i> </label>'
         },
 
