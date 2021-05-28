@@ -21,7 +21,10 @@ class Model_servicio extends CI_Model {
 		$this->db->select("
 			ss.idsedeservicio as id,
 			ser.idservicio,
+			ssi.idsedeservicioidioma,
 			ssi.nombre_serv AS servicio,
+			ssi.titulo,
+			ssi.descripcion,
 			ss.icono
 		", FALSE);
 		$this->db->from('servicio ser');
@@ -66,6 +69,11 @@ class Model_servicio extends CI_Model {
 	public function m_editar($data,$id){
 		$this->db->where('idservicio',$id);
 		return $this->db->update('servicio', $data);
+	}
+
+	public function m_editar_servicio_sede($data,$id){
+		$this->db->where('idsedeservicioidioma',$id);
+		return $this->db->update('sede_servicio_idioma', $data);
 	}
 
 }

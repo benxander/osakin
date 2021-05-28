@@ -285,14 +285,14 @@
       }
       vm.gridServOptions.columnDefs = [
         { field: 'id', name: 'idsedeservicio', displayName: 'ID', width: 80, enableFiltering: false },
-        { field: 'servicio', name: 'descripcion_se', displayName: 'SERVICIO' },
-        // { field: 'titulo', name: 'titulo', displayName: 'TITULO', width: 150, },
+        { field: 'servicio', name: 'descripcion_se', displayName: 'SERVICIO', minWidth: 250 },
+        { field: 'titulo', name: 'titulo', displayName: 'TITULO', minWidth: 250, },
 
         {
           field: 'accion', name: 'accion', displayName: 'ACCIONES', width: 180, enableFiltering: false, enableColumnMenu: false,
           cellTemplate:
-            '<label class="btn text-primary" ng-click="grid.appScope.btnEditar(row);$event.stopPropagation();" tooltip-placement="left" uib-tooltip="EDITAR"> <i class="fa fa-edit"></i> </label>' +
-            '<label class="btn text-red" ng-click="grid.appScope.btnAnular(row);$event.stopPropagation();"> <i class="fa fa-trash" tooltip-placement="left" uib-tooltip="ELIMINAR!"></i> </label>'
+            '<label class="btn text-primary" ng-click="grid.appScope.btnEditarServicio(row);$event.stopPropagation();" tooltip-placement="left" uib-tooltip="EDITAR"> <i class="fa fa-edit"></i> </label>' +
+            '<label class="btn text-red" ng-click="grid.appScope.btnAnularServicio(row);$event.stopPropagation();"> <i class="fa fa-trash" tooltip-placement="left" uib-tooltip="ELIMINAR!"></i> </label>'
         },
 
       ];
@@ -310,7 +310,79 @@
       }
       vm.getPaginationServServerSide();
 
+      vm.btnEditarServicio = function (row) {
+        $uibModal.open({
+          templateUrl: 'app/pages/sede/sede_servicio_formview.php',
+          controllerAs: 'mp',
+          size: 'lg',
+          backdropClass: 'splash splash-2 splash-info splash-ef-12',
+          windowClass: 'splash splash-2 splash-ef-12',
+          backdrop: 'static',
+          keyboard: false,
+          controller: function ($scope, $uibModalInstance, arrToModal) {
+            var vm = this;
+            vm.fData = {};
+            vm.fData = angular.copy(arrToModal.seleccion);
 
+            vm.modoEdicion = true;
+            vm.getPaginationServServerSide = arrToModal.getPaginationServServerSide;
+
+
+            vm.modalTitle = 'Edición de Servicio';
+            // SUBIDA DE IMAGENES MEDIANTE IMAGE CROP
+            vm.cargarImagen = function () {
+              vm.fData.myImage = '';
+              vm.fData.myCroppedImage = '';
+              vm.cropType = 'square';
+              vm.fotoCrop = true;
+              var handleFileSelect = function (evt) {
+                var file = evt.currentTarget.files[0];
+                var reader = new FileReader();
+                reader.onload = function (evt) {
+                  /* eslint-disable */
+                  $scope.$apply(function () {
+                    vm.fData.myImage = evt.target.result;
+                  });
+                  /* eslint-enable */
+                };
+                reader.readAsDataURL(file);
+              };
+              $timeout(function () { // lo pongo dentro de un timeout sino no funciona
+                angular.element($document[0].querySelector('#fileInput')).on('change', handleFileSelect);
+              });
+            }
+            vm.aceptar = function () {
+              // console.log('edicion...', vm.fData);
+              // vm.fData.idioma = localStorage.getItem('language');
+              SedeServices.sEditarServicioSede(vm.fData).then(function (rpta) {
+                if (rpta.flag == 1) {
+                  $uibModalInstance.close(vm.fData);
+                  vm.getPaginationServServerSide();
+                  var pTitle = 'OK!';
+                  var pType = 'success';
+                } else if (rpta.flag == 0) {
+                  var pTitle = 'Advertencia!';
+                  var pType = 'warning';
+                } else {
+                  alert('Ocurrió un error');
+                }
+                pinesNotifications.notify({ title: pTitle, text: rpta.message, type: pType, delay: 3000 });
+              });
+            };
+            vm.cancel = function () {
+              $uibModalInstance.dismiss('cancel');
+            };
+          },
+          resolve: {
+            arrToModal: function () {
+              return {
+                getPaginationServServerSide: vm.getPaginationServServerSide,
+                seleccion: row.entity
+              }
+            }
+          }
+        });
+      }
     }
 
       //  if(params.param == 'nueva-empresa'){
@@ -324,7 +396,8 @@
       sRegistrarSede: sRegistrarSede,
       sEditarSede: sEditarSede,
       sAnularSede: sAnularSede,
-      sListarServiciosSedes: sListarServiciosSedes
+      sListarServiciosSedes: sListarServiciosSedes,
+      sEditarServicioSede: sEditarServicioSede
     });
     function sListarSedes(pDatos) {
       var datos = pDatos || {};
@@ -376,6 +449,15 @@
       var request = $http({
             method : "post",
             url : angular.patchURLCI + "Sede/listarServiciosSede",
+            data : datos
+      });
+      return (request.then(handle.success,handle.error));
+    }
+    function sEditarServicioSede(pDatos) {
+      var datos = pDatos || {};
+      var request = $http({
+            method : "post",
+            url : angular.patchURLCI + "Sede/editarServicioSede",
             data : datos
       });
       return (request.then(handle.success,handle.error));

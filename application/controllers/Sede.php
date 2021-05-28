@@ -184,4 +184,26 @@ class Sede extends CI_Controller {
 		    ->set_content_type('application/json')
 		    ->set_output(json_encode($arrData));
 	}
+	public function editarServicioSede(){
+		$allInputs = json_decode(trim($this->input->raw_input_stream),true);
+		$arrData['message'] = 'Error al editar los datos, inténtelo nuevamente';
+    	$arrData['flag'] = 0;
+
+		$data = array(
+			'nombre_serv' => strtoupper_total($allInputs['servicio']),
+			'titulo' => strtoupper_total($allInputs['titulo']),
+			'descripcion' => $allInputs['descripcion']
+		);
+
+
+		if($this->model_servicio->m_editar_servicio_sede($data,$allInputs['idsedeservicioidioma'])){
+			$arrData['message'] = 'Se editaron los datos correctamente ';
+    		$arrData['flag'] = 1;
+		}
+
+
+		$this->output
+		    ->set_content_type('application/json')
+		    ->set_output(json_encode($arrData));
+	}
 }

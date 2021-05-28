@@ -88,4 +88,5 @@ class Model_sede extends CI_Model {
 		$this->db->where('idsedepagina',$id);
 		return $this->db->update('sede_pagina', $data);
 	}
+
 }
