@@ -27,6 +27,7 @@
     vm.options = {};
     vm.verServicios = false;
     vm.serv = {}
+    vm.dirIconos = angular.patchURLCI + "uploads/servicios/iconos/";
 
 
     // vm.remove = function(scope) {
@@ -84,7 +85,6 @@
 
     // }
     vm.getPaginationServerSide = function() {
-      console.log('sesion', $scope.fSessionCI);
       var paramDatos = {
         idioma: localStorage.getItem('language')
       }
@@ -316,7 +316,7 @@
           templateUrl: 'app/pages/sede/sede_servicio_formview.php',
           controllerAs: 'mp',
           size: 'lg',
-          backdropClass: 'splash splash-2 splash-info splash-ef-12',
+          backdropClass: 'splash splash-2 splash-ef-12',
           windowClass: 'splash splash-2 splash-ef-12',
           backdrop: 'static',
           keyboard: false,
@@ -324,7 +324,8 @@
             var vm = this;
             vm.fData = {};
             vm.fData = angular.copy(arrToModal.seleccion);
-
+            vm.dirIconos = arrToModal.dirIconos;
+            console.log('ruta', vm.dirIconos);
             vm.modoEdicion = true;
             vm.getPaginationServServerSide = arrToModal.getPaginationServServerSide;
 
@@ -355,7 +356,12 @@
             vm.aceptar = function () {
               // console.log('edicion...', vm.fData);
               // vm.fData.idioma = localStorage.getItem('language');
-              SedeServices.sEditarServicioSede(vm.fData).then(function (rpta) {
+              var formData = new FormData();
+              angular.forEach(vm.fData, function (index, val) {
+                formData.append(val, index);
+              });
+
+              SedeServices.sEditarServicioSede(formData).then(function (rpta) {
                 if (rpta.flag == 1) {
                   $uibModalInstance.close(vm.fData);
                   vm.getPaginationServServerSide();
@@ -378,7 +384,8 @@
             arrToModal: function () {
               return {
                 getPaginationServServerSide: vm.getPaginationServServerSide,
-                seleccion: row.entity
+                seleccion: row.entity,
+                dirIconos: vm.dirIconos
               }
             }
           }
@@ -457,11 +464,13 @@
     function sEditarServicioSede(pDatos) {
       var datos = pDatos || {};
       var request = $http({
-            method : "post",
-            url : angular.patchURLCI + "Sede/editarServicioSede",
-            data : datos
+        method: "post",
+        url: angular.patchURLCI + "Sede/editarServicioSede",
+        data: datos,
+        transformRequest: angular.identity,
+        headers: { 'Content-Type': undefined }
       });
-      return (request.then(handle.success,handle.error));
+      return (request.then(handle.success, handle.error));
     }
   }
 })();

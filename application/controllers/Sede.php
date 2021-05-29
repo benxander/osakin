@@ -185,18 +185,45 @@ class Sede extends CI_Controller {
 		    ->set_output(json_encode($arrData));
 	}
 	public function editarServicioSede(){
-		$allInputs = json_decode(trim($this->input->raw_input_stream),true);
+		// $allInputs = json_decode(trim($this->input->raw_input_stream),true);
 		$arrData['message'] = 'Error al editar los datos, inténtelo nuevamente';
     	$arrData['flag'] = 0;
 
+		$servicio = $this->input->post('servicio');
+		$titulo = $this->input->post('titulo');
+		$descripcion = $this->input->post('descripcion');
+		$idsedeservicioidioma = $this->input->post('idsedeservicioidioma');
+		$idsedeservicio = $this->input->post('id');
+		// var_dump($allInputs);
+		// exit();
+		if( empty($_FILES) ){
+    		$icono = 'noimage.jpg';
+    	}else{
+			$extension = pathinfo($_FILES['iconoServ']['name'], PATHINFO_EXTENSION);
+    		$nameFile = md5($_FILES['iconoServ']['name']).'.'.$extension;
+			if( subir_fichero('uploads/servicios/iconos','iconoServ',$nameFile) ){
+				$icono = $nameFile;
+
+			}else{
+				var_dump('ocurrio un error');
+				exit();
+			}
+		}
+		// Edicion de Sede_servicio
+		$data_serv = array(
+			'icono' => $icono
+		);
+		$this->model_servicio->m_editar_sede_servicio($data_serv,$idsedeservicio);
+
+		// Edicion de sede_Servicio_idioma
 		$data = array(
-			'nombre_serv' => strtoupper_total($allInputs['servicio']),
-			'titulo' => strtoupper_total($allInputs['titulo']),
-			'descripcion' => $allInputs['descripcion']
+			'nombre_serv' => strtoupper_total($servicio),
+			'titulo' => strtoupper_total($titulo),
+			'descripcion' => $descripcion
 		);
 
 
-		if($this->model_servicio->m_editar_servicio_sede($data,$allInputs['idsedeservicioidioma'])){
+		if($this->model_servicio->m_editar_sede_servicio_idioma($data,$idsedeservicioidioma)){
 			$arrData['message'] = 'Se editaron los datos correctamente ';
     		$arrData['flag'] = 1;
 		}

@@ -71,7 +71,12 @@ class Model_servicio extends CI_Model {
 		return $this->db->update('servicio', $data);
 	}
 
-	public function m_editar_servicio_sede($data,$id){
+	public function m_editar_sede_servicio($data,$id){
+		$this->db->where('idsedeservicio',$id);
+		return $this->db->update('sede_servicio', $data);
+	}
+
+	public function m_editar_sede_servicio_idioma($data,$id){
 		$this->db->where('idsedeservicioidioma',$id);
 		return $this->db->update('sede_servicio_idioma', $data);
 	}

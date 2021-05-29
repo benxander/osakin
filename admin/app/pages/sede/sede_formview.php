@@ -66,7 +66,7 @@
 					<div class="form-group">
 						<label class="control-label minotaur-label">Imagen </label>
 
-						<!-- <input  type="file" class="filestyle" nv-file-select="" uploader="uploader" filestyle button-text="Img" icon-name="fa fa-inbox" accept="image/*"> -->
+						<!-- <input  type="file" class="filestyle" nv-file-select="" uploader="" filestyle button-text="Img" icon-name="fa fa-inbox" accept="image/*"> -->
 
 						<div class="text-center" ng-if="!mp.fotoCrop && mp.fData.imagen_se">
 							<img ng-src="../uploads/sedes/{{mp.fData.imagen_se}}">
