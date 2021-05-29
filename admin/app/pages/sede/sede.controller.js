@@ -27,7 +27,7 @@
     vm.options = {};
     vm.verServicios = false;
     vm.serv = {}
-    vm.dirIconos = angular.patchURLCI + "uploads/servicios/iconos/";
+    vm.dirServicios = angular.patchURLCI + "uploads/servicios/";
 
 
     // vm.remove = function(scope) {
@@ -324,8 +324,8 @@
             var vm = this;
             vm.fData = {};
             vm.fData = angular.copy(arrToModal.seleccion);
-            vm.dirIconos = arrToModal.dirIconos;
-            console.log('ruta', vm.dirIconos);
+            vm.dirIconos = arrToModal.dirServicios + '/iconos/';
+            // console.log('ruta', vm.dirIconos);
             vm.modoEdicion = true;
             vm.getPaginationServServerSide = arrToModal.getPaginationServServerSide;
 
@@ -385,7 +385,44 @@
               return {
                 getPaginationServServerSide: vm.getPaginationServServerSide,
                 seleccion: row.entity,
-                dirIconos: vm.dirIconos
+                dirServicios: vm.dirServicios
+              }
+            }
+          }
+        });
+      }
+
+      vm.btnGaleriaServicio = row => {
+        $uibModal.open({
+          templateUrl: 'app/pages/sede/sede_servicio_galeria.php',
+          controllerAs: 'mp',
+          size: 'lg',
+          backdropClass: 'splash splash-2 splash-ef-12',
+          windowClass: 'splash splash-2 splash-ef-12',
+          backdrop: 'static',
+          keyboard: false,
+          controller: function ($scope, $uibModalInstance, arrToModal) {
+            var vm = this;
+            vm.fData = {};
+            vm.fData = angular.copy(arrToModal.seleccion);
+            vm.dirServicios = arrToModal.dirServicios;
+            // console.log('ruta', vm.dirIconos);
+            vm.modoEdicion = true;
+            vm.getPaginationServServerSide = arrToModal.getPaginationServServerSide;
+
+
+            vm.modalTitle = 'Galeria de Servicio';
+
+            vm.cancel = function () {
+              $uibModalInstance.dismiss('cancel');
+            };
+          },
+          resolve: {
+            arrToModal: function () {
+              return {
+                getPaginationServServerSide: vm.getPaginationServServerSide,
+                seleccion: row.entity,
+                dirServicios: vm.dirServicios
               }
             }
           }
