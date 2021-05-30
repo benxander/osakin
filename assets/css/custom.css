@@ -176,7 +176,12 @@ a:hover, a:focus, a:active {
 	border-radius: 4px; */
 	text-align: left;
 	line-height: 1.7em;
+	cursor: pointer;
   }
+
+.ficha:hover{
+	box-shadow: 0px 7px 7px #0000005c;
+}
 
 .ficha .horario p{ margin-top: 0 !important;}
 .fondo_gris{ background: #EFEFEF;}
@@ -194,6 +199,46 @@ a:hover, a:focus, a:active {
 	color: white
 }
 
+
+.video-responsive {
+position: relative;
+padding-bottom: 56.25%; /* 16/9 ratio */
+padding-top: 30px; /* IE6 workaround*/
+height: 0;
+overflow: hidden;
+}
+
+.video-responsive iframe,
+.video-responsive object,
+.video-responsive embed {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%!important;
+height: 100%!important;
+}
+.social-caption {display: inline-block;padding-right: 1em;vertical-align: middle;font-size: 1.2em;}
+.compartir{margin-top: 20px;display:inline-block;}
+ul.social-list{display:inline-block;vertical-align: middle;}
+ul.social-list li{display:inline;}
+
+/* contacto */
+.boxed-grey {background: #f9f9f9;padding: 20px;}
+.widget-contact {text-align: left;}
+address{
+	font-size: 1.2rem;
+}
+input[type="checkbox"], input[type="radio"] {
+	display: inline-block;
+	position: relative;
+	top: 2px;
+	margin-right: 3px;
+}
+
+div.checkbox p {
+	display: inline;
+	font-size: 1rem;
+}
 /* footer */
 .btn-share{
 	color: #fff;

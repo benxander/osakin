@@ -15,6 +15,8 @@
     alertify,
     $timeout,
     $document,
+    pageLoading,
+    FileUploader,
     SweetAlert,
     SedeServices,
     UsuarioServices,
@@ -406,15 +408,68 @@
             vm.fData = {};
             vm.fData = angular.copy(arrToModal.seleccion);
             vm.dirServicios = arrToModal.dirServicios;
+            vm.dirThumbs = arrToModal.dirServicios + 'thumbs/';
             // console.log('ruta', vm.dirIconos);
             vm.modoEdicion = true;
             vm.getPaginationServServerSide = arrToModal.getPaginationServServerSide;
 
+            var uploader = $scope.uploader = new FileUploader({
+              url: angular.patchURLCI + 'sede/SubirArchivo'
+            });
 
             vm.modalTitle = 'Galeria de Servicio';
+            console.log('row', row.entity);
+            var paramDatos = {
+              idsedeservicio: row.entity.id
+            }
+            vm.cargarGaleria = () =>{
+              SedeServices.sCargarGaleriaSedeServicio(paramDatos).then(function (rpta) {
+                vm.fData.galeria = rpta.datos;
+              });
+            }
+            vm.cargarGaleria();
+
+            vm.aceptar = function () {
+              console.log('uploader.queue', uploader.queue);
+              uploader.queue[0].upload();
+              pageLoading.start('Procesando...');
+              uploader.onSuccessItem = function (fileItem, response, status, headers) {
+                console.info('onSuccessItem', fileItem, response, status, headers);
+                pageLoading.stop();
+                if (response.flag == 1) {
+                  var pTitle = 'OK!';
+                  var pType = 'success';
+                  vm.cargarGaleria();
+                  // $uibModalInstance.close();
+                  // vm.getPaginationServerSide();
+                } else if (response.flag == 0) {
+                  var pTitle = 'Advertencia!';
+                  var pType = 'warning';
+                } else {
+                  alert('Ocurrió un error');
+                }
+                pinesNotifications.notify({ title: pTitle, text: response.message, type: pType, delay: 3000 });
+              };
+              uploader.onErrorItem = function (fileItem, response, status, headers) {
+                console.info('onErrorItem', fileItem, response, status, headers);
+                pageLoading.stop();
+                if (response.flag == 1) {
+                  var pTitle = 'OK!';
+                  var pType = 'success';
+                  // $uibModalInstance.close();
+                  vm.getPaginationServerSide();
+                } else if (response.flag == 0) {
+                  var pTitle = 'Advertencia!';
+                  var pType = 'warning';
+                } else {
+                  alert('Ocurrió un error');
+                }
+                pinesNotifications.notify({ title: pTitle, text: response.message, type: pType, delay: 3000 });
+              };
+            };
 
             vm.cancel = function () {
-              $uibModalInstance.dismiss('cancel');
+              $uibModalInstance.close();
             };
           },
           resolve: {
@@ -442,59 +497,60 @@
       sEditarSede: sEditarSede,
       sAnularSede: sAnularSede,
       sListarServiciosSedes: sListarServiciosSedes,
-      sEditarServicioSede: sEditarServicioSede
+      sEditarServicioSede: sEditarServicioSede,
+      sCargarGaleriaSedeServicio: sCargarGaleriaSedeServicio
     });
     function sListarSedes(pDatos) {
       var datos = pDatos || {};
       var request = $http({
-            method : "post",
-            url :  angular.patchURLCI + "Sede/listarSedes",
-            data : datos
+        method : "post",
+        url :  angular.patchURLCI + "Sede/listarSedes",
+        data : datos
       });
       return (request.then( handle.success,handle.error ));
     }
     function sListarSedeCbo(pDatos) {
       var datos = pDatos || {};
       var request = $http({
-            method : "post",
-            url :  angular.patchURLCI + "Sede/listarSede_cbo",
-            data : datos
+        method : "post",
+        url :  angular.patchURLCI + "Sede/listarSede_cbo",
+        data : datos
       });
       return (request.then( handle.success,handle.error ));
     }
     function sRegistrarSede(pDatos) {
       var datos = pDatos || {};
       var request = $http({
-            method : "post",
-            url : angular.patchURLCI + "Sede/registrarSede",
-            data : datos
+        method : "post",
+        url : angular.patchURLCI + "Sede/registrarSede",
+        data : datos
       });
       return (request.then(handle.success,handle.error));
     }
     function sEditarSede(pDatos) {
       var datos = pDatos || {};
       var request = $http({
-            method : "post",
-            url : angular.patchURLCI + "Sede/editarSede",
-            data : datos
+        method : "post",
+        url : angular.patchURLCI + "Sede/editarSede",
+        data : datos
       });
       return (request.then(handle.success,handle.error));
     }
     function sAnularSede(pDatos) {
       var datos = pDatos || {};
       var request = $http({
-            method : "post",
-            url : angular.patchURLCI + "Sede/anularSede",
-            data : datos
+        method : "post",
+        url : angular.patchURLCI + "Sede/anularSede",
+        data : datos
       });
       return (request.then(handle.success,handle.error));
     }
     function sListarServiciosSedes(pDatos) {
       var datos = pDatos || {};
       var request = $http({
-            method : "post",
-            url : angular.patchURLCI + "Sede/listarServiciosSede",
-            data : datos
+        method : "post",
+        url : angular.patchURLCI + "Sede/listarServiciosSede",
+        data : datos
       });
       return (request.then(handle.success,handle.error));
     }
@@ -508,6 +564,15 @@
         headers: { 'Content-Type': undefined }
       });
       return (request.then(handle.success, handle.error));
+    }
+    function sCargarGaleriaSedeServicio(pDatos) {
+      var datos = pDatos || {};
+      var request = $http({
+        method : "post",
+        url: angular.patchURLCI + "Sede/cargarGaleriaSedeServicio",
+        data : datos
+      });
+      return (request.then(handle.success,handle.error));
     }
   }
 })();

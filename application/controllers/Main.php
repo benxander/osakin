@@ -186,6 +186,11 @@ class Main extends CI_Controller {
 		}
 
 		$sede = $datos['servicio']['segmento_amigable'];
+		if( $idioma == 'EUS' ){
+			$datos['servicio']['btnWhatsapp'] = base_url() . 'assets/images/btn-whatsapp-eus.png';
+		}else{
+			$datos['servicio']['btnWhatsapp'] = base_url() . 'assets/images/btn-whatsapp-cas.png';
+		}
 		// $data = array(
 		// 	'segmento' => $sede,
 		// 	'idioma' => $idioma
@@ -211,7 +216,7 @@ class Main extends CI_Controller {
 		);
 		$datos['listaMenu'] = $listaMenu;
 
-		// banner
+		// BANNER CABECERA
 		$data = array(
 			'zona' => 'cabecera',
 			'idsede' => $datos['servicio']['idsede'],
@@ -232,11 +237,31 @@ class Main extends CI_Controller {
 			);
 			$activo = false;
 		}
-
-		// $datos['sede'] = $rowSede;
 		$datos['banners'] = $banners;
 
+		// BANNER LATERAL
+		$data = array(
+			'zona' => 'lateral',
+			'idsede' => $datos['servicio']['idsede'],
+		);
+		$listaBanners = $this->model_banner->m_get_banners_zona($data);
+		$bannersLaterales = array();
+		$activo = true;
+		foreach ($listaBanners as $key => $row) {
+			array_push(
+				$bannersLaterales,
+				array(
+					'idbanner' => $row['idbanner'],
+					'titulo' => $row['titulo'],
+					'imagen' => $row['imagen'],
+					'activo' => $activo? 'active' : '',
+				)
+			);
+			$activo = false;
+		}
+		$datos['banners_laterales'] = $bannersLaterales;
 
+		$datos['sede_url'] = $sede;
 
 		// DATOS DEL BODY
 
@@ -263,6 +288,63 @@ class Main extends CI_Controller {
 		$this->load->view('home',$datos);
 
     }
+
+	public function contacto($sede)
+	{
+		$siteLang = $this->session->userdata('site_lang');
+		$idioma = $siteLang == 'euskera' ? 'EUS' : 'CAS';
+
+		$data = array(
+			'segmento' => $sede,
+			'idioma' => $idioma
+		);
+		$rowSede = $this->model_sede->m_cargar_sede_por_segmento($data);
+
+		$data = array(
+			'idsede' => $rowSede['idsede'],
+			'idioma' => $idioma
+		);
+		// $rowSede['servicios'] = $this->model_servicio->m_cargar_sede_servicios($data);
+
+		// menu
+		$listaMenu = array(
+			array(
+				'descripcion' 	=> $rowSede['descripcion_se'],
+				'link'			=> base_url('centro/'.$sede)
+			)
+		);
+		$datos['listaMenu'] = $listaMenu;
+
+		// banner
+		$data = array(
+			'zona' => 'cabecera',
+			'idsede' => $rowSede['idsede'],
+			'idioma' => $idioma
+		);
+		$listaBanners = $this->model_banner->m_get_banners_zona($data);
+		$banners = array();
+		$activo = true;
+		foreach ($listaBanners as $key => $row) {
+			array_push(
+				$banners,
+				array(
+					'idbanner' => $row['idbanner'],
+					'titulo' => $row['titulo'],
+					'imagen' => $row['imagen'],
+					'activo' => $activo? 'active' : '',
+				)
+			);
+			$activo = false;
+		}
+
+		$datos['sede'] = $rowSede;
+		$datos['banners'] = $banners;
+
+		// vista
+		$datos['vista'] = 'contacto_view';
+		$this->load->view('home',$datos);
+	}
+
 
 	public function registro()
 	{

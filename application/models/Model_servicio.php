@@ -25,7 +25,9 @@ class Model_servicio extends CI_Model {
 			ssi.nombre_serv AS servicio,
 			ssi.titulo,
 			ssi.descripcion,
-			ss.icono
+			ss.icono,
+			ss.codigo_youtube,
+			ss.codigo_vimeo
 		", FALSE);
 		$this->db->from('servicio ser');
 		$this->db->join('sede_servicio ss', 'ser.idservicio = ss.idservicio');
@@ -48,6 +50,8 @@ class Model_servicio extends CI_Model {
 			ssi.nombre_serv AS servicio,
 			ss.icono,
 			ss.imagenes,
+			ss.codigo_youtube,
+			ss.codigo_vimeo,
 			ss.estado_ss,
 			ssi.titulo,
 			ssi.descripcion
@@ -79,6 +83,21 @@ class Model_servicio extends CI_Model {
 	public function m_editar_sede_servicio_idioma($data,$id){
 		$this->db->where('idsedeservicioidioma',$id);
 		return $this->db->update('sede_servicio_idioma', $data);
+	}
+
+	public function m_cargar_galeria_sede_servicio($data)
+	{
+		$this->db->select("
+			ss.idsedeservicio,
+			ss.icono,
+			ss.imagenes,
+			ss.estado_ss
+		", FALSE);
+		$this->db->from('sede_servicio ss');
+		// $this->db->join('sede se', 'ss.idsede = se.idsede');
+		$this->db->where('ss.idsedeservicio', $data['idsedeservicio']);
+		$this->db->limit('1');
+		return $this->db->get()->row_array();
 	}
 
 }

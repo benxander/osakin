@@ -22,7 +22,37 @@
 						<div ng-messages-include="app/components/templates/messages_tmpl.html"></div>
 						</div>
 					</div>
-					<div class="form-group" style="margin-top: 42px;">
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label for="nombre" class="control-label minotaur-label">Código de Youtube </label>
+								<input
+									ng-model="mp.fData.codigo_youtube"
+									type="text"
+									name="codigo_youtube"
+									id="codigo_youtube"
+									class="form-control"
+									placeholder="Ingresa código de Youtube"
+									autocomplete="off"
+								>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label for="nombre" class="control-label minotaur-label">Código de Vimeo </label>
+								<input
+									ng-model="mp.fData.codigo_vimeo"
+									type="text"
+									name="codigo_vimeo"
+									id="codigo_vimeo"
+									class="form-control"
+									placeholder="Ingresa código de Vimeo"
+									autocomplete="off"
+								>
+							</div>
+						</div>
+					</div>
+					<div class="form-group" style="margin-top: 2px;">
 						<label for="nombre" class="control-label minotaur-label">Título <small class="text-red">(*)</small> </label>
 						<input
 						ng-model="mp.fData.titulo"
@@ -59,11 +89,10 @@
 							</div>
 						</div>
 
-						</div>
 					</div>
 				</div>
 			</div>
-			<div class="row"></div>
+			<div class="row">
 				<div class="form-group col-md-12">
 					<label class="control-label minotaur-label">Descripción <small class="text-red">(*)</small> </label>
 

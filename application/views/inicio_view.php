@@ -25,7 +25,7 @@
 	<div class="row">
 		<? foreach($sedes AS $sede): ?>
 		<div class="col-md-6">
-			<div class="ficha p-3">
+			<div class="ficha p-3" onClick="window.location.href='<?= base_url('centro/'.$sede['segmento_amigable']) ?>'">
 				<div class="row" style="min-height: 250px;">
 					<div class="col-md-3">
 						<img class="w-100" src="uploads/sedes/<?=$sede['icono'] ?>" alt="">

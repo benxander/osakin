@@ -19,7 +19,9 @@ class Model_banner extends CI_Model {
     	$this->db->where('estado_ba', 1);
     	$this->db->where('zona', $datos['zona']);
 		$this->db->where('idsede', $datos['idsede']);
-    	$this->db->where('idioma', $datos['idioma']);
+		if( !empty($datos['idioma']) ){
+    		$this->db->where('idioma', $datos['idioma']);
+		}
 		// $this->db->order_by('rand()');
     	return $this->db->get()->result_array();
     }

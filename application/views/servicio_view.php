@@ -40,12 +40,32 @@
 							<br>
 							<span>Click en la imagen para ver mas</span>
 						<?endif; endif; ?>
+
+						<div class="mt-5">
+							<a href="<?php echo base_url('centro/'.$sede_url) ?>">
+								<img src="<?php echo base_url('assets/images/icon-flecha.svg') ?>" alt="" style="width:100%">
+								<h5 class="text-center">Volver</h5>
+							</a>
+						</div>
 					</div>
 
 					<div class="col-md-9 mt-xl">
 						<?=$servicio['descripcion']?>
 					</div>
 
+				</div>
+
+				<div class="row">
+					<? if(!empty($servicio['codigo_vimeo'])): ?>
+						<div class="col-sm-12 text-center video-responsive" style="min-height: 90px;">
+							<iframe src="https://player.vimeo.com/video/<?=$servicio['codigo_vimeo']?>" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+						</div>
+					<? endif; ?>
+					<? if(!empty($servicio['codigo_youtube'])): ?>
+						<div class="col-sm-12 text-center video-responsive" style="min-height: 90px;">
+							<iframe width="560" height="315" src="https://www.youtube.com/embed/<?=$servicio['codigo_youtube']?>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+						</div>
+					<? endif; ?>
 				</div>
 			</div>
 
@@ -79,6 +99,29 @@
 						</div>
 						<button type="button" class="btn btn-primary"><?= $this->lang->line('enviar'); ?></button>
 					</form>
+				</div>
+				<div class="mt-3 text-center">
+					<a href="https://api.whatsapp.com/send?phone=34608390271" target="_blank">
+						<img src="<?php echo $servicio['btnWhatsapp'] ?>" alt="" style="width: 60%">
+					</a>
+				</div>
+
+				<div class="compartir">
+					<span class="social-caption">Comparte esto:</span>
+					<ul class="social-list">
+
+					<li>
+						<a class="" href="javascript:window.open('https://www.facebook.com/sharer/sharer.php?u='+document.URL,'','width=600,height=400,left=50,top=50,toolbar=yes');void 0"><img title="Facebook" alt="1x1.trans" width="45" height="45" src="<?=base_url()?>assets/images/iconos/facebook.png" data-lazy-loaded="true" style="display: inline;"></a>
+					</li>
+
+					<!-- <li>
+						<a class="" href="javascript:window.open('https://plus.google.com/share?url='+document.URL,'','width=600,height=400,left=50,top=50,toolbar=yes');void 0"><img title="Google" alt="1x1.trans" width="45" height="45" src="<?=base_url()?>assets/images/iconos/google.png" style="display: inline;"></a>
+					</li> -->
+					<li>
+					<a class="" href="javascript:window.open('https://twitter.com/?status=Me+gusta+'+document.URL,'','width=600,height=400,left=50,top=50,toolbar=yes');void 0"><img title="Twitter" alt="1x1.trans" width="45" height="45" src="<?=base_url()?>assets/images/iconos/twitter.png"></a>
+					</li>
+
+					</ul>
 				</div>
 			</div>
 
