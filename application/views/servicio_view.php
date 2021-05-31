@@ -27,11 +27,11 @@
 						$x=0;?>
 						<?foreach($fotos as $foto):?>
 							<?if($x === 0):?>
-							<a class="fancybox" rel="gallery" href="<?=base_url();?>uploads/servicios/<?=$foto['foto'];?>" >
+							<a class="fancybox" rel="gallery" href="<?=base_url();?>uploads/servicios/thumbs/<?=$foto['foto'];?>" >
 								<img src="<?=base_url();?>uploads/servicios/thumbs/<?=$foto['foto'];?>" border="0" class="thumbnail-galeria" style="width: 100%"/>
 							</a>
 							<?else:?>
-							<a class="fancybox" rel="gallery" href="<?=base_url();?>uploads/anuncios/<?=$foto['foto'];?>" >
+							<a class="fancybox" rel="gallery" href="<?=base_url();?>uploads/servicios/thumbs/<?=$foto['foto'];?>" >
 								<img src="<?=base_url();?>uploads/servicios/thumbs/<?=$foto['foto'];?>" border="0" style="display:none"/>
 							</a>
 							<?endif;?>
