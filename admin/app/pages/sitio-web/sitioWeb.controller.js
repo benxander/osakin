@@ -80,9 +80,6 @@
 					vm.getPaginationServerSide = arrToModal.getPaginationServerSide;
 					vm.fArr = arrToModal.fArr;
 					vm.dirUploads = arrToModal.dirUploads;
-					console.log('dirUploads', vm.dirUploads);
-
-
 					vm.modalTitle = 'Edición de Elemento de Sitio Web';
 					// BOTONES
 					vm.aceptar = function () {

@@ -412,7 +412,8 @@
             vm.dirServicios = arrToModal.dirServicios;
             vm.dirThumbs = arrToModal.dirServicios + 'thumbs/';
             // console.log('ruta', vm.dirIconos);
-            vm.modoEdicion = true;
+            // vm.modoEdicion = true;
+            vm.uploadBtn = false;
             vm.getPaginationServServerSide = arrToModal.getPaginationServServerSide;
 
             var uploader = $scope.uploader = new FileUploader({
@@ -420,21 +421,99 @@
             });
 
             vm.modalTitle = 'Galeria de Servicio';
-            console.log('row', row.entity);
+            // console.log('row', row.entity);
             var paramDatos = {
-              idsedeservicio: row.entity.id
+              // idsedeservicio: row.entity.id
+              idsedeservicio: vm.fData.id
             }
             vm.cargarGaleria = () =>{
               SedeServices.sCargarGaleriaSedeServicio(paramDatos).then(function (rpta) {
                 vm.fData.galeria = rpta.datos;
+                // console.log('galeria obj', vm.fData.galeria);
+                // vm.fData.galeriaArray = Object.values(vm.fData.galeria);
+                // console.log('galeria array', vm.fData.galeriaArray);
               });
             }
             vm.cargarGaleria();
 
-            vm.aceptar = function () {
+            vm.btnSubir = function () {
+              vm.uploadBtn = true;
+            }
+
+            vm.subirTodo = function () {
+              console.log('subir todo');
+              uploader.uploadAll();
+            }
+            // CALLBACKS
+
+            uploader.onWhenAddingFileFailed = function (item /*{File|FileLikeObject}*/, filter, options) {
+              console.info('onWhenAddingFileFailed', item, filter, options);
+            };
+            /*uploader.onAfterAddingFile = function(fileItem) {
+                console.info('onAfterAddingFile', fileItem);
+            };*/
+            uploader.onAfterAddingAll = function (addedFileItems) {
+              console.info('onAfterAddingAll', addedFileItems);
+            };
+            uploader.onBeforeUploadItem = function (item) {
+              item.formData.push({
+                idsedeservicio: vm.fData.id,
+                galeria: JSON.stringify(vm.fData.galeria)
+              });
+            };
+            /*uploader.onProgressItem = function(fileItem, progress) {
+                console.info('onProgressItem', fileItem, progress);
+            };*/
+            uploader.onProgressAll = function (progress) {
+              console.info('onProgressAll', progress);
+            };
+            uploader.onResumen = function (progress) {
+              console.info('onProgressAll', progress);
+            };
+            uploader.onSuccessItem = function (fileItem, response, status, headers) {
+              console.info('onSuccessItem', fileItem, response, status, headers);
+              if (response.flag == 1) {
+                var pTitle = 'OK';
+                var pType = 'success';
+              } else if (response.flag == 0) {
+                var pTitle = 'Advertencia';
+                var pType = 'warning';
+              } else {
+                alert('Ocurrió un error');
+              }
+              pinesNotifications.notify({ title: pTitle, text: response.message, type: pType, delay: 3000 });
+            };
+            uploader.onErrorItem = function (fileItem, response, status, headers) {
+              console.info('onErrorItem', fileItem, response, status, headers);
+              if (response.flag == 1) {
+                var pTitle = 'OK';
+                var pType = 'success';
+              } else if (response.flag == 0) {
+                var pTitle = 'Advertencia';
+                var pType = 'warning';
+              } else {
+                alert('Ocurrió un error');
+              }
+              pinesNotifications.notify({ title: pTitle, text: response.message, type: pType, delay: 3000 });
+            };
+            /*uploader.onCancelItem = function(fileItem, response, status, headers) {
+                console.info('onCancelItem', fileItem, response, status, headers);
+            };
+            uploader.onCompleteItem = function(fileItem, response, status, headers) {
+                console.info('onCompleteItem', fileItem, response, status, headers);
+            };*/
+            uploader.onCompleteAll = function () {
+              console.info('onCompleteAll');
+              vm.uploadBtn = false;
+              uploader.clearQueue();
+              vm.cargarGaleria();
+            };
+
+            /* vm.aceptar = function () {
               console.log('uploader.queue', uploader.queue);
               uploader.queue[0].upload();
               pageLoading.start('Procesando...');
+
               uploader.onSuccessItem = function (fileItem, response, status, headers) {
                 console.info('onSuccessItem', fileItem, response, status, headers);
                 pageLoading.stop();
@@ -452,6 +531,7 @@
                 }
                 pinesNotifications.notify({ title: pTitle, text: response.message, type: pType, delay: 3000 });
               };
+
               uploader.onErrorItem = function (fileItem, response, status, headers) {
                 console.info('onErrorItem', fileItem, response, status, headers);
                 pageLoading.stop();
@@ -459,7 +539,7 @@
                   var pTitle = 'OK!';
                   var pType = 'success';
                   // $uibModalInstance.close();
-                  vm.getPaginationServerSide();
+                  // vm.getPaginationServerSide();
                 } else if (response.flag == 0) {
                   var pTitle = 'Advertencia!';
                   var pType = 'warning';
@@ -468,7 +548,7 @@
                 }
                 pinesNotifications.notify({ title: pTitle, text: response.message, type: pType, delay: 3000 });
               };
-            };
+            }; */
 
             vm.cancel = function () {
               $uibModalInstance.close();

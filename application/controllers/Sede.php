@@ -288,45 +288,68 @@ class Sede extends CI_Controller {
 		    ->set_output(json_encode($arrData));
 			return;
     	}
-
+		$arrGaleria = array();
 		if( isset($_FILES['file'])){
-			$file_name = $_FILES['file']['name'];
-		    $file_size =$_FILES['file']['size'];
-		    $file_tmp =$_FILES['file']['tmp_name'];
-		    $file_type=$_FILES['file']['type'];
-		    $file_error=$_FILES['file']['error'];
-		    if(!$file_tmp){
-		    	$arrData['message'] = 'Temporal no existe';
-	    		$this->output
-				    ->set_content_type('application/json')
-				    ->set_output(json_encode($arrData));
-				return;
-		    }
-		    if($file_error > 0){
-		    	$arrData['message'] = $errors[$file_error];
-	    		$this->output
-				    ->set_content_type('application/json')
-				    ->set_output(json_encode($arrData));
-				return;
-		    }
+			if(!empty( $_REQUEST )){
+				$idsedeservicio = $_REQUEST['idsedeservicio'];
+				$objGaleria = json_decode($_REQUEST['galeria'],true);
+				foreach ($objGaleria as $key => $row) {
+					array_push(
+						$arrGaleria,
+						array(
+							'foto' => $row['foto']
+						)
+					);
+				}
 
-			$file_ext = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
-		    $extensions_archivo = array("jpg","jpeg","png");
-		    $carpeta = dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR . 'servicios' . DIRECTORY_SEPARATOR . 'thumbs';
-		    $file_name = md5($file_tmp). '.' . $file_ext;
-		    if(in_array($file_ext,$extensions_archivo)){
-		    	move_uploaded_file($file_tmp, $carpeta . DIRECTORY_SEPARATOR . $file_name);
-		    	// $arrData = $this->registrar_clientes_excel($carpeta . DIRECTORY_SEPARATOR . $file_name );
-		    }else{
-		    	$arrData['message'] = 'No es el formato correcto';
-	    		$this->output
-				    ->set_content_type('application/json')
-				    ->set_output(json_encode($arrData));
-				return;
-		    }
+				$file_name = $_FILES['file']['name'];
+				$file_size =$_FILES['file']['size'];
+				$file_tmp =$_FILES['file']['tmp_name'];
+				$file_type=$_FILES['file']['type'];
+				$file_error=$_FILES['file']['error'];
+				if(!$file_tmp){
+					$arrData['message'] = 'Temporal no existe';
+					$this->output
+						->set_content_type('application/json')
+						->set_output(json_encode($arrData));
+					return;
+				}
+				if($file_error > 0){
+					$arrData['message'] = $errors[$file_error];
+					$this->output
+						->set_content_type('application/json')
+						->set_output(json_encode($arrData));
+					return;
+				}
+
+				$file_ext = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+				$extensions_archivo = array("jpg","jpeg","png");
+				$carpeta = dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR . 'servicios' . DIRECTORY_SEPARATOR . 'thumbs';
+				$file_name = md5($file_tmp). '.' . $file_ext;
+				if(in_array($file_ext,$extensions_archivo)){
+					move_uploaded_file($file_tmp, $carpeta . DIRECTORY_SEPARATOR . $file_name);
+					array_push($arrGaleria,
+						array(
+							'foto' => $file_name
+						)
+					);
+					$data_serv = array(
+						'imagenes' => json_encode($arrGaleria),
+					);
+					$this->model_servicio->m_editar_sede_servicio($data_serv,$idsedeservicio);
+					// $arrData = $this->registrar_clientes_excel($carpeta . DIRECTORY_SEPARATOR . $file_name );
+				}else{
+					$arrData['message'] = 'No es el formato correcto';
+					$this->output
+						->set_content_type('application/json')
+						->set_output(json_encode($arrData));
+					return;
+				}
+			}
+
 		}
 
-		$arrData['message'] = 'Fotos cargadas';
+		$arrData['message'] = 'Foto cargada exitosamente';
 		$arrData['flag'] = 1;
 
 		$this->output
