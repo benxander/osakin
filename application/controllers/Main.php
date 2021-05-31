@@ -118,7 +118,7 @@ class Main extends CI_Controller {
 			),
 
 			array(
-				'descripcion' 	=> 'CONTACTO',
+				'descripcion' 	=> strtoupper($this->lang->line('contacto')),
 				'link'			=> base_url('contacto/'.$sede)
 			),
 		);
@@ -148,6 +148,28 @@ class Main extends CI_Controller {
 
 		$datos['sede'] = $rowSede;
 		$datos['banners'] = $banners;
+
+		// BANNER LATERAL
+		$data = array(
+			'zona' => 'lateral',
+			'idsede' => $rowSede['idsede'],
+		);
+		$listaBanners = $this->model_banner->m_get_banners_zona($data);
+		$bannersLaterales = array();
+		$activo = true;
+		foreach ($listaBanners as $key => $row) {
+			array_push(
+				$bannersLaterales,
+				array(
+					'idbanner' => $row['idbanner'],
+					'titulo' => $row['titulo'],
+					'imagen' => $row['imagen'],
+					'activo' => $activo? 'active' : '',
+				)
+			);
+			$activo = false;
+		}
+		$datos['banners_laterales'] = $bannersLaterales;
 
 		// vista
 		$datos['vista'] = 'sede_view';
@@ -191,17 +213,6 @@ class Main extends CI_Controller {
 		}else{
 			$datos['servicio']['btnWhatsapp'] = base_url() . 'assets/images/btn-whatsapp-cas.png';
 		}
-		// $data = array(
-		// 	'segmento' => $sede,
-		// 	'idioma' => $idioma
-		// );
-		// $rowSede = $this->model_sede->m_cargar_sede_por_segmento($data);
-
-		// $data = array(
-		// 	'idsede' => $rowSede['idsede'],
-		// 	'idioma' => $idioma
-		// );
-		// $rowSede['servicios'] = $this->model_servicio->m_cargar_sede_servicios($data);
 
 		// menu
 		$listaMenu = array(
@@ -210,7 +221,7 @@ class Main extends CI_Controller {
 				'link'			=> base_url('centro/'.$sede)
 			),
 			array(
-				'descripcion' 	=> 'CONTACTO',
+				'descripcion' 	=> strtoupper($this->lang->line('contacto')),
 				'link'			=> base_url('contacto/'.$sede)
 			),
 		);
@@ -239,27 +250,7 @@ class Main extends CI_Controller {
 		}
 		$datos['banners'] = $banners;
 
-		// BANNER LATERAL
-		$data = array(
-			'zona' => 'lateral',
-			'idsede' => $datos['servicio']['idsede'],
-		);
-		$listaBanners = $this->model_banner->m_get_banners_zona($data);
-		$bannersLaterales = array();
-		$activo = true;
-		foreach ($listaBanners as $key => $row) {
-			array_push(
-				$bannersLaterales,
-				array(
-					'idbanner' => $row['idbanner'],
-					'titulo' => $row['titulo'],
-					'imagen' => $row['imagen'],
-					'activo' => $activo? 'active' : '',
-				)
-			);
-			$activo = false;
-		}
-		$datos['banners_laterales'] = $bannersLaterales;
+
 
 		$datos['sede_url'] = $sede;
 
@@ -339,6 +330,8 @@ class Main extends CI_Controller {
 
 		$datos['sede'] = $rowSede;
 		$datos['banners'] = $banners;
+
+		$datos['idioma'] = $idioma;
 
 		// vista
 		$datos['vista'] = 'contacto_view';

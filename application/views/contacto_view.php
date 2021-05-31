@@ -12,7 +12,7 @@
 	</div>
 </header>
 <div id="contacto" class="container mt-5">
-		<h3>CONTACTO</h3>
+		<h3><?= $this->lang->line('contacto'); ?></h3>
 		<hr class="separetor">
 	<div class="row">
 		<div class="col-lg-8">
@@ -27,7 +27,7 @@
 								<div class="input-group-prepend">
 									<span class="input-group-text"><i class="icon-user"></i></span>
 								</div>
-								<input type="text" class="form-control" id="name" name="nombre" placeholder="Ingrese su Nombre" required="required" />
+								<input type="text" class="form-control" id="name" name="nombre" placeholder="<?= $this->lang->line('ingrese_nombre'); ?>" required="required" />
 							</div>
 						</div>
 						<div class="form-group">
@@ -36,25 +36,25 @@
 								<div class="input-group-prepend">
 									<span class="input-group-text"><i class="icon-mail"></i></span>
 								</div>
-								<input type="email" class="form-control" id="email" name="email" placeholder="Ingrese su correo" required="required" />
+								<input type="email" class="form-control" id="email" name="email" placeholder="<?= $this->lang->line('ingrese_correo'); ?>" required="required" />
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="subject">Asunto</label>
+							<label for="subject"><?= $this->lang->line('asunto'); ?></label>
 							<select id="subject" name="asunto" class="form-control" required="required">
-								<option value="" selected="">Elija uno:</option>
-								<option value="Consultas Generales">Consultas Generales</option>
-								<option value="Sugerencias">Sugerencias</option>
-								<option value="Soporte del Producto">Soporte del Producto</option>
+								<option value="" selected=""><?= $this->lang->line('elija'); ?></option>
+								<option value="Consultas Generales"><?= $this->lang->line('consultas_generales'); ?></option>
+								<option value="Sugerencias"><?= $this->lang->line('sugerencias'); ?></option>
+								<option value="Soporte del Producto"><?= $this->lang->line('soporte'); ?></option>
 							</select>
 						</div>
 					</div>
 
 					<div class="col-md-6">
 						<div class="form-group">
-							<label for="name">Mensaje</label>
+							<label for="name"><?= $this->lang->line('mensaje'); ?></label>
 							<textarea name="comentario" id="message" class="form-control" rows="9" cols="25" required="required"
-								placeholder="Ingrese aqui su mensaje"></textarea>
+								placeholder="<?= $this->lang->line('ingrese_mensaje'); ?>"></textarea>
 						</div>
 					</div>
 
@@ -64,11 +64,15 @@
 
 					<div class="col-md-10 checkbox" style="padding-left: 40px;">
 						<input style="width: 15px;" type="checkbox" name="politica_privacidad" id="politica_privacidad" class="checkbox" value="" required="required"/>
-						<p>Acepto la <a rel="shadowbox;width=860;height=600;" href="<?=site_url('politica-de-privacidad')?>" target="_blank">política de privacidad </a> de <?=SITIO_WEB?></p>
+						<?php if($idioma === 'CAS' ): ?>
+							<p>Acepto la <a rel="shadowbox;width=860;height=600;" href="<?=site_url('politica-de-privacidad')?>" target="_blank">política de privacidad </a> de <?=SITIO_WEB?></p>
+						<?php else: ?>
+							<p>Onartzen dut <?=SITIO_WEB?> <a rel="shadowbox;width=860;height=600;" href="<?=site_url('politica-de-privacidad')?>" target="_blank">pribatutasun politika </a></p>
+						<?php endif; ?>
 					</div>
 
 					<div class="col-md-12 mt-2 text-center">
-						<button type="submit" class="btn btn-info pull-right" id="btnContactUs">Enviar</button>
+						<button type="submit" class="btn btn-info pull-right" id="btnContactUs"><?= $this->lang->line('enviar'); ?></button>
 					</div>
 				</div>
 			</form>

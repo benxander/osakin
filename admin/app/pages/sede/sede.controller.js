@@ -333,6 +333,8 @@
 
 
             vm.modalTitle = 'Edición de Servicio';
+
+            vm.regexTel = /^[789]\d{8}$/;
             // SUBIDA DE IMAGENES MEDIANTE IMAGE CROP
             vm.cargarImagen = function () {
               vm.fData.myImage = '';
@@ -379,7 +381,7 @@
               });
             };
             vm.cancel = function () {
-              $uibModalInstance.dismiss('cancel');
+              $uibModalInstance.close();
             };
           },
           resolve: {

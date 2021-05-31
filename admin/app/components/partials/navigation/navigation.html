@@ -50,12 +50,7 @@
             <i class="fa fa-user"></i>
           </a>
         </li>
-        <li ng-class="{'active':$state.includes('grupo')}" class="grupo">
-          <a ng-click="$state.reload();" ui-sref="grupo">
-            <span class="nav-text">{{ 'Menu.GRUPOS' | translate }}</span>
-            <i class="fa fa-users"></i>
-          </a>
-        </li>
+
       </ul>
 
     </li>
@@ -69,6 +64,12 @@
         <li ng-class="{'active':$state.includes('paginas-dinamicas')}" class="paginas">
           <a ng-click="$state.reload();" ui-sref="paginas-dinamicas">
             <span class="nav-text">Páginas Dinámicas</span>
+            <i class="fa fa-book"></i>
+          </a>
+        </li>
+        <li ng-class="{'active':$state.includes('sitio-web')}" class="sitio-web">
+          <a ng-click="$state.reload();" ui-sref="sitio-web">
+            <span class="nav-text">Sitio Web</span>
             <i class="fa fa-book"></i>
           </a>
         </li>

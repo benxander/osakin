@@ -107,11 +107,16 @@
 	</footer>
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<!-- <script
+		src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+		integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8="
+		crossorigin="anonymous"></script> -->
 
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
 
 	<script type="text/javascript" src="<?= base_url() ?>assets/js/shadowbox/shadowbox.js"></script>
-	<script src="<?= base_url()?>assets/js/main.js"></script>
+	<!-- <script src="<?= base_url()?>assets/js/main.js"></script> -->
+
 
 	<script type="text/javascript" src="<?=base_url();?>assets/js/cookies.js"></script>
 	<script type="text/javascript">
@@ -155,19 +160,20 @@
 	</script>
 
 	<script>
-		// var altura = window.innerHeight;
 		$(function(){
-			margin = 50;
-			posicionInicial = 0;
-			dom = {}
-			st = {
+			// var altura = window.innerHeight;
+			var margin = 50;
+			var posicionInicial = 0;
+			var dom = {}
+			var st = {
 				stickyElement: '.div_flotante',
 				modulo : '.modulos',
 				footer : 'footer'
 			};
+			var pos = 0;
 			catchDom = function(){
 				dom.stickyElement = $(st.stickyElement);
-				dom.modulo = $(st.modulo);
+				// dom.modulo = $(st.modulo);
 				dom.footer = $(st.footer);
 			}
 			afterCatchDom = function(){
@@ -190,7 +196,7 @@
 					windowpos = $(window).scrollTop();
 					// console.log('windowpos', windowpos);
 					box = dom.stickyElement;
-					modulo = dom.modulo.offset();
+					// modulo = dom.modulo.offset();
 
 					// console.log('modulo', modulo);
 
@@ -209,7 +215,7 @@
 								bottom: ''
 							});
 						} else{
-							pos = modulo.top;
+							// pos = modulo.top;
 							dom.stickyElement.css({
 								top: pos + "px",
 								bottom: ''
@@ -231,6 +237,7 @@
 				suscribeEvents();
 			};
 			init();
+
 		});
 	</script>
 	<?= empty($scripts)? null : $scripts ?>

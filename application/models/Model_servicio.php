@@ -26,6 +26,7 @@ class Model_servicio extends CI_Model {
 			ssi.titulo,
 			ssi.descripcion,
 			ss.icono,
+			ss.telefono_contacto,
 			ss.codigo_youtube,
 			ss.codigo_vimeo
 		", FALSE);
@@ -49,6 +50,7 @@ class Model_servicio extends CI_Model {
 			ss.idsedeservicio as id,
 			ssi.nombre_serv AS servicio,
 			ss.icono,
+			ss.telefono_contacto,
 			ss.imagenes,
 			ss.codigo_youtube,
 			ss.codigo_vimeo,

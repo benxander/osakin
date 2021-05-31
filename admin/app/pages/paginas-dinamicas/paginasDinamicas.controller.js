@@ -9,7 +9,6 @@
 	function PaginasDinamicasController(
 		$scope,
 		$uibModal,
-		uiGridConstants,
 		pinesNotifications,
 		SweetAlert,
 		PaginasDnamicasServices

@@ -11,6 +11,19 @@
 		</div>
 	</div>
 </header>
+
+<div class="" style="">
+	<div class="text-center div_flotante">
+		<? foreach ($banners_laterales as $row) :?>
+			<div class="mt10 promocion">
+				<a href="<?php echo base_url() ?>">
+					<img src="<?= base_url($row['imagen'])  ?>" alt="<?= $row['titulo'] ?>">
+				</a>
+			</div>
+		<? endforeach ?>
+	</div>
+</div>
+
 <div class="container mt-5">
 	<div>
 		<h2 class="text-principal text-center"><?= $sede['titulo'] ?></h2>

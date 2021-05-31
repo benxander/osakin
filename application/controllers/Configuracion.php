@@ -28,5 +28,42 @@ class Configuracion extends CI_Controller {
 		    ->set_content_type('application/json')
 		    ->set_output(json_encode($arrData));
 	}
+	public function listarSitioWeb()
+	{
+		$allInputs = json_decode(trim($this->input->raw_input_stream),true);
+		$arrConfig = $this->model_config->m_cargar_configuraciones();
+		// $arrConfig['logo_admin'] = 'logo_admin.jpg';
+		$arrData['flag'] = 0;
+    	$arrData['message'] = 'No hay datos';
+
+		if( $arrConfig ){
+			$arrData['flag'] = 1;
+    		$arrData['message'] = 'Se cargaron los datos';
+    		$arrData['datos'] = $arrConfig;
+		}
+		$this->output
+		    ->set_content_type('application/json')
+		    ->set_output(json_encode($arrData));
+	}
+
+	public function editarSitioWeb()
+	{
+		$allInputs = json_decode(trim($this->input->raw_input_stream),true);
+
+		$arrData['message'] = 'Error al editar los datos, inténtelo nuevamente';
+    	$arrData['flag'] = 0;
+
+		$data = array(
+			 'valor' => $allInputs['valor'],
+		);
+		if($this->model_config->m_editar($data,$allInputs['id'])){
+			$arrData['message'] = 'Se editaron los datos correctamente ';
+    		$arrData['flag'] = 1;
+		}
+
+		$this->output
+		    ->set_content_type('application/json')
+		    ->set_output(json_encode($arrData));
+	}
 
 }

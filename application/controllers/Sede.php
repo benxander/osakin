@@ -195,6 +195,7 @@ class Sede extends CI_Controller {
 		$titulo = $this->input->post('titulo');
 		$descripcion = $this->input->post('descripcion');
 		$icono = $this->input->post('icono');
+		$telefono_contacto = $this->input->post('telefono_contacto');
 		$idsedeservicioidioma = $this->input->post('idsedeservicioidioma');
 		$idsedeservicio = $this->input->post('id');
 		// var_dump($allInputs);
@@ -215,8 +216,9 @@ class Sede extends CI_Controller {
 		// Edicion de Sede_servicio
 		$data_serv = array(
 			'icono' => $icono,
-			'codigo_youtube' => empty($codigo_youtube) || $codigo_youtube == 'null' ? null : $codigo_youtube,
-			'codigo_vimeo' => empty($codigo_vimeo) || $codigo_vimeo == 'null' ? null : $codigo_vimeo,
+			'telefono_contacto' => $telefono_contacto,
+			'codigo_youtube' => empty($codigo_youtube) || $codigo_youtube == 'null' ? null : trim($codigo_youtube),
+			'codigo_vimeo' => empty($codigo_vimeo) || $codigo_vimeo == 'null' ? null : trim($codigo_vimeo),
 		);
 		$this->model_servicio->m_editar_sede_servicio($data_serv,$idsedeservicio);
 

@@ -6,20 +6,43 @@
 		<form name="formSedeServ" role="form" novalidate class="form-validation">
 			<div class="row">
 				<div class="col-sm-6">
-					<div class="form-group">
-						<label for="nombre" class="control-label minotaur-label">Nombre del Servicio <small class="text-red">(*)</small> </label>
-						<input
-						ng-model="mp.fData.servicio"
-						type="text"
-						name="servicio"
-						id="servicio"
-						class="form-control"
-						placeholder="Registra nombre del servicio"
-						autocomplete="off"
-						required
-						>
-						<div ng-messages="formSede.titulo.$error" ng-show="formSede.servicio.$dirty" role="alert" class="help-block text-red">
-						<div ng-messages-include="app/components/templates/messages_tmpl.html"></div>
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label for="nombre" class="control-label minotaur-label">Nombre del Servicio <small class="text-red">(*)</small> </label>
+								<input
+								ng-model="mp.fData.servicio"
+								type="text"
+								name="servicio"
+								id="servicio"
+								class="form-control"
+								placeholder="Registra nombre del servicio"
+								autocomplete="off"
+								required
+								>
+								<div ng-messages="formSede.titulo.$error" ng-show="formSede.servicio.$dirty" role="alert" class="help-block text-red">
+								<div ng-messages-include="app/components/templates/messages_tmpl.html"></div>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label for="nombre" class="control-label minotaur-label">Teléfono de contacto <small class="text-red">(*)</small> </label>
+								<input
+									ng-model="mp.fData.telefono_contacto"
+									type="text"
+									name="telefono_contacto"
+									id="telefono_contacto"
+									class="form-control"
+									placeholder="Solo números"
+									autocomplete="off"
+									ng-pattern="mp.regexTel"
+									required
+								>
+								<div ng-messages="formSede.titulo.$error" ng-show="formSede.telefono_contacto.$dirty" role="alert" class="help-block text-red">
+								<div ng-messages-include="app/components/templates/messages_tmpl.html"></div>
+								</div>
+							</div>
 						</div>
 					</div>
 					<div class="row">

@@ -47,6 +47,11 @@ class Model_config extends CI_Model {
 
 	}
 
+	public function m_editar($data,$id){
+		$this->db->where('id',$id);
+		return $this->db->update('configuracion', $data);
+	}
+
 	//======================================================================================================
 	// OBTENER TODAS LAS IMAGENES
 	//======================================================================================================

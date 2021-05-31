@@ -12,6 +12,7 @@
 	</div>
 </header>
 <link rel="stylesheet" href="<?=base_url();?>assets/js/fancybox/css/jquery.fancybox.css" />
+
 <div class="container mt-5">
 	<div class="row pt-lg pb-lg pl pr">
 		<?if($servicio['estado_ss'] == 1):?>
@@ -44,7 +45,7 @@
 						<div class="mt-5">
 							<a href="<?php echo base_url('centro/'.$sede_url) ?>">
 								<img src="<?php echo base_url('assets/images/icon-flecha.svg') ?>" alt="" style="width:100%">
-								<h5 class="text-center">Volver</h5>
+								<h5 class="text-center"><?= $this->lang->line('volver'); ?></h5>
 							</a>
 						</div>
 					</div>
@@ -70,7 +71,7 @@
 			</div>
 
 			<div class="col-lg-4">
-				<div class="ficha fondo_gris p-3 text-center">
+				<div class="fondo_gris p-3 text-center">
 					<h5><?= $this->lang->line('solicitar'); ?></h5>
 					<h3><?= $this->lang->line('cita_previa'); ?></h3>
 					<form action="" method="post">
@@ -100,14 +101,16 @@
 						<button type="button" class="btn btn-primary"><?= $this->lang->line('enviar'); ?></button>
 					</form>
 				</div>
-				<div class="mt-3 text-center">
-					<a href="https://api.whatsapp.com/send?phone=34608390271" target="_blank">
-						<img src="<?php echo $servicio['btnWhatsapp'] ?>" alt="" style="width: 60%">
-					</a>
-				</div>
+				<?php if( !empty($servicio['telefono_contacto']) ): ?>
+					<div class="mt-3 text-center">
+						<a href="https://api.whatsapp.com/send?phone=34<?php echo $servicio['telefono_contacto'] ?>" target="_blank">
+							<img src="<?php echo $servicio['btnWhatsapp'] ?>" alt="btnWhatsapp" style="width: 60%">
+						</a>
+					</div>
+				<?php endif; ?>
 
 				<div class="compartir">
-					<span class="social-caption">Comparte esto:</span>
+					<span class="social-caption"><?= $this->lang->line('compartir'); ?></span>
 					<ul class="social-list">
 
 					<li>
