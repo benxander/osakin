@@ -334,7 +334,7 @@
 
             vm.modalTitle = 'Edición de Servicio';
 
-            vm.regexTel = /^[789]\d{8}$/;
+            vm.regexTel = /^[6789]\d{8}$/;
             // SUBIDA DE IMAGENES MEDIANTE IMAGE CROP
             vm.cargarImagen = function () {
               vm.fData.myImage = '';
