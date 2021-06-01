@@ -39,7 +39,7 @@
 						<?endforeach;?>
 						<?if($x > 1):?>
 							<br>
-							<span>Click en la imagen para ver mas</span>
+							<span><small style="font-size: 0.7rem;">Click en la imagen para ver mas</small></span>
 						<?endif; endif; ?>
 
 						<div class="mt-5">
