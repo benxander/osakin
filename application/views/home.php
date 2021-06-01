@@ -87,6 +87,9 @@
 					<a href="<?php echo $config['redes']['facebook'] ?>" target="_blank">
 						<i class="icon-facebook" style="font-size:33px"></i>
 					</a>
+					<a href="<?php echo $config['redes']['youtube'] ?>" target="_blank">
+						<i class="icon-youtube" style="font-size:33px"></i>
+					</a>
 					<a href="<?php echo $config['redes']['instagram'] ?>" target="_blank">
 						<i class="icon-instagram" style="font-size:33px"></i>
 					</a>

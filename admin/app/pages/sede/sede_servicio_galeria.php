@@ -97,9 +97,12 @@
 				</div>
       </div>
     </form>
-    <div class="row">
+    <div class="row mt-20">
       <div class="col-md-3 col-sm-12 col-xs-12" ng-repeat="item in mp.fData.galeria">
         <img ng-src="{{mp.dirThumbs + item.foto}}" class="full-width" alt="">
+        <a href="javascript:;" class="img-link text-red" ng-click="mp.btnAnularArchivo(item,$index)">
+          <i class="fa fa-trash"></i> Eliminar
+        </a>
       </div>
     </div>
 	</section>

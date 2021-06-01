@@ -45,7 +45,7 @@
 								<option value="" selected=""><?= $this->lang->line('elija'); ?></option>
 								<option value="Consultas Generales"><?= $this->lang->line('consultas_generales'); ?></option>
 								<option value="Sugerencias"><?= $this->lang->line('sugerencias'); ?></option>
-								<option value="Soporte del Producto"><?= $this->lang->line('soporte'); ?></option>
+								<option value="Cita previa"><?= $this->lang->line('cita_previa'); ?></option>
 							</select>
 						</div>
 					</div>

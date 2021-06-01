@@ -292,14 +292,25 @@ class Sede extends CI_Controller {
 		if( isset($_FILES['file'])){
 			if(!empty( $_REQUEST )){
 				$idsedeservicio = $_REQUEST['idsedeservicio'];
-				$objGaleria = json_decode($_REQUEST['galeria'],true);
-				foreach ($objGaleria as $key => $row) {
-					array_push(
-						$arrGaleria,
-						array(
-							'foto' => $row['foto']
-						)
-					);
+				// $objGaleria = json_decode($_REQUEST['galeria'],true);
+				// foreach ($objGaleria as $key => $row) {
+				// 	array_push(
+				// 		$arrGaleria,
+				// 		array(
+				// 			'foto' => $row['foto']
+				// 		)
+				// 	);
+				// }
+
+				// cargar galeria
+				$datos = array(
+					'idsedeservicio' => $idsedeservicio
+				);
+				$rowGaleria = $this->model_servicio->m_cargar_galeria_sede_servicio($datos);
+
+				$arrGaleria = json_decode($rowGaleria['imagenes'], TRUE);
+				if( empty($arrGaleria) ){
+					$arrGaleria = array();
 				}
 
 				$file_name = $_FILES['file']['name'];
@@ -326,6 +337,7 @@ class Sede extends CI_Controller {
 				$extensions_archivo = array("jpg","jpeg","png");
 				$carpeta = dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR . 'servicios' . DIRECTORY_SEPARATOR . 'thumbs';
 				$file_name = md5($file_tmp). '.' . $file_ext;
+
 				if(in_array($file_ext,$extensions_archivo)){
 					move_uploaded_file($file_tmp, $carpeta . DIRECTORY_SEPARATOR . $file_name);
 					array_push($arrGaleria,
@@ -351,6 +363,29 @@ class Sede extends CI_Controller {
 
 		$arrData['message'] = 'Foto cargada exitosamente';
 		$arrData['flag'] = 1;
+
+		$this->output
+		    ->set_content_type('application/json')
+		    ->set_output(json_encode($arrData));
+	}
+
+	public function eliminarArchivo()
+	{
+		$allInputs = json_decode(trim($this->input->raw_input_stream),true);
+		$arrData['message'] = 'Ocurrió un error, no se pudo eliminar';
+		$arrData['flag'] = 0;
+
+		$carpeta = dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR . 'servicios' . DIRECTORY_SEPARATOR . 'thumbs';
+
+		if(unlink($carpeta.DIRECTORY_SEPARATOR.$allInputs['fotoParaEliminar'])){
+			$data_serv = array(
+				'imagenes' => json_encode($allInputs['sedeServicio']['galeria'])
+			);
+			$this->model_servicio->m_editar_sede_servicio($data_serv,$allInputs['sedeServicio']['id']);
+			$arrData['message'] = 'Se eliminó exitosamente.';
+			$arrData['flag'] = 1;
+		}
+
 
 		$this->output
 		    ->set_content_type('application/json')

@@ -444,6 +444,48 @@
               console.log('subir todo');
               uploader.uploadAll();
             }
+
+            vm.btnAnularArchivo = function (row,index) {
+              SweetAlert.swal({
+                title: "Atención!!!",
+                text: "¿Realmente desea eliminar este item?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#fa2d48",
+                confirmButtonText: "Si, Eliminar!",
+                cancelButtonText: "No, Cancelar!",
+                closeOnConfirm: true,
+                closeOnCancel: false
+              },
+                function (isConfirm) {
+                  if (isConfirm) {
+                    vm.fData.galeria.splice(index, 1);
+                    // vm.fData.strJson = JSON.stringify(vm.fData.galeria, undefined, 2);
+                    // console.log('strJson', vm.fData.strJson);
+                    var data = {
+                      fotoParaEliminar: row.foto,
+                      sedeServicio: vm.fData
+                    }
+                    SedeServices.sEliminarArchivo(data).then(function (rpta) {
+                      if (rpta.flag == 1) {
+                        pTitle = 'OK!';
+                        pType = 'success';
+
+                      } else if (rpta.flag == 0) {
+                        var pTitle = 'Error!';
+                        var pType = 'danger';
+                      } else {
+                        alert('Error inesperado. Contacte con el Area de Sistemas');
+                      }
+                      pinesNotifications.notify({ title: pTitle, text: rpta.message, type: pType, delay: 1000 });
+                      vm.cargarGaleria();
+                    });
+                  } else {
+                    SweetAlert.swal('Cancelado', 'La operación ha sido cancelada', 'warning');
+                  }
+                });
+            }
+
             // CALLBACKS
 
             uploader.onWhenAddingFileFailed = function (item /*{File|FileLikeObject}*/, filter, options) {
@@ -580,7 +622,8 @@
       sAnularSede: sAnularSede,
       sListarServiciosSedes: sListarServiciosSedes,
       sEditarServicioSede: sEditarServicioSede,
-      sCargarGaleriaSedeServicio: sCargarGaleriaSedeServicio
+      sCargarGaleriaSedeServicio: sCargarGaleriaSedeServicio,
+      sEliminarArchivo: sEliminarArchivo
     });
     function sListarSedes(pDatos) {
       var datos = pDatos || {};
@@ -652,6 +695,15 @@
       var request = $http({
         method : "post",
         url: angular.patchURLCI + "Sede/cargarGaleriaSedeServicio",
+        data : datos
+      });
+      return (request.then(handle.success,handle.error));
+    }
+    function sEliminarArchivo(pDatos) {
+      var datos = pDatos || {};
+      var request = $http({
+        method : "post",
+        url: angular.patchURLCI + "Sede/eliminarArchivo",
         data : datos
       });
       return (request.then(handle.success,handle.error));

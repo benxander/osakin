@@ -24,4 +24,3 @@ $lang['ingrese_mensaje'] = 'Idatzi zure mezua hemen';
 $lang['elija'] = 'Aukeratu bat:';
 $lang['consultas_generales'] = 'Kontsulta orokorrak';
 $lang['sugerencias'] = 'Iradokizunak';
-$lang['soporte'] = 'Laguntza teknikoa';
