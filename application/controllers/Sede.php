@@ -241,6 +241,25 @@ class Sede extends CI_Controller {
 		    ->set_output(json_encode($arrData));
 	}
 
+	public function eliminarServicioSede(){
+		$allInputs = json_decode(trim($this->input->raw_input_stream),true);
+		$arrData['message'] = 'Error al eliminar, inténtelo nuevamente';
+    	$arrData['flag'] = 0;
+
+		$data = array(
+			'estado_ss' => 0,
+		);
+		if( $this->model_servicio->m_editar_sede_servicio($data, $allInputs['id']) ){
+			$arrData['message'] = 'Se eliminó el servicio.';
+    		$arrData['flag'] = 1;
+		}
+
+
+		$this->output
+		    ->set_content_type('application/json')
+		    ->set_output(json_encode($arrData));
+	}
+
 	public function cargarGaleriaSedeServicio()
 	{
 		$allInputs = json_decode(trim($this->input->raw_input_stream),true);

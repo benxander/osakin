@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
 
   angular
@@ -54,7 +54,7 @@
       enableSorting: false,
       useExternalPagination: false,
       useExternalSorting: false,
-      useExternalFiltering : false,
+      useExternalFiltering: false,
       enableRowSelection: false,
       enableRowHeaderSelection: false,
       enableFullRowSelection: false,
@@ -62,18 +62,25 @@
       appScopeProvider: vm
     }
     vm.gridOptions.columnDefs = [
-      { field: 'idsede', name: 'idsede', displayName: 'ID', width: 80, enableFiltering: false},
-      { field: 'descripcion_se', name:'descripcion_se', displayName: 'SEDE' },
-      { field: 'telefono', name:'telefono', displayName: 'TELÉFONO', width: 150, },
-      { field: 'email', name:'email', displayName: 'EMAIL', minWidth: 200, width:200 },
-
+      { field: 'idsede', name: 'idsede', displayName: 'ID', width: 80, enableFiltering: false },
+      { field: 'descripcion_se', name: 'descripcion_se', displayName: 'SEDE' },
+      { field: 'telefono', name: 'telefono', displayName: 'TELÉFONO', width: 150, },
+      { field: 'email', name: 'email', displayName: 'EMAIL', minWidth: 200, width: 200 },
       {
-        field: 'accion', name: 'accion', displayName: 'ACCIONES', width: 180, enableFiltering: false, enableColumnMenu: false,
+        field: 'accion1', displayName: '', width: 175, enableFiltering: false, enableColumnMenu: false,
         cellTemplate:
-        '<label class="btn btn-primary" ng-click="grid.appScope.btnServicios(row)">Servicios</label>' +
-        '<label class="btn text-primary" ng-click="grid.appScope.btnEditar(row);$event.stopPropagation();" tooltip-placement="left" uib-tooltip="EDITAR"> <i class="fa fa-edit"></i> </label>'+
-        '<label class="btn text-red" ng-click="grid.appScope.btnAnular(row);$event.stopPropagation();"> <i class="fa fa-trash" tooltip-placement="left" uib-tooltip="ELIMINAR!"></i> </label>'
-        },
+          '<label class="btn btn-primary text-center" style="width: 170px;" ng-click="grid.appScope.btnServicios(row)">' +
+          'Servicios {{row.entity.descripcion_se}}' +
+          '</label>'
+      },
+      {
+        field: 'accion', name: 'accion', displayName: 'ACCIONES', width: 90, enableFiltering: false, enableColumnMenu: false,
+        cellTemplate:
+          '<label class="btn text-primary" ng-click="grid.appScope.btnEditar(row);$event.stopPropagation();">' +
+          '<i class="fa fa-edit" tooltip-placement="left" uib-tooltip="EDITAR"></i> </label>' +
+          '<label class="btn text-red" ng-click="grid.appScope.btnAnular(row);$event.stopPropagation();">' +
+          '<i class="fa fa-trash" tooltip-placement="left" uib-tooltip="ELIMINAR!"></i> </label>'
+      },
 
     ];
     // vm.gridOptions.onRegisterApi = function(gridApi) {
@@ -86,7 +93,7 @@
     //   });
 
     // }
-    vm.getPaginationServerSide = function() {
+    vm.getPaginationServerSide = function () {
       var paramDatos = {
         idioma: localStorage.getItem('language')
       }
@@ -106,7 +113,7 @@
         windowClass: 'splash splash-2 splash-ef-12',
         backdrop: 'static',
         keyboard: false,
-        controller: function($scope, $uibModalInstance, arrToModal ){
+        controller: function ($scope, $uibModalInstance, arrToModal) {
           console.log('$scope', $scope);
           var vm = this;
           vm.fData = {};
@@ -140,15 +147,15 @@
           vm.aceptar = function () {
             vm.fData.idioma = localStorage.getItem('language');
             SedeServices.sRegistrarSede(vm.fData).then(function (rpta) {
-              if(rpta.flag == 1){
+              if (rpta.flag == 1) {
                 $uibModalInstance.close(vm.fData);
                 vm.getPaginationServerSide();
                 var pTitle = 'OK!';
                 var pType = 'success';
-              }else if( rpta.flag == 0 ){
+              } else if (rpta.flag == 0) {
                 var pTitle = 'Advertencia!';
                 var pType = 'warning';
-              }else{
+              } else {
                 alert('Ocurrió un error');
               }
               pinesNotifications.notify({ title: pTitle, text: rpta.message, type: pType, delay: 3000 });
@@ -159,10 +166,10 @@
           };
         },
         resolve: {
-          arrToModal: function() {
+          arrToModal: function () {
             return {
-              getPaginationServerSide : vm.getPaginationServerSide,
-              verPopupListaUsuarios : vm.verPopupListaUsuarios,
+              getPaginationServerSide: vm.getPaginationServerSide,
+              verPopupListaUsuarios: vm.verPopupListaUsuarios,
               fArr: vm.fArr,
             }
           }
@@ -170,7 +177,7 @@
       });
     }
     /*-------- BOTONES DE EDICION ----*/
-    vm.btnEditar = function(row){//datos personales
+    vm.btnEditar = function (row) {//datos personales
       $uibModal.open({
         templateUrl: 'app/pages/sede/sede_formview.php',
         controllerAs: 'mp',
@@ -179,7 +186,7 @@
         windowClass: 'splash splash-2 splash-ef-12',
         backdrop: 'static',
         keyboard: false,
-        controller: function($scope, $uibModalInstance, arrToModal ){
+        controller: function ($scope, $uibModalInstance, arrToModal) {
           var vm = this;
           vm.fData = {};
           vm.fData = angular.copy(arrToModal.seleccion);
@@ -215,15 +222,15 @@
             // console.log('edicion...', vm.fData);
             vm.fData.idioma = localStorage.getItem('language');
             SedeServices.sEditarSede(vm.fData).then(function (rpta) {
-              if(rpta.flag == 1){
+              if (rpta.flag == 1) {
                 $uibModalInstance.close(vm.fData);
                 vm.getPaginationServerSide();
                 var pTitle = 'OK!';
                 var pType = 'success';
-              }else if( rpta.flag == 0 ){
+              } else if (rpta.flag == 0) {
                 var pTitle = 'Advertencia!';
                 var pType = 'warning';
-              }else{
+              } else {
                 alert('Ocurrió un error');
               }
               pinesNotifications.notify({ title: pTitle, text: rpta.message, type: pType, delay: 3000 });
@@ -234,35 +241,35 @@
           };
         },
         resolve: {
-          arrToModal: function() {
+          arrToModal: function () {
             return {
-              getPaginationServerSide : vm.getPaginationServerSide,
+              getPaginationServerSide: vm.getPaginationServerSide,
               verPopupListaUsuarios: vm.verPopupListaUsuarios,
 
-              seleccion : row.entity
+              seleccion: row.entity
             }
           }
         }
       });
     }
-    vm.btnAnular = function(row){
+    vm.btnAnular = function (row) {
       alertify.confirm("¿Realmente desea realizar la acción?", function (ev) {
         ev.preventDefault();
         SedeServices.sAnularSede(row.entity).then(function (rpta) {
-          if(rpta.flag == 1){
+          if (rpta.flag == 1) {
             vm.getPaginationServerSide();
             var pTitle = 'OK!';
             var pType = 'success';
-          }else if( rpta.flag == 0 ){
+          } else if (rpta.flag == 0) {
             var pTitle = 'Advertencia!';
             var pType = 'warning';
-          }else{
+          } else {
             alert('Ocurrió un error');
           }
           pinesNotifications.notify({ title: pTitle, text: rpta.message, type: pType, delay: 3000 });
         });
-      }, function(ev) {
-          ev.preventDefault();
+      }, function (ev) {
+        ev.preventDefault();
       });
     }
 
@@ -291,29 +298,34 @@
         { field: 'titulo', name: 'titulo', displayName: 'TITULO', minWidth: 250, },
 
         {
-          field: 'accion', name: 'accion', displayName: 'ACCIONES', width: 180, enableFiltering: false, enableColumnMenu: false,
+          field: 'accion', name: 'accion', displayName: 'ACCIONES', width: 120, enableFiltering: false, enableColumnMenu: false,
           cellTemplate:
-            '<label class="btn text-primary" ng-click="grid.appScope.btnEditarServicio(row);$event.stopPropagation();" tooltip-placement="left" uib-tooltip="EDITAR"> <i class="fa fa-edit"></i> </label>' +
-            '<label class="btn text-success" ng-click="grid.appScope.btnGaleriaServicio(row);$event.stopPropagation();" tooltip-placement="left" uib-tooltip="GALERIA"> <i class="fa fa-photo"></i> </label>' +
-            '<label class="btn text-red" ng-click="grid.appScope.btnAnularServicio(row);$event.stopPropagation();"> <i class="fa fa-trash" tooltip-placement="left" uib-tooltip="ELIMINAR!"></i> </label>'
+            '<label class="btn text-success" ng-click="grid.appScope.btnGaleriaServicio(row);$event.stopPropagation();">' +
+            '<i class="fa fa-photo" tooltip-placement="left" uib-tooltip="GALERIA"></i> </label>' +
+
+            '<label class="btn text-primary" ng-click="grid.appScope.btnEditarServicio(row);$event.stopPropagation();">' +
+            '<i class="fa fa-edit" tooltip-placement="left" uib-tooltip="EDITAR"></i> </label>' +
+
+            '<label class="btn text-red" ng-click="grid.appScope.btnAnularServicio(row);$event.stopPropagation();">' +
+            '<i class="fa fa-trash" tooltip-placement="left" uib-tooltip="ELIMINAR!"></i> </label>'
         },
 
       ];
 
-      vm.getPaginationServServerSide = function () {
-        console.log('sesion', $scope.fSessionCI);
+      vm.getPaginationServServerSide = () => {
+        // console.log('sesion', $scope.fSessionCI);
         var paramDatos = {
           idioma: localStorage.getItem('language'),
           idsede: row.entity.idsede
         }
-        SedeServices.sListarServiciosSedes(paramDatos).then(function (rpta) {
+        SedeServices.sListarServiciosSedes(paramDatos).then(rpta => {
           vm.gridServOptions.data = rpta.datos;
           // vm.mySelectionGrid = [];
         });
       }
       vm.getPaginationServServerSide();
 
-      vm.btnEditarServicio = function (row) {
+      vm.btnEditarServicio = row => {
         $uibModal.open({
           templateUrl: 'app/pages/sede/sede_servicio_formview.php',
           controllerAs: 'mp',
@@ -426,7 +438,7 @@
               // idsedeservicio: row.entity.id
               idsedeservicio: vm.fData.id
             }
-            vm.cargarGaleria = () =>{
+            vm.cargarGaleria = () => {
               SedeServices.sCargarGaleriaSedeServicio(paramDatos).then(function (rpta) {
                 vm.fData.galeria = rpta.datos;
                 // console.log('galeria obj', vm.fData.galeria);
@@ -445,7 +457,7 @@
               uploader.uploadAll();
             }
 
-            vm.btnAnularArchivo = function (row,index) {
+            vm.btnAnularArchivo = function (row, index) {
               SweetAlert.swal({
                 title: "Atención!!!",
                 text: "¿Realmente desea eliminar este item?",
@@ -460,13 +472,11 @@
                 function (isConfirm) {
                   if (isConfirm) {
                     vm.fData.galeria.splice(index, 1);
-                    // vm.fData.strJson = JSON.stringify(vm.fData.galeria, undefined, 2);
-                    // console.log('strJson', vm.fData.strJson);
                     var data = {
                       fotoParaEliminar: row.foto,
                       sedeServicio: vm.fData
                     }
-                    SedeServices.sEliminarArchivo(data).then(function (rpta) {
+                    SedeServices.sEliminarArchivo(data).then(rpta => {
                       if (rpta.flag == 1) {
                         pTitle = 'OK!';
                         pType = 'success';
@@ -475,7 +485,7 @@
                         var pTitle = 'Error!';
                         var pType = 'danger';
                       } else {
-                        alert('Error inesperado. Contacte con el Area de Sistemas');
+                        alert('Error inesperado.');
                       }
                       pinesNotifications.notify({ title: pTitle, text: rpta.message, type: pType, delay: 1000 });
                       vm.cargarGaleria();
@@ -544,60 +554,19 @@
             uploader.onCompleteItem = function(fileItem, response, status, headers) {
                 console.info('onCompleteItem', fileItem, response, status, headers);
             };*/
-            uploader.onCompleteAll = function () {
+            uploader.onCompleteAll = () => {
               console.info('onCompleteAll');
               vm.uploadBtn = false;
               uploader.clearQueue();
               vm.cargarGaleria();
             };
 
-            /* vm.aceptar = function () {
-              console.log('uploader.queue', uploader.queue);
-              uploader.queue[0].upload();
-              pageLoading.start('Procesando...');
-
-              uploader.onSuccessItem = function (fileItem, response, status, headers) {
-                console.info('onSuccessItem', fileItem, response, status, headers);
-                pageLoading.stop();
-                if (response.flag == 1) {
-                  var pTitle = 'OK!';
-                  var pType = 'success';
-                  vm.cargarGaleria();
-                  // $uibModalInstance.close();
-                  // vm.getPaginationServerSide();
-                } else if (response.flag == 0) {
-                  var pTitle = 'Advertencia!';
-                  var pType = 'warning';
-                } else {
-                  alert('Ocurrió un error');
-                }
-                pinesNotifications.notify({ title: pTitle, text: response.message, type: pType, delay: 3000 });
-              };
-
-              uploader.onErrorItem = function (fileItem, response, status, headers) {
-                console.info('onErrorItem', fileItem, response, status, headers);
-                pageLoading.stop();
-                if (response.flag == 1) {
-                  var pTitle = 'OK!';
-                  var pType = 'success';
-                  // $uibModalInstance.close();
-                  // vm.getPaginationServerSide();
-                } else if (response.flag == 0) {
-                  var pTitle = 'Advertencia!';
-                  var pType = 'warning';
-                } else {
-                  alert('Ocurrió un error');
-                }
-                pinesNotifications.notify({ title: pTitle, text: response.message, type: pType, delay: 3000 });
-              };
-            }; */
-
-            vm.cancel = function () {
+            vm.cancel = () => {
               $uibModalInstance.close();
             };
           },
           resolve: {
-            arrToModal: function () {
+            arrToModal: () => {
               return {
                 getPaginationServServerSide: vm.getPaginationServServerSide,
                 seleccion: row.entity,
@@ -607,14 +576,49 @@
           }
         });
       }
+
+      vm.btnAnularServicio = row => {
+        SweetAlert.swal({
+          title: "Atención!!!",
+          text: "¿Realmente desea eliminar este item?",
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#fa2d48",
+          confirmButtonText: "Si, Eliminar!",
+          cancelButtonText: "No, Cancelar!",
+          closeOnConfirm: true,
+          closeOnCancel: false
+        },
+          function (isConfirm) {
+            if (isConfirm) {
+
+              SedeServices.sEliminarServicioSede(row.entity).then(rpta => {
+                if (rpta.flag == 1) {
+                  pTitle = 'OK!';
+                  pType = 'success';
+
+                } else if (rpta.flag == 0) {
+                  var pTitle = 'Error!';
+                  var pType = 'danger';
+                } else {
+                  alert('Error inesperado.');
+                }
+                pinesNotifications.notify({ title: pTitle, text: rpta.message, type: pType, delay: 1000 });
+                vm.getPaginationServServerSide();
+              });
+            } else {
+              SweetAlert.swal('Cancelado', 'La operación ha sido cancelada', 'warning');
+            }
+          });
+      }
     }
 
-      //  if(params.param == 'nueva-empresa'){
-      //   vm.btnNuevo();
-      // }
+    //  if(params.param == 'nueva-empresa'){
+    //   vm.btnNuevo();
+    // }
   }
   function SedeServices($http, $q, handle) {
-    return({
+    return ({
       sListarSedes: sListarSedes,
       sListarSedeCbo: sListarSedeCbo,
       sRegistrarSede: sRegistrarSede,
@@ -622,62 +626,63 @@
       sAnularSede: sAnularSede,
       sListarServiciosSedes: sListarServiciosSedes,
       sEditarServicioSede: sEditarServicioSede,
+      sEliminarServicioSede: sEliminarServicioSede,
       sCargarGaleriaSedeServicio: sCargarGaleriaSedeServicio,
       sEliminarArchivo: sEliminarArchivo
     });
     function sListarSedes(pDatos) {
       var datos = pDatos || {};
       var request = $http({
-        method : "post",
-        url :  angular.patchURLCI + "Sede/listarSedes",
-        data : datos
+        method: "post",
+        url: angular.patchURLCI + "Sede/listarSedes",
+        data: datos
       });
-      return (request.then( handle.success,handle.error ));
+      return (request.then(handle.success, handle.error));
     }
     function sListarSedeCbo(pDatos) {
       var datos = pDatos || {};
       var request = $http({
-        method : "post",
-        url :  angular.patchURLCI + "Sede/listarSede_cbo",
-        data : datos
+        method: "post",
+        url: angular.patchURLCI + "Sede/listarSede_cbo",
+        data: datos
       });
-      return (request.then( handle.success,handle.error ));
+      return (request.then(handle.success, handle.error));
     }
     function sRegistrarSede(pDatos) {
       var datos = pDatos || {};
       var request = $http({
-        method : "post",
-        url : angular.patchURLCI + "Sede/registrarSede",
-        data : datos
+        method: "post",
+        url: angular.patchURLCI + "Sede/registrarSede",
+        data: datos
       });
-      return (request.then(handle.success,handle.error));
+      return (request.then(handle.success, handle.error));
     }
     function sEditarSede(pDatos) {
       var datos = pDatos || {};
       var request = $http({
-        method : "post",
-        url : angular.patchURLCI + "Sede/editarSede",
-        data : datos
+        method: "post",
+        url: angular.patchURLCI + "Sede/editarSede",
+        data: datos
       });
-      return (request.then(handle.success,handle.error));
+      return (request.then(handle.success, handle.error));
     }
     function sAnularSede(pDatos) {
       var datos = pDatos || {};
       var request = $http({
-        method : "post",
-        url : angular.patchURLCI + "Sede/anularSede",
-        data : datos
+        method: "post",
+        url: angular.patchURLCI + "Sede/anularSede",
+        data: datos
       });
-      return (request.then(handle.success,handle.error));
+      return (request.then(handle.success, handle.error));
     }
     function sListarServiciosSedes(pDatos) {
       var datos = pDatos || {};
       var request = $http({
-        method : "post",
-        url : angular.patchURLCI + "Sede/listarServiciosSede",
-        data : datos
+        method: "post",
+        url: angular.patchURLCI + "Sede/listarServiciosSede",
+        data: datos
       });
-      return (request.then(handle.success,handle.error));
+      return (request.then(handle.success, handle.error));
     }
     function sEditarServicioSede(pDatos) {
       var datos = pDatos || {};
@@ -690,23 +695,32 @@
       });
       return (request.then(handle.success, handle.error));
     }
+    function sEliminarServicioSede(pDatos) {
+      var datos = pDatos || {};
+      var request = $http({
+        method: "post",
+        url: angular.patchURLCI + "Sede/eliminarServicioSede",
+        data: datos,
+      });
+      return (request.then(handle.success, handle.error));
+    }
     function sCargarGaleriaSedeServicio(pDatos) {
       var datos = pDatos || {};
       var request = $http({
-        method : "post",
+        method: "post",
         url: angular.patchURLCI + "Sede/cargarGaleriaSedeServicio",
-        data : datos
+        data: datos
       });
-      return (request.then(handle.success,handle.error));
+      return (request.then(handle.success, handle.error));
     }
     function sEliminarArchivo(pDatos) {
       var datos = pDatos || {};
       var request = $http({
-        method : "post",
+        method: "post",
         url: angular.patchURLCI + "Sede/eliminarArchivo",
-        data : datos
+        data: datos
       });
-      return (request.then(handle.success,handle.error));
+      return (request.then(handle.success, handle.error));
     }
   }
 })();
