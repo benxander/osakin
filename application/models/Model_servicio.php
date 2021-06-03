@@ -21,8 +21,9 @@ class Model_servicio extends CI_Model {
 		$this->db->select("
 			ss.idsedeservicio as id,
 			ser.idservicio,
+			ser.nombre AS servicio,
 			ssi.idsedeservicioidioma,
-			ssi.nombre_serv AS servicio,
+			ssi.nombre_serv,
 			ssi.titulo,
 			ssi.descripcion,
 			ss.icono,

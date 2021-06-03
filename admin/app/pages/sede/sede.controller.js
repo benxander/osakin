@@ -31,25 +31,13 @@
     vm.serv = {}
     vm.dirServicios = angular.patchURLCI + "uploads/servicios/";
 
-
-    // vm.remove = function(scope) {
-    //   scope.remove();
-    // };
-
-    // vm.toggle = function(scope) {
-    //   scope.toggle();
-    // };
-
-    // vm.expandAll = function() {
-    //   vm.$broadcast('angular-ui-tree:expand-all');
-    // };
-
     // GRILLA PRINCIPAL
 
     vm.mySelectionGrid = [];
     vm.gridOptions = {
       paginationPageSizes: [10, 50, 100, 500, 1000],
       paginationPageSize: 10,
+      rowHeight: 32,
       enableFiltering: false,
       enableSorting: false,
       useExternalPagination: false,
@@ -83,16 +71,7 @@
       },
 
     ];
-    // vm.gridOptions.onRegisterApi = function(gridApi) {
-    //   vm.gridApi = gridApi;
-    //   gridApi.selection.on.rowSelectionChanged($scope,function(row){
-    //     vm.mySelectionGrid = gridApi.selection.getSelectedRows();
-    //   });
-    //   gridApi.selection.on.rowSelectionChangedBatch($scope,function(rows){
-    //     vm.mySelectionGrid = gridApi.selection.getSelectedRows();
-    //   });
 
-    // }
     vm.getPaginationServerSide = function () {
       var paramDatos = {
         idioma: localStorage.getItem('language')
@@ -281,6 +260,7 @@
       vm.gridServOptions = {
         paginationPageSizes: [10, 50, 100, 500, 1000],
         paginationPageSize: 10,
+        rowHeight: 32,
         // enableFiltering: false,
         // enableSorting: false,
         // useExternalPagination: false,
@@ -294,8 +274,9 @@
       }
       vm.gridServOptions.columnDefs = [
         { field: 'id', name: 'idsedeservicio', displayName: 'ID', width: 80, enableFiltering: false },
-        { field: 'servicio', name: 'descripcion_se', displayName: 'SERVICIO', minWidth: 250 },
+        { field: 'servicio', name: 'servicio', displayName: 'SERVICIO', minWidth: 250 },
         { field: 'titulo', name: 'titulo', displayName: 'TITULO', minWidth: 250, },
+        { field: 'telefono_contacto', name: 'telefono_contacto', displayName: 'WHATSAPP', minWidth: 250, },
 
         {
           field: 'accion', name: 'accion', displayName: 'ACCIONES', width: 120, enableFiltering: false, enableColumnMenu: false,
@@ -339,12 +320,11 @@
             vm.fData = {};
             vm.fData = angular.copy(arrToModal.seleccion);
             vm.dirIconos = arrToModal.dirServicios + '/iconos/';
-            // console.log('ruta', vm.dirIconos);
             vm.modoEdicion = true;
             vm.getPaginationServServerSide = arrToModal.getPaginationServServerSide;
 
-
-            vm.modalTitle = 'Edición de Servicio';
+            console.log('row', row.entity);
+            vm.modalTitle = 'Edición de Servicio ' + row.entity.servicio;
 
             vm.regexTel = /^[6789]\d{8}$/;
             // SUBIDA DE IMAGENES MEDIANTE IMAGE CROP

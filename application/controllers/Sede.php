@@ -189,7 +189,7 @@ class Sede extends CI_Controller {
 		$arrData['message'] = 'Error al editar los datos, inténtelo nuevamente';
     	$arrData['flag'] = 0;
 
-		$servicio = $this->input->post('servicio');
+		$nombre_serv = $this->input->post('nombre_serv');
 		$codigo_youtube = $this->input->post('codigo_youtube');
 		$codigo_vimeo = $this->input->post('codigo_vimeo');
 		$titulo = $this->input->post('titulo');
@@ -224,7 +224,7 @@ class Sede extends CI_Controller {
 
 		// Edicion de sede_Servicio_idioma
 		$data = array(
-			'nombre_serv' => strtoupper_total($servicio),
+			'nombre_serv' => strtoupper_total($nombre_serv),
 			'titulo' => strtoupper_total($titulo),
 			'descripcion' => $descripcion
 		);

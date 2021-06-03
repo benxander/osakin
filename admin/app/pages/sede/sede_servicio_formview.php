@@ -11,14 +11,14 @@
 							<div class="form-group">
 								<label for="nombre" class="control-label minotaur-label">Nombre del Servicio <small class="text-red">(*)</small> </label>
 								<input
-								ng-model="mp.fData.servicio"
-								type="text"
-								name="servicio"
-								id="servicio"
-								class="form-control"
-								placeholder="Registra nombre del servicio"
-								autocomplete="off"
-								required
+									ng-model="mp.fData.nombre_serv"
+									type="text"
+									name="servicio"
+									id="servicio"
+									class="form-control"
+									placeholder="Registra nombre del servicio"
+									autocomplete="off"
+									required
 								>
 								<div ng-messages="formSede.titulo.$error" ng-show="formSede.servicio.$dirty" role="alert" class="help-block text-red">
 								<div ng-messages-include="app/components/templates/messages_tmpl.html"></div>
