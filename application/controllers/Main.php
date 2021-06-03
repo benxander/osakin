@@ -274,7 +274,7 @@ class Main extends CI_Controller {
 			</script>
 		';
 
-
+		$datos['idioma'] = $idioma;
 		$datos['vista'] = 'servicio_view';
 		$this->load->view('home',$datos);
 

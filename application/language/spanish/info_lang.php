@@ -23,3 +23,4 @@ $lang['ingrese_mensaje'] = 'Ingrese aquí su mensaje';
 $lang['elija'] = 'Elija uno:';
 $lang['consultas_generales'] = 'Consultas Generales';
 $lang['sugerencias'] = 'Sugerencias';
+$lang['imagen_ver_mas'] = 'Clic en la imagen para ver más';

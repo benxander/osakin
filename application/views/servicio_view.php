@@ -39,7 +39,7 @@
 						<?endforeach;?>
 						<?if($x > 1):?>
 							<br>
-							<span><small style="font-size: 0.7rem;">Click en la imagen para ver mas</small></span>
+							<div class="text-center"  style="font-size: 0.7rem; line-height: 0.6rem; margin-top: 0.3rem; color: #666;"><?php echo $this->lang->line('imagen_ver_mas') ?></div>
 						<?endif; endif; ?>
 
 						<div class="mt-5">
@@ -98,6 +98,16 @@
 							<label for="comment"><?= $this->lang->line('mensaje'); ?>:</label>
 							<textarea class="form-control" rows="5" id="comment"></textarea>
 						</div>
+
+						<div class="checkbox" style="margin-bottom: 1rem;">
+							<input style="width: 15px;" type="checkbox" name="politica_privacidad" id="politica_privacidad" class="checkbox" value="" required="required"/>
+							<?php if($idioma === 'CAS' ): ?>
+								<p style="font-size: 0.8rem;">He leído la <a rel="shadowbox;width=860;height=600;" href="<?=site_url('politica-de-privacidad')?>" target="_blank">información sobre protección de datos </a></p>
+							<?php else: ?>
+								<p style="font-size: 0.8rem;"> <a rel="shadowbox;width=860;height=600;" href="<?=site_url('politica-de-privacidad')?>" target="_blank">Datuen babesari buruzko informazioa </a>irakurri dut.</p>
+							<?php endif; ?>
+						</div>
+
 						<button type="button" class="btn btn-primary"><?= $this->lang->line('enviar'); ?></button>
 					</form>
 				</div>
