@@ -16,6 +16,30 @@ class Model_servicio extends CI_Model {
 		$this->db->order_by('idservicio', 'ASC');
 		return $this->db->get()->result_array();
 	}
+	public function m_cargar_servicios_agregados($datos)
+	{
+		$this->db->select("
+			ser.idservicio,
+			ser.nombre AS servicio,
+			ser.estado_ser
+		", FALSE);
+		$this->db->from('servicio ser');
+		$this->db->where('ser.estado_ser', 1);
+		$this->db->order_by('idservicio', 'ASC');
+		return $this->db->get()->result_array();
+	}
+	public function m_cargar_servicios_no_agregados($datos)
+	{
+		$this->db->select("
+			ser.idservicio,
+			ser.nombre AS servicio,
+			ser.estado_ser
+		", FALSE);
+		$this->db->from('servicio ser');
+		$this->db->where('ser.estado_ser', 1);
+		$this->db->order_by('idservicio', 'ASC');
+		return $this->db->get()->result_array();
+	}
 	public function m_cargar_sede_servicios($datos)
 	{
 		$this->db->select("

@@ -320,6 +320,8 @@
 			sRegistrarServicio: sRegistrarServicio,
 			sEditarServicio: sEditarServicio,
 			sAnularServicio: sAnularServicio,
+			sListarServiciosAgregados: sListarServiciosAgregados,
+			sListarServiciosNoAgregados: sListarServiciosNoAgregados
 		});
 		function sListarServicios(pDatos) {
 			var datos = pDatos || {};
@@ -362,6 +364,24 @@
 			var request = $http({
 				method: "post",
 				url: angular.patchURLCI + "Servicio/anularServicio",
+				data: datos
+			});
+			return (request.then(handle.success, handle.error));
+		}
+		function sListarServiciosAgregados(pDatos) {
+			var datos = pDatos || {};
+			var request = $http({
+				method: "post",
+				url: angular.patchURLCI + "Servicio/listarServiciosAgregados",
+				data: datos
+			});
+			return (request.then(handle.success, handle.error));
+		}
+		function sListarServiciosNoAgregados(pDatos) {
+			var datos = pDatos || {};
+			var request = $http({
+				method: "post",
+				url: angular.patchURLCI + "Servicio/listarServiciosNoAgregados",
 				data: datos
 			});
 			return (request.then(handle.success, handle.error));

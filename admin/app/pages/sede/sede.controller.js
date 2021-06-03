@@ -19,7 +19,7 @@
     FileUploader,
     SweetAlert,
     SedeServices,
-    UsuarioServices,
+    ServicioServices,
     pinesNotifications
   ) {
 
@@ -261,15 +261,6 @@
         paginationPageSizes: [10, 50, 100, 500, 1000],
         paginationPageSize: 10,
         rowHeight: 32,
-        // enableFiltering: false,
-        // enableSorting: false,
-        // useExternalPagination: false,
-        // useExternalSorting: false,
-        // useExternalFiltering: false,
-        // enableRowSelection: false,
-        // enableRowHeaderSelection: false,
-        // enableFullRowSelection: false,
-        // multiSelect: false,
         appScopeProvider: vm
       }
       vm.gridServOptions.columnDefs = [
@@ -306,6 +297,104 @@
       }
       vm.getPaginationServServerSide();
 
+      vm.btnAgregarServicio = () => {
+        $uibModal.open({
+          templateUrl: 'app/pages/sede/agrega_sede_servicio_formview.php',
+          controllerAs: 'mp',
+          size: 'lg',
+          backdropClass: 'splash splash-2 splash-ef-12',
+          windowClass: 'splash splash-2 splash-ef-12',
+          backdrop: 'static',
+          keyboard: false,
+          controller: function ($scope, $uibModalInstance, arrToModal) {
+            var vm = this;
+            vm.fData = {};
+            vm.getPaginationServServerSide = arrToModal.getPaginationServServerSide;
+            vm.fData = arrToModal.fData;
+            vm.modalTitle = 'Agregar Servicios a ' + vm.fData.descripcion_se;
+            console.log('fData', vm.fData);
+
+            // GRID DE SERVICIOS NO AGREGADOS
+            vm.gridServNoAgrOptions = {
+              paginationPageSizes: [10, 50, 100, 500, 1000],
+              paginationPageSize: 10,
+              rowHeight: 32,
+              appScopeProvider: vm
+            }
+            vm.gridServNoAgrOptions.columnDefs = [
+              { field: 'id', name: 'idservicio', displayName: 'ID', width: 80, enableFiltering: false, visible: false },
+              { field: 'servicio', name: 'servicio', displayName: 'SERVICIO', minWidth: 250 },
+              
+              {
+                field: 'accion', name: 'accion', displayName: 'ACCION', width: 100, enableFiltering: false, enableColumnMenu: false,
+                cellTemplate:
+                '<div class="" style="text-align:center;">' +
+                '<button type="button" class="btn btn-sm btn-primary m-xs" ng-click="grid.appScope.btnAgregar(row.entity)" title="AGREGAR">' +
+                '<i class="fa fa-arrow-right"></i></button>' +
+                '</div>'
+              },
+      
+            ];
+            vm.getServiciosServerSide = () => {
+              // console.log('sesion', $scope.fSessionCI);
+              var paramDatos = {
+                idsede: vm.fData.idsede
+              }
+              ServicioServices.sListarServiciosNoAgregados(paramDatos).then(rpta => {
+                vm.gridServNoAgrOptions.data = rpta.datos;
+                // vm.mySelectionGrid = [];
+              });
+            }
+            vm.getServiciosServerSide();
+
+            // GRID DE SERVICIOS AGREGADOS
+            vm.gridServAgrOptions = {
+              paginationPageSizes: [10, 50, 100, 500, 1000],
+              paginationPageSize: 10,
+              rowHeight: 32,
+              appScopeProvider: vm
+            }
+            vm.gridServAgrOptions.columnDefs = [
+              { field: 'id', name: 'idservicio', displayName: 'ID', width: 80, enableFiltering: false, visible: false },
+              { field: 'servicio', name: 'servicio', displayName: 'SERVICIO', minWidth: 250 },
+              
+              {
+                field: 'accion', name: 'accion', displayName: 'ACCION', width: 100, enableFiltering: false, enableColumnMenu: false,
+                cellTemplate:
+                '<div class="" style="text-align:center;">' +
+                '<button type="button" class="btn btn-sm btn-danger m-xs" ng-click="grid.appScope.btnEliminar(row.entity)" title="ELIMINAR">' +
+                '<i class="fa fa-trash"></i></button>' +
+                '</div>'
+              },
+      
+            ];
+            vm.getServiciosServerSide = () => {
+              // console.log('sesion', $scope.fSessionCI);
+              var paramDatos = {
+                idsede: vm.fData.idsede
+              }
+              ServicioServices.sListarServiciosAgregados(paramDatos).then(rpta => {
+                vm.gridServAgrOptions.data = rpta.datos;
+                // vm.mySelectionGrid = [];
+              });
+            }
+            vm.getServiciosServerSide();
+
+            vm.cancel = function () {
+              $uibModalInstance.close();
+            };
+
+          },
+          resolve: {
+            arrToModal: function () {
+              return {
+                getPaginationServServerSide: vm.getPaginationServServerSide,
+                fData: vm.serv.fData
+              }
+            }
+          }
+        });
+      }
       vm.btnEditarServicio = row => {
         $uibModal.open({
           templateUrl: 'app/pages/sede/sede_servicio_formview.php',

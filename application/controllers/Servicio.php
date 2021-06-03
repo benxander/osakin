@@ -41,6 +41,56 @@ class Servicio extends CI_Controller {
 		    ->set_content_type('application/json')
 		    ->set_output(json_encode($arrData));
 	}
+	public function listarServiciosAgregados()
+	{
+		$allInputs = json_decode(trim($this->input->raw_input_stream),true);
+
+		$lista = $this->model_servicio->m_cargar_servicios_agregados($allInputs);
+		$arrListado = array();
+
+		if(empty($lista)){
+			$arrData['flag'] = 0;
+			$arrData['datos'] = $arrListado;
+			$arrData['message'] = 'No hay datos';
+			$this->output
+				->set_content_type('application/json')
+				->set_output(json_encode($arrData));
+			return;
+		}
+
+		$arrData['datos'] = $lista;
+    	$arrData['message'] = '';
+    	$arrData['flag'] = 1;
+
+		$this->output
+		    ->set_content_type('application/json')
+		    ->set_output(json_encode($arrData));
+	}
+	public function listarServiciosNoAgregados()
+	{
+		$allInputs = json_decode(trim($this->input->raw_input_stream),true);
+
+		$lista = $this->model_servicio->m_cargar_servicios_no_agregados($allInputs);
+		$arrListado = array();
+
+		if(empty($lista)){
+			$arrData['flag'] = 0;
+			$arrData['datos'] = $arrListado;
+			$arrData['message'] = 'No hay datos';
+			$this->output
+				->set_content_type('application/json')
+				->set_output(json_encode($arrData));
+			return;
+		}
+
+		$arrData['datos'] = $lista;
+    	$arrData['message'] = '';
+    	$arrData['flag'] = 1;
+
+		$this->output
+		    ->set_content_type('application/json')
+		    ->set_output(json_encode($arrData));
+	}
 	public function registrarServicio()
 	{
 		$allInputs = json_decode(trim($this->input->raw_input_stream),true);
