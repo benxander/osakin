@@ -10,34 +10,17 @@
 	function ServicioController(
 		$scope,
 		$uibModal,
-		$location,
-		uiGridConstants,
 		alertify,
 		$timeout,
 		$document,
 		SweetAlert,
 		ServicioServices,
-		UsuarioServices,
 		pinesNotifications
 	) {
 
 		var vm = this;
-		var params = $location.search();
 		vm.selectedItem = {};
 		vm.options = {};
-
-
-		// vm.remove = function(scope) {
-		//   scope.remove();
-		// };
-
-		// vm.toggle = function(scope) {
-		//   scope.toggle();
-		// };
-
-		// vm.expandAll = function() {
-		//   vm.$broadcast('angular-ui-tree:expand-all');
-		// };
 
 		// GRILLA PRINCIPAL
 
@@ -77,15 +60,15 @@
 			});
 
 		}
-		vm.getPaginationServerSide = function () {
-			ServicioServices.sListarServicios().then(function (rpta) {
+		vm.getPaginationServerSide = () => {
+			ServicioServices.sListarServicios().then( rpta => {
 				vm.gridOptions.data = rpta.datos;
 				vm.mySelectionGrid = [];
 			});
 		}
 		vm.getPaginationServerSide();
-		/*---------- NUEVA EMPRESA--------*/
-		vm.btnNuevo = function () {
+		/*---------- NUEVO SERVICIO--------*/
+		vm.btnNuevo = () => {
 			$uibModal.open({
 				templateUrl: 'app/pages/servicio/servicio_formview.php',
 				controllerAs: 'mp',
@@ -103,31 +86,31 @@
 					vm.fotoCrop = false;
 					vm.modalTitle = 'Registro de Servicio';
 					// SUBIDA DE IMAGENES MEDIANTE IMAGE CROP
-					vm.cargarImagen = function () {
-						vm.fData.myImage = '';
-						vm.fData.myCroppedImage = '';
-						vm.cropType = 'square';
-						vm.fotoCrop = true;
-						var handleFileSelect = function (evt) {
-							var file = evt.currentTarget.files[0];
-							var reader = new FileReader();
-							reader.onload = function (evt) {
-								/* eslint-disable */
-								$scope.$apply(function () {
-									vm.fData.myImage = evt.target.result;
-								});
-								/* eslint-enable */
-							};
-							reader.readAsDataURL(file);
-						};
-						$timeout(function () { // lo pongo dentro de un timeout sino no funciona
-							angular.element($document[0].querySelector('#fileInput')).on('change', handleFileSelect);
-						});
-					}
+					// vm.cargarImagen = function () {
+					// 	vm.fData.myImage = '';
+					// 	vm.fData.myCroppedImage = '';
+					// 	vm.cropType = 'square';
+					// 	vm.fotoCrop = true;
+					// 	var handleFileSelect = function (evt) {
+					// 		var file = evt.currentTarget.files[0];
+					// 		var reader = new FileReader();
+					// 		reader.onload = function (evt) {
+					// 			/* eslint-disable */
+					// 			$scope.$apply(function () {
+					// 				vm.fData.myImage = evt.target.result;
+					// 			});
+					// 			/* eslint-enable */
+					// 		};
+					// 		reader.readAsDataURL(file);
+					// 	};
+					// 	$timeout(function () { // lo pongo dentro de un timeout sino no funciona
+					// 		angular.element($document[0].querySelector('#fileInput')).on('change', handleFileSelect);
+					// 	});
+					// }
 					// BOTONES
-					vm.aceptar = function () {
+					vm.aceptar = () => {
 						vm.fData.idioma = localStorage.getItem('language');
-						ServicioServices.sRegistrarServicio(vm.fData).then(function (rpta) {
+						ServicioServices.sRegistrarServicio(vm.fData).then( rpta => {
 							if (rpta.flag == 1) {
 								$uibModalInstance.close(vm.fData);
 								vm.getPaginationServerSide();
@@ -142,12 +125,12 @@
 							pinesNotifications.notify({ title: pTitle, text: rpta.message, type: pType, delay: 3000 });
 						});
 					};
-					vm.cancel = function () {
+					vm.cancel = () => {
 						$uibModalInstance.close();
 					};
 				},
 				resolve: {
-					arrToModal: function () {
+					arrToModal: () => {
 						return {
 							getPaginationServerSide: vm.getPaginationServerSide,
 							verPopupListaUsuarios: vm.verPopupListaUsuarios,
@@ -158,7 +141,7 @@
 			});
 		}
 		/*-------- BOTONES DE EDICION ----*/
-		vm.btnEditar = function (row) {//datos personales
+		vm.btnEditar = row => {//datos personales
 			$uibModal.open({
 				templateUrl: 'app/pages/servicio/servicio_formview.php',
 				controllerAs: 'mp',
@@ -178,31 +161,31 @@
 
 					vm.modalTitle = 'Edición de Servicio';
 					// SUBIDA DE IMAGENES MEDIANTE IMAGE CROP
-					vm.cargarImagen = function () {
-						vm.fData.myImage = '';
-						vm.fData.myCroppedImage = '';
-						vm.cropType = 'square';
-						vm.fotoCrop = true;
-						var handleFileSelect = function (evt) {
-							var file = evt.currentTarget.files[0];
-							var reader = new FileReader();
-							reader.onload = function (evt) {
-								/* eslint-disable */
-								$scope.$apply(function () {
-									vm.fData.myImage = evt.target.result;
-								});
-								/* eslint-enable */
-							};
-							reader.readAsDataURL(file);
-						};
-						$timeout(function () { // lo pongo dentro de un timeout sino no funciona
-							angular.element($document[0].querySelector('#fileInput')).on('change', handleFileSelect);
-						});
-					}
-					vm.aceptar = function () {
+					// vm.cargarImagen = function () {
+					// 	vm.fData.myImage = '';
+					// 	vm.fData.myCroppedImage = '';
+					// 	vm.cropType = 'square';
+					// 	vm.fotoCrop = true;
+					// 	var handleFileSelect = function (evt) {
+					// 		var file = evt.currentTarget.files[0];
+					// 		var reader = new FileReader();
+					// 		reader.onload = function (evt) {
+					// 			/* eslint-disable */
+					// 			$scope.$apply(function () {
+					// 				vm.fData.myImage = evt.target.result;
+					// 			});
+					// 			/* eslint-enable */
+					// 		};
+					// 		reader.readAsDataURL(file);
+					// 	};
+					// 	$timeout(function () { // lo pongo dentro de un timeout sino no funciona
+					// 		angular.element($document[0].querySelector('#fileInput')).on('change', handleFileSelect);
+					// 	});
+					// }
+					vm.aceptar = () => {
 						// console.log('edicion...', vm.fData);
 						vm.fData.idioma = localStorage.getItem('language');
-						ServicioServices.sEditarServicio(vm.fData).then(function (rpta) {
+						ServicioServices.sEditarServicio(vm.fData).then( rpta => {
 							if (rpta.flag == 1) {
 								$uibModalInstance.close(vm.fData);
 								vm.getPaginationServerSide();
@@ -217,8 +200,8 @@
 							pinesNotifications.notify({ title: pTitle, text: rpta.message, type: pType, delay: 3000 });
 						});
 					};
-					vm.cancel = function () {
-						$uibModalInstance.dismiss('cancel');
+					vm.cancel = () => {
+						$uibModalInstance.close();
 					};
 				},
 				resolve: {
@@ -233,85 +216,42 @@
 				}
 			});
 		}
-		vm.btnAnular = function (row) {
-			alertify.confirm("¿Realmente desea realizar la acción?", function (ev) {
-				ev.preventDefault();
-				ServicioServices.sAnularServicio(row.entity).then(function (rpta) {
+		vm.btnAnular = row => {
+			SweetAlert.swal({
+				title: "Atención!!!",
+				text: "¿Realmente desea eliminar este item?",
+				type: "warning",
+				showCancelButton: true,
+				confirmButtonColor: "#fa2d48",
+				confirmButtonText: "Si, Eliminar!",
+				cancelButtonText: "No, Cancelar!",
+				closeOnConfirm: true,
+				closeOnCancel: false
+			},
+			function (isConfirm) {
+				if (isConfirm) {
+	  
+					ServicioServices.sAnularServicio(row.entity).then(rpta => {
 					if (rpta.flag == 1) {
-						vm.getPaginationServerSide();
-						var pTitle = 'OK!';
-						var pType = 'success';
+					  pTitle = 'OK!';
+					  pType = 'success';
+	  
 					} else if (rpta.flag == 0) {
-						var pTitle = 'Advertencia!';
-						var pType = 'warning';
+					  var pTitle = 'Error!';
+					  var pType = 'danger';
 					} else {
-						alert('Ocurrió un error');
+					  alert('Error inesperado.');
 					}
-					pinesNotifications.notify({ title: pTitle, text: rpta.message, type: pType, delay: 3000 });
-				});
-			}, function (ev) {
-				ev.preventDefault();
-			});
-		}
-
-		vm.verPopupListaUsuarios = function (data) {
-			console.log('Usuarios');
-			$uibModal.open({
-				templateUrl: 'app/pages/configuracion/plantilla_popup_grilla.php',
-				controllerAs: 'mp',
-				size: 'md',
-				controller: function ($scope, $uibModalInstance, arrToModal) {
-					var vm = this;
-					vm.titulo = 'Usuario.';
-
-					vm.fData = arrToModal.fData;
-					console.log('fdata', vm.fData);
-					vm.mySelectionComboGrid = [];
-					vm.gridComboOptions = {
-						enableFiltering: false,
-						enableSorting: false,
-						useExternalPagination: false,
-						useExternalSorting: false,
-						useExternalFiltering: false,
-						enableRowSelection: true,
-						enableRowHeaderSelection: false,
-						enableFullRowSelection: true,
-						multiSelect: false,
-						appScopeProvider: vm
-					}
-					vm.gridComboOptions.columnDefs = [
-						{ field: 'id', displayName: 'ID', maxWidth: 80 },
-						{ field: 'descripcion', displayName: 'DESCRIPCIÓN' }
-
-					];
-					vm.gridComboOptions.onRegisterApi = function (gridApi) {
-						vm.gridApi = gridApi;
-						gridApi.selection.on.rowSelectionChanged($scope, function (row) {
-							vm.mySelectionComboGrid = gridApi.selection.getSelectedRows();
-							vm.fData.idusuario = vm.mySelectionComboGrid[0].id;
-							vm.fData.usuario = vm.mySelectionComboGrid[0].descripcion;
-
-							$uibModalInstance.close();
-						});
-					}
-
-					UsuarioServices.sListarUsuarioDisp().then(function (rpta) {
-						vm.gridComboOptions.data = rpta.datos;
-						vm.mySelectionComboGrid = [];
-					});
-				},
-				resolve: {
-					arrToModal: function () {
-						return {
-							fData: data
-						}
-					}
+					pinesNotifications.notify({ title: pTitle, text: rpta.message, type: pType, delay: 1000 });
+					vm.getPaginationServerSide();
+				  });
+				} else {
+				  SweetAlert.swal('Cancelado', 'La operación ha sido cancelada', 'warning');
 				}
 			});
 		}
-		if (params.param == 'nueva-empresa') {
-			vm.btnNuevo();
-		}
+
+
 	}
 	function ServicioServices($http, $q, handle) {
 		return ({

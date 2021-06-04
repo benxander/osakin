@@ -150,5 +150,24 @@ class Servicio extends CI_Controller {
 		    ->set_content_type('application/json')
 		    ->set_output(json_encode($arrData));
 	}
+	public function anularServicio(){
+		$allInputs = json_decode(trim($this->input->raw_input_stream),true);
+		$arrData['message'] = 'Error al eliminar, inténtelo nuevamente';
+    	$arrData['flag'] = 0;
+
+		$data = array(
+			'estado_ser' => 0,
+		);
+
+		if($this->model_servicio->m_editar($data,$allInputs['idservicio'])){
+			$arrData['message'] = 'Se eliminó el servicio correctamente ';
+    		$arrData['flag'] = 1;
+		}
+
+
+		$this->output
+		    ->set_content_type('application/json')
+		    ->set_output(json_encode($arrData));
+	}
 
 }

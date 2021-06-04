@@ -686,32 +686,32 @@
           closeOnConfirm: true,
           closeOnCancel: false
         },
-          function (isConfirm) {
-            if (isConfirm) {
+        function (isConfirm) {
+          if (isConfirm) {
 
-              SedeServices.sEliminarServicioSede(row.entity).then(rpta => {
-                if (rpta.flag == 1) {
-                  pTitle = 'OK!';
-                  pType = 'success';
+            SedeServices.sEliminarServicioSede(row.entity).then(rpta => {
+              if (rpta.flag == 1) {
+                pTitle = 'OK!';
+                pType = 'success';
 
-                } else if (rpta.flag == 0) {
-                  var pTitle = 'Error!';
-                  var pType = 'danger';
-                } else {
-                  alert('Error inesperado.');
-                }
-                pinesNotifications.notify({ title: pTitle, text: rpta.message, type: pType, delay: 1000 });
+              } else if (rpta.flag == 0) {
+                var pTitle = 'Error!';
+                var pType = 'danger';
+              } else {
+                alert('Error inesperado.');
+              }
+              pinesNotifications.notify({ title: pTitle, text: rpta.message, type: pType, delay: 5000 });
 
-                // console.log('callback', callback);
-                vm.getPaginationServServerSide();
-                if(callback){
-                  callback();
-                }
-              });
-            } else {
-              SweetAlert.swal('Cancelado', 'La operación ha sido cancelada', 'warning');
-            }
-          });
+              // console.log('callback', callback);
+              vm.getPaginationServServerSide();
+              if(callback){
+                callback();
+              }
+            });
+          } else {
+            SweetAlert.swal('Cancelado', 'La operación ha sido cancelada', 'warning');
+          }
+        });
       }
     }
 
