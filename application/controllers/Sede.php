@@ -189,6 +189,7 @@ class Sede extends CI_Controller {
 		$arrData['message'] = 'Error al editar los datos, inténtelo nuevamente';
     	$arrData['flag'] = 0;
 
+		$idioma = $this->input->post('idioma');
 		$nombre_serv = $this->input->post('nombre_serv');
 		$codigo_youtube = $this->input->post('codigo_youtube');
 		$codigo_vimeo = $this->input->post('codigo_vimeo');
@@ -222,16 +223,53 @@ class Sede extends CI_Controller {
 		);
 		$this->model_servicio->m_editar_sede_servicio($data_serv,$idsedeservicio);
 
-		// Edicion de sede_Servicio_idioma
+		// Sede Servicio Idioma
+		if( empty($idsedeservicioidioma) || $idsedeservicioidioma == 'null' ){
+			// Registro de sede_servicio_idioma
+			$data = array(
+				'idsedeservicio' => $idsedeservicio,
+				'idioma' => $idioma == 'es'? 'CAS' : 'EUS',
+				'nombre_serv' => strtoupper_total($nombre_serv),
+				'titulo' => strtoupper_total($titulo),
+				'descripcion' => $descripcion
+			);
+			if($this->model_servicio->m_registrar_sede_servicio_idioma($data)){
+				$arrData['message'] = 'Se registraron los datos correctamente ';
+				$arrData['flag'] = 1;
+			}
+		}else{
+			// Edicion de sede_Servicio_idioma
+			$data = array(
+				'nombre_serv' => strtoupper_total($nombre_serv),
+				'titulo' => strtoupper_total($titulo),
+				'descripcion' => $descripcion
+			);
+			if($this->model_servicio->m_editar_sede_servicio_idioma($data,$idsedeservicioidioma)){
+				$arrData['message'] = 'Se editaron los datos correctamente ';
+				$arrData['flag'] = 1;
+			}
+		}
+
+
+
+
+
+		$this->output
+		    ->set_content_type('application/json')
+		    ->set_output(json_encode($arrData));
+	}
+
+	public function agregarServicioSede(){
+		$allInputs = json_decode(trim($this->input->raw_input_stream),true);
+		$arrData['message'] = 'Error al agregar, inténtelo nuevamente';
+    	$arrData['flag'] = 0;
+
 		$data = array(
-			'nombre_serv' => strtoupper_total($nombre_serv),
-			'titulo' => strtoupper_total($titulo),
-			'descripcion' => $descripcion
+			'idsede' => $allInputs['idsede'],
+			'idservicio' => $allInputs['idservicio'],
 		);
-
-
-		if($this->model_servicio->m_editar_sede_servicio_idioma($data,$idsedeservicioidioma)){
-			$arrData['message'] = 'Se editaron los datos correctamente ';
+		if( $this->model_servicio->m_registrar_sede_servicio($data) ){
+			$arrData['message'] = 'Se agregó el servicio.';
     		$arrData['flag'] = 1;
 		}
 
@@ -240,7 +278,6 @@ class Sede extends CI_Controller {
 		    ->set_content_type('application/json')
 		    ->set_output(json_encode($arrData));
 	}
-
 	public function eliminarServicioSede(){
 		$allInputs = json_decode(trim($this->input->raw_input_stream),true);
 		$arrData['message'] = 'Error al eliminar, inténtelo nuevamente';

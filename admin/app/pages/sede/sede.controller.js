@@ -156,7 +156,7 @@
       });
     }
     /*-------- BOTONES DE EDICION ----*/
-    vm.btnEditar = function (row) {//datos personales
+    vm.btnEditar = function (row) {
       $uibModal.open({
         templateUrl: 'app/pages/sede/sede_formview.php',
         controllerAs: 'mp',
@@ -308,9 +308,12 @@
           keyboard: false,
           controller: function ($scope, $uibModalInstance, arrToModal) {
             var vm = this;
+
             vm.fData = {};
             vm.getPaginationServServerSide = arrToModal.getPaginationServServerSide;
             vm.fData = arrToModal.fData;
+            vm.btnEliminar = arrToModal.btnAnularServicio;
+
             vm.modalTitle = 'Agregar Servicios a ' + vm.fData.descripcion_se;
             console.log('fData', vm.fData);
 
@@ -322,20 +325,20 @@
               appScopeProvider: vm
             }
             vm.gridServNoAgrOptions.columnDefs = [
-              { field: 'id', name: 'idservicio', displayName: 'ID', width: 80, enableFiltering: false, visible: false },
+              { field: 'idservicio', name: 'idservicio', displayName: 'ID', width: 60, enableFiltering: false, visible: true },
               { field: 'servicio', name: 'servicio', displayName: 'SERVICIO', minWidth: 250 },
-              
+
               {
-                field: 'accion', name: 'accion', displayName: 'ACCION', width: 100, enableFiltering: false, enableColumnMenu: false,
+                field: 'accion', name: 'accion', displayName: 'ACCION', width: 80, enableFiltering: false, enableColumnMenu: false,
                 cellTemplate:
                 '<div class="" style="text-align:center;">' +
-                '<button type="button" class="btn btn-sm btn-primary m-xs" ng-click="grid.appScope.btnAgregar(row.entity)" title="AGREGAR">' +
+                '<button type="button" class="btn btn-sm btn-primary m-xs" ng-click="grid.appScope.btnAgregar(row)" title="AGREGAR">' +
                 '<i class="fa fa-arrow-right"></i></button>' +
                 '</div>'
               },
-      
+
             ];
-            vm.getServiciosServerSide = () => {
+            vm.getServiciosNoAgrServerSide = () => {
               // console.log('sesion', $scope.fSessionCI);
               var paramDatos = {
                 idsede: vm.fData.idsede
@@ -345,7 +348,7 @@
                 // vm.mySelectionGrid = [];
               });
             }
-            vm.getServiciosServerSide();
+            vm.getServiciosNoAgrServerSide();
 
             // GRID DE SERVICIOS AGREGADOS
             vm.gridServAgrOptions = {
@@ -355,30 +358,53 @@
               appScopeProvider: vm
             }
             vm.gridServAgrOptions.columnDefs = [
-              { field: 'id', name: 'idservicio', displayName: 'ID', width: 80, enableFiltering: false, visible: false },
+              { field: 'idservicio', name: 'idservicio', displayName: 'ID', width: 60, enableFiltering: false, visible: true },
               { field: 'servicio', name: 'servicio', displayName: 'SERVICIO', minWidth: 250 },
-              
+
               {
-                field: 'accion', name: 'accion', displayName: 'ACCION', width: 100, enableFiltering: false, enableColumnMenu: false,
+                field: 'accion', name: 'accion', displayName: 'ACCION', width: 80, enableFiltering: false, enableColumnMenu: false,
                 cellTemplate:
                 '<div class="" style="text-align:center;">' +
-                '<button type="button" class="btn btn-sm btn-danger m-xs" ng-click="grid.appScope.btnEliminar(row.entity)" title="ELIMINAR">' +
+                '<button type="button" class="btn btn-sm btn-danger m-xs" ng-click="grid.appScope.btnEliminar(row, grid.appScope.callback)" title="ELIMINAR">' +
                 '<i class="fa fa-trash"></i></button>' +
                 '</div>'
               },
-      
+
             ];
             vm.getServiciosServerSide = () => {
-              // console.log('sesion', $scope.fSessionCI);
               var paramDatos = {
                 idsede: vm.fData.idsede
               }
               ServicioServices.sListarServiciosAgregados(paramDatos).then(rpta => {
                 vm.gridServAgrOptions.data = rpta.datos;
-                // vm.mySelectionGrid = [];
               });
             }
             vm.getServiciosServerSide();
+
+            vm.callback = () => {
+              vm.getServiciosNoAgrServerSide();
+              vm.getServiciosServerSide();
+            }
+
+            vm.btnAgregar = row => {
+              var paramDatos = {
+                idsede: vm.fData.idsede,
+                idservicio: row.entity.idservicio,
+              }
+              SedeServices.sAgregarServicioSede(paramDatos).then(rpta => {
+                if (rpta.flag == 1) {
+                  vm.callback();
+                  var pTitle = 'OK!';
+                  var pType = 'success';
+                } else if (rpta.flag == 0) {
+                  var pTitle = 'Advertencia!';
+                  var pType = 'warning';
+                } else {
+                  alert('Ocurrió un error');
+                }
+                pinesNotifications.notify({ title: pTitle, text: rpta.message, type: pType, delay: 3000 });
+              });
+            }
 
             vm.cancel = function () {
               $uibModalInstance.close();
@@ -389,7 +415,8 @@
             arrToModal: function () {
               return {
                 getPaginationServServerSide: vm.getPaginationServServerSide,
-                fData: vm.serv.fData
+                fData: vm.serv.fData,
+                btnAnularServicio: vm.btnAnularServicio
               }
             }
           }
@@ -440,7 +467,7 @@
             }
             vm.aceptar = function () {
               // console.log('edicion...', vm.fData);
-              // vm.fData.idioma = localStorage.getItem('language');
+              vm.fData.idioma = localStorage.getItem('language');
               var formData = new FormData();
               angular.forEach(vm.fData, function (index, val) {
                 formData.append(val, index);
@@ -646,7 +673,8 @@
         });
       }
 
-      vm.btnAnularServicio = row => {
+      vm.btnAnularServicio = (row, callback) => {
+        var callback = callback || null;
         SweetAlert.swal({
           title: "Atención!!!",
           text: "¿Realmente desea eliminar este item?",
@@ -673,7 +701,12 @@
                   alert('Error inesperado.');
                 }
                 pinesNotifications.notify({ title: pTitle, text: rpta.message, type: pType, delay: 1000 });
+
+                // console.log('callback', callback);
                 vm.getPaginationServServerSide();
+                if(callback){
+                  callback();
+                }
               });
             } else {
               SweetAlert.swal('Cancelado', 'La operación ha sido cancelada', 'warning');
@@ -695,6 +728,7 @@
       sAnularSede: sAnularSede,
       sListarServiciosSedes: sListarServiciosSedes,
       sEditarServicioSede: sEditarServicioSede,
+      sAgregarServicioSede: sAgregarServicioSede,
       sEliminarServicioSede: sEliminarServicioSede,
       sCargarGaleriaSedeServicio: sCargarGaleriaSedeServicio,
       sEliminarArchivo: sEliminarArchivo
@@ -769,6 +803,15 @@
       var request = $http({
         method: "post",
         url: angular.patchURLCI + "Sede/eliminarServicioSede",
+        data: datos,
+      });
+      return (request.then(handle.success, handle.error));
+    }
+    function sAgregarServicioSede(pDatos) {
+      var datos = pDatos || {};
+      var request = $http({
+        method: "post",
+        url: angular.patchURLCI + "Sede/agregarServicioSede",
         data: datos,
       });
       return (request.then(handle.success, handle.error));
