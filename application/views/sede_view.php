@@ -16,7 +16,7 @@
 	<div class="text-center div_flotante">
 		<? foreach ($banners_laterales as $row) :?>
 			<div class="mt10 promocion">
-				<a href="<?php echo base_url() ?>">
+				<a href="<?php echo $row['url'] ?>">
 					<img src="<?= base_url($row['imagen'])  ?>" alt="<?= $row['titulo'] ?>">
 				</a>
 			</div>
