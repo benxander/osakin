@@ -166,7 +166,7 @@ class Usuario extends CI_Controller {
 
 		$data = array(
 			'username' => $allInputs['username'],
-			'idgrupo' => $allInputs['grupo']['id'],
+			// 'idgrupo' => $allInputs['grupo']['id'],
 			'updatedAt' => date('Y-m-d H:i:s')
 		);
 
