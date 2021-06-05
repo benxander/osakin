@@ -26,12 +26,12 @@
 					</div>
 				</div>
 
-				<div class="form-group col-xs-12">
+				<!-- <div class="form-group col-xs-12">
 					<label for="grupo" class="control-label minotaur-label">Grupo <small class="text-red">(*)</small> </label>
 					<select class="form-control" ng-model="mp.fData.grupo"
 						ng-options="item as item.descripcion for item in mp.fArr.listaGrupos" required></select>
 
-				</div>
+				</div> -->
 
 				<div class="form-group col-xs-12" ng-if="!mp.modoEdicion">
 					<label for="pass" class="control-label minotaur-label">

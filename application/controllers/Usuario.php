@@ -139,7 +139,8 @@ class Usuario extends CI_Controller {
 		$data = array(
 			'username' => $allInputs['username'],
 			'idconfiguracion' => 1,
-			'idgrupo' => $allInputs['grupo']['id'],
+			'idgrupo' => 1,
+			// 'idgrupo' => $allInputs['grupo']['id'],
 			'pass' => do_hash($allInputs['pass'],'md5'),
 			'createdat' => date('Y-m-d H:i:s'),
 			'updatedat' => date('Y-m-d H:i:s')
