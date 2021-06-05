@@ -36,18 +36,28 @@
         templateUrl: 'app/pages/sede/sede.html',
         controller: 'SedeController as vm'
       })
+
+      //Banners
+      .state('banner', {
+        url: '/app/banner',
+        templateUrl: 'app/pages/banner/banner.html',
+        controller: 'BannerController as vm'
+      })
+
       // Servicio
       .state('servicio', {
         url: '/app/servicio',
         templateUrl: 'app/pages/servicio/servicio.html',
         controller: 'ServicioController as vm'
       })
+
       //usuario
       .state('usuario', {
         url: '/app/usuario',
         templateUrl: 'app/pages/usuario/usuario.html',
         controller: 'UsuarioController as vm'
       })
+
       // paginas dinamicas
       .state('paginas-dinamicas', {
         url: '/app/paginas-dinamicas',

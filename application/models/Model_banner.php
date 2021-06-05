@@ -5,6 +5,28 @@ class Model_banner extends CI_Model {
 		parent::__construct();
 	}
 
+	public function m_cargar_banners($datos) {
+		$this->db->select("
+			ba.idbanner,
+			ba.titulo,
+			CONCAT('uploads/banner/', ba.imagen) AS imagen,
+			ba.url,
+			ba.destino_url,
+			ba.zona,
+			ba.estado_ba,
+			ba.idsede,
+			se.descripcion_se
+		",FALSE);
+    	$this->db->from('banner ba');
+		$this->db->join('sede se', 'ba.idsede = se.idsede','left');
+    	$this->db->where('estado_ba', 1);
+
+		if( !empty($datos['idioma']) ){
+    		$this->db->where('idioma', $datos['idioma']);
+		}
+		// $this->db->order_by('rand()');
+    	return $this->db->get()->result_array();
+    }
 	public function m_get_banners_zona($datos) {
 		$this->db->select("
 			idbanner,

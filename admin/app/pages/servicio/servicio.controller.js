@@ -10,9 +10,6 @@
 	function ServicioController(
 		$scope,
 		$uibModal,
-		alertify,
-		$timeout,
-		$document,
 		SweetAlert,
 		ServicioServices,
 		pinesNotifications
@@ -28,6 +25,7 @@
 		vm.gridOptions = {
 			paginationPageSizes: [10, 50, 100, 500, 1000],
 			paginationPageSize: 10,
+			rowHeight: 32,
 			enableFiltering: false,
 			enableSorting: false,
 			useExternalPagination: false,
@@ -45,8 +43,12 @@
 
 			{
 				field: 'accion', name: 'accion', displayName: 'ACCIONES', width: 120, enableFiltering: false, enableColumnMenu: false,
-				cellTemplate: '<label class="btn text-primary" ng-click="grid.appScope.btnEditar(row);$event.stopPropagation();" tooltip-placement="left" uib-tooltip="EDITAR"> <i class="fa fa-edit"></i> </label>' +
-					'<label class="btn text-red" ng-click="grid.appScope.btnAnular(row);$event.stopPropagation();"> <i class="fa fa-trash" tooltip-placement="left" uib-tooltip="ELIMINAR!"></i> </label>'
+				cellTemplate:
+					'<label class="btn text-primary" ng-click="grid.appScope.btnEditar(row);$event.stopPropagation();">' +
+					'<i class="fa fa-edit" tooltip-placement="left" uib-tooltip="EDITAR"></i> </label>' +
+					
+					'<label class="btn text-red" ng-click="grid.appScope.btnAnular(row);$event.stopPropagation();">' +
+					'<i class="fa fa-trash" tooltip-placement="left" uib-tooltip="ELIMINAR!"></i> </label>'
 			},
 
 		];
@@ -61,7 +63,7 @@
 
 		}
 		vm.getPaginationServerSide = () => {
-			ServicioServices.sListarServicios().then( rpta => {
+			ServicioServices.sListarServicios().then(rpta => {
 				vm.gridOptions.data = rpta.datos;
 				vm.mySelectionGrid = [];
 			});
@@ -73,7 +75,7 @@
 				templateUrl: 'app/pages/servicio/servicio_formview.php',
 				controllerAs: 'mp',
 				size: 'lg',
-				backdropClass: 'splash splash-2 splash-info splash-ef-12',
+				backdropClass: 'splash splash-2 splash-ef-12',
 				windowClass: 'splash splash-2 splash-ef-12',
 				backdrop: 'static',
 				keyboard: false,
@@ -85,32 +87,11 @@
 					vm.getPaginationServerSide = arrToModal.getPaginationServerSide;
 					vm.fotoCrop = false;
 					vm.modalTitle = 'Registro de Servicio';
-					// SUBIDA DE IMAGENES MEDIANTE IMAGE CROP
-					// vm.cargarImagen = function () {
-					// 	vm.fData.myImage = '';
-					// 	vm.fData.myCroppedImage = '';
-					// 	vm.cropType = 'square';
-					// 	vm.fotoCrop = true;
-					// 	var handleFileSelect = function (evt) {
-					// 		var file = evt.currentTarget.files[0];
-					// 		var reader = new FileReader();
-					// 		reader.onload = function (evt) {
-					// 			/* eslint-disable */
-					// 			$scope.$apply(function () {
-					// 				vm.fData.myImage = evt.target.result;
-					// 			});
-					// 			/* eslint-enable */
-					// 		};
-					// 		reader.readAsDataURL(file);
-					// 	};
-					// 	$timeout(function () { // lo pongo dentro de un timeout sino no funciona
-					// 		angular.element($document[0].querySelector('#fileInput')).on('change', handleFileSelect);
-					// 	});
-					// }
+
 					// BOTONES
 					vm.aceptar = () => {
 						vm.fData.idioma = localStorage.getItem('language');
-						ServicioServices.sRegistrarServicio(vm.fData).then( rpta => {
+						ServicioServices.sRegistrarServicio(vm.fData).then(rpta => {
 							if (rpta.flag == 1) {
 								$uibModalInstance.close(vm.fData);
 								vm.getPaginationServerSide();
@@ -146,7 +127,7 @@
 				templateUrl: 'app/pages/servicio/servicio_formview.php',
 				controllerAs: 'mp',
 				size: 'lg',
-				backdropClass: 'splash splash-2 splash-info splash-ef-12',
+				backdropClass: 'splash splash-2 splash-ef-12',
 				windowClass: 'splash splash-2 splash-ef-12',
 				backdrop: 'static',
 				keyboard: false,
@@ -160,32 +141,11 @@
 
 
 					vm.modalTitle = 'Edición de Servicio';
-					// SUBIDA DE IMAGENES MEDIANTE IMAGE CROP
-					// vm.cargarImagen = function () {
-					// 	vm.fData.myImage = '';
-					// 	vm.fData.myCroppedImage = '';
-					// 	vm.cropType = 'square';
-					// 	vm.fotoCrop = true;
-					// 	var handleFileSelect = function (evt) {
-					// 		var file = evt.currentTarget.files[0];
-					// 		var reader = new FileReader();
-					// 		reader.onload = function (evt) {
-					// 			/* eslint-disable */
-					// 			$scope.$apply(function () {
-					// 				vm.fData.myImage = evt.target.result;
-					// 			});
-					// 			/* eslint-enable */
-					// 		};
-					// 		reader.readAsDataURL(file);
-					// 	};
-					// 	$timeout(function () { // lo pongo dentro de un timeout sino no funciona
-					// 		angular.element($document[0].querySelector('#fileInput')).on('change', handleFileSelect);
-					// 	});
-					// }
+
 					vm.aceptar = () => {
 						// console.log('edicion...', vm.fData);
 						vm.fData.idioma = localStorage.getItem('language');
-						ServicioServices.sEditarServicio(vm.fData).then( rpta => {
+						ServicioServices.sEditarServicio(vm.fData).then(rpta => {
 							if (rpta.flag == 1) {
 								$uibModalInstance.close(vm.fData);
 								vm.getPaginationServerSide();
@@ -217,38 +177,40 @@
 			});
 		}
 		vm.btnAnular = row => {
-			SweetAlert.swal({
-				title: "Atención!!!",
-				text: "¿Realmente desea eliminar este item?",
-				type: "warning",
-				showCancelButton: true,
-				confirmButtonColor: "#fa2d48",
-				confirmButtonText: "Si, Eliminar!",
-				cancelButtonText: "No, Cancelar!",
-				closeOnConfirm: true,
-				closeOnCancel: false
-			},
-			function (isConfirm) {
-				if (isConfirm) {
-	  
-					ServicioServices.sAnularServicio(row.entity).then(rpta => {
-					if (rpta.flag == 1) {
-					  pTitle = 'OK!';
-					  pType = 'success';
-	  
-					} else if (rpta.flag == 0) {
-					  var pTitle = 'Error!';
-					  var pType = 'danger';
+			SweetAlert.swal(
+				{
+					title: "Atención!!!",
+					text: "¿Realmente desea eliminar este item?",
+					type: "warning",
+					showCancelButton: true,
+					confirmButtonColor: "#fa2d48",
+					confirmButtonText: "Si, Eliminar!",
+					cancelButtonText: "No, Cancelar!",
+					closeOnConfirm: true,
+					closeOnCancel: false
+				},
+				isConfirm => {
+					if (isConfirm) {
+
+						ServicioServices.sAnularServicio(row.entity).then(rpta => {
+							if (rpta.flag == 1) {
+								pTitle = 'OK!';
+								pType = 'success';
+
+							} else if (rpta.flag == 0) {
+								var pTitle = 'Error!';
+								var pType = 'danger';
+							} else {
+								alert('Error inesperado.');
+							}
+							pinesNotifications.notify({ title: pTitle, text: rpta.message, type: pType, delay: 1000 });
+							vm.getPaginationServerSide();
+						});
 					} else {
-					  alert('Error inesperado.');
+						SweetAlert.swal('Cancelado', 'La operación ha sido cancelada', 'warning');
 					}
-					pinesNotifications.notify({ title: pTitle, text: rpta.message, type: pType, delay: 1000 });
-					vm.getPaginationServerSide();
-				  });
-				} else {
-				  SweetAlert.swal('Cancelado', 'La operación ha sido cancelada', 'warning');
 				}
-			});
+			);
 		}
 
 

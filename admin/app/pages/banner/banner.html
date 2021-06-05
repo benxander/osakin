@@ -1,0 +1,36 @@
+<div class="page page-ui pull-to-header">
+	<ol class="breadcrumb bg-white">
+		<li><a ui-sref="dashboard">Dashboard</a></li>
+		<li class="active">Banner</li>
+	</ol>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="tile">
+				<section class="tile-header">
+					<h1 class="heading">Banners</h1>
+					<div class="controls">
+						<minotaur-tile-refresh ng-click="vm.getPaginationServerSide();"></minotaur-tile-refresh>
+					</div>
+				</section>
+				<section class="tile-body col-sm-12 pr-md pl-md">
+					<div>
+						<ul class="form-group demo-btns list-unstyled">
+							<li class="pull-right" style="margin-bottom: 10px">
+								<button type="button" class="btn btn-success" ng-click="vm.btnNuevo()">
+									Nuevo
+								</button>
+							</li>
+						</ul>
+					</div>
+					<div
+						id="grid-banner"
+						ui-grid="vm.gridOptions"
+						ui-grid-selection
+						ui-grid-auto-resize
+						class="grid table-responsive clear"
+					></div>
+				</section>
+			</div>
+		</div>
+	</div>
+</div>

@@ -25,19 +25,26 @@
     <li ng-class="{'active':$state.includes('sede')}" class="sede">
       <a ng-click="$state.reload();" ui-sref="sede">
         <span class="nav-text">{{ 'Menu.SEDES' | translate }}</span>
-        <i class="fa fa-bank"></i>
+        <i class="fa fa-hospital-o"></i>
       </a>
     </li>
+    
+    <li ng-class="{'active':$state.includes('banner')}" class="banner">
+      <a ng-click="$state.reload();" ui-sref="banner">
+        <span class="nav-text">Banners</span>
+        <i class="fa fa-dedent"></i>
+      </a>
+    </li>
+    
     <li ng-class="{'active':$state.includes('servicio')}" class="servicio">
       <a ng-click="$state.reload();" ui-sref="servicio">
         <span class="nav-text">{{ 'Menu.SERVICIOS' | translate }}</span>
-        <i class="fa fa-bank"></i>
+        <i class="fa fa-ambulance"></i>
       </a>
     </li>
 
 
-
-    <li  ng-class="{'active':$state.includes('usuario')}"  ng-if="fArr.valores[4]" >
+    <li  ng-class="{'active':$state.includes('usuario')}" >
 
       <a href="javascript:;">
         <span class="nav-text">{{ 'Menu.SEGURIDAD' | translate }}</span>
@@ -55,7 +62,7 @@
 
     </li>
 
-    <li ng-class="{'active':$state.includes('paginas')}" ng-if="fArr.valores[5]">
+    <li ng-class="{'active':$state.includes('paginas')}">
       <a href="javascript:;">
         <span class="nav-text">{{ 'Menu.CONFIGURACION' | translate }}</span>
         <i class="fa fa-wrench"></i>
