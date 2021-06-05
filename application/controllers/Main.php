@@ -164,6 +164,7 @@ class Main extends CI_Controller {
 					'idbanner' => $row['idbanner'],
 					'titulo' => $row['titulo'],
 					'imagen' => $row['imagen'],
+					'url' => $row['url'],
 					'activo' => $activo? 'active' : '',
 				)
 			);
