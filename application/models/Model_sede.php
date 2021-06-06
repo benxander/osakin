@@ -7,8 +7,8 @@ class Model_sede extends CI_Model {
 	public function m_cargar_sedes()
 	{
 		$this->db->select("
-			se.idsede,
-			se.descripcion_se,
+			se.idsede AS id,
+			se.descripcion_se AS descripcion,
 			se.telefono,
 			se.email,
 			se.imagen_se

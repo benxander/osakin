@@ -88,7 +88,7 @@
         templateUrl: 'app/pages/sede/sede_formview.php',
         controllerAs: 'mp',
         size: 'lg',
-        backdropClass: 'splash splash-2 splash-info splash-ef-12',
+        backdropClass: 'splash splash-2 splash-ef-12',
         windowClass: 'splash splash-2 splash-ef-12',
         backdrop: 'static',
         keyboard: false,
@@ -161,7 +161,7 @@
         templateUrl: 'app/pages/sede/sede_formview.php',
         controllerAs: 'mp',
         size: 'lg',
-        backdropClass: 'splash splash-2 splash-info splash-ef-12',
+        backdropClass: 'splash splash-2 splash-ef-12',
         windowClass: 'splash splash-2 splash-ef-12',
         backdrop: 'static',
         keyboard: false,
@@ -443,28 +443,7 @@
             vm.modalTitle = 'Edición de Servicio ' + row.entity.servicio;
 
             vm.regexTel = /^[6789]\d{8}$/;
-            // SUBIDA DE IMAGENES MEDIANTE IMAGE CROP
-            vm.cargarImagen = function () {
-              vm.fData.myImage = '';
-              vm.fData.myCroppedImage = '';
-              vm.cropType = 'square';
-              vm.fotoCrop = true;
-              var handleFileSelect = function (evt) {
-                var file = evt.currentTarget.files[0];
-                var reader = new FileReader();
-                reader.onload = function (evt) {
-                  /* eslint-disable */
-                  $scope.$apply(function () {
-                    vm.fData.myImage = evt.target.result;
-                  });
-                  /* eslint-enable */
-                };
-                reader.readAsDataURL(file);
-              };
-              $timeout(function () { // lo pongo dentro de un timeout sino no funciona
-                angular.element($document[0].querySelector('#fileInput')).on('change', handleFileSelect);
-              });
-            }
+
             vm.aceptar = function () {
               // console.log('edicion...', vm.fData);
               vm.fData.idioma = localStorage.getItem('language');

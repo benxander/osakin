@@ -45,6 +45,30 @@ class Sede extends CI_Controller {
 		    ->set_content_type('application/json')
 		    ->set_output(json_encode($arrData));
 	}
+	public function listarSede_cbo()
+	{
+		$allInputs = json_decode(trim($this->input->raw_input_stream),true);
+
+		$lista = $this->model_sede->m_cargar_sedes($allInputs);
+
+		if(empty($lista)){
+			$arrData['flag'] = 0;
+			$arrData['datos'] = array();
+			$arrData['message'] = 'No hay datos';
+			$this->output
+				->set_content_type('application/json')
+				->set_output(json_encode($arrData));
+			return;
+		}
+
+		$arrData['datos'] = $lista;
+    	$arrData['message'] = '';
+    	$arrData['flag'] = 1;
+
+		$this->output
+		    ->set_content_type('application/json')
+		    ->set_output(json_encode($arrData));
+	}
 	public function registrarSede()
 	{
 		$allInputs = json_decode(trim($this->input->raw_input_stream),true);

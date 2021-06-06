@@ -23,8 +23,8 @@
 							<div ng-messages-include="app/components/templates/messages_tmpl.html"></div>
 							</div>
 						</div>
-	
-						<div class="form-group col-xs-12">
+
+						<div class="form-group col-md-6">
 							<label for="grupo" class="control-label minotaur-label">Zona <small class="text-red">(*)</small> </label>
 							<select
 								class="form-control"
@@ -32,7 +32,18 @@
 								ng-options="item as item.descripcion for item in mp.fArr.listaZonas"
 								required
 							></select>
-	
+
+						</div>
+
+						<div class="form-group col-md-6">
+							<label for="grupo" class="control-label minotaur-label">Sede <small class="text-red">(*)</small> </label>
+							<select
+								class="form-control"
+								ng-model="mp.fData.sede"
+								ng-options="item as item.descripcion for item in mp.fArr.listaSedes"
+								required
+							></select>
+
 						</div>
 
 						<div class="form-group col-xs-12">
@@ -52,11 +63,27 @@
 							<div ng-messages-include="app/components/templates/messages_tmpl.html"></div>
 							</div>
 						</div>
-						
+
 					</div>
 				</div>
 				<div class="col-md-6">
-
+					<div class="form-group">
+						<label for="nombre" class="control-label minotaur-label">Imagen <small class="text-red">(*)</small> </label>
+						<div class="text-center">
+							<div class="fileinput fileinput-new" data-provides="fileinput" style="width: 100%;">
+								<div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 100%; min-height:134px">
+									<img class="" ng-if="mp.fData.imagen" ng-src="{{mp.dirBanner + mp.fData.imagen}}" />
+								</div>
+								<div>
+									<a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Quitar</a>
+									<span class="btn btn-default btn-file"><span class="fileinput-new">Seleccionar imagen</span>
+										<span class="fileinput-exists">Cambiar</span>
+										<input type="file" name="file" file-model="mp.fData.imagenBanner" />
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</form>

@@ -96,8 +96,6 @@
 					<div class="form-group">
 						<label for="nombre" class="control-label minotaur-label">Icono <small class="text-red">(*)</small> </label>
 						<div class="text-center">
-							<!-- <img class="w-100" ng-src="{{mp.dirIconos + mp.fData.icono}}" alt="">
-							<input  type="file" class="filestyle" nv-file-select="" uploader="uploader" filestyle button-text="Icono" icon-name="fa fa-inbox" accept=".jpeg, .jpg, .png" required> -->
 							<div class="fileinput fileinput-new" data-provides="fileinput" style="width: 100%;">
 								<div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 100%; min-height:134px">
 									<img class="" ng-if="mp.fData.icono" ng-src="{{mp.dirIconos + mp.fData.icono}}" />
@@ -111,7 +109,6 @@
 								</div>
 							</div>
 						</div>
-
 					</div>
 				</div>
 			</div>

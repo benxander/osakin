@@ -9,7 +9,7 @@ class Model_banner extends CI_Model {
 		$this->db->select("
 			ba.idbanner,
 			ba.titulo,
-			CONCAT('uploads/banner/', ba.imagen) AS imagen,
+			ba.imagen,
 			ba.url,
 			ba.destino_url,
 			ba.zona,
@@ -19,11 +19,12 @@ class Model_banner extends CI_Model {
 		",FALSE);
     	$this->db->from('banner ba');
 		$this->db->join('sede se', 'ba.idsede = se.idsede','left');
-    	$this->db->where('estado_ba', 1);
 
 		if( !empty($datos['idioma']) ){
     		$this->db->where('idioma', $datos['idioma']);
+			$this->db->or_where('idioma IS NULL');
 		}
+    	$this->db->where('estado_ba', 1);
 		// $this->db->order_by('rand()');
     	return $this->db->get()->result_array();
     }
@@ -63,5 +64,16 @@ class Model_banner extends CI_Model {
     	$this->db->where('estado_pr', 1);
     	$this->db->order_by('idpromocion','DESC');
     	return $this->db->get()->result_array();
+	}
+
+	// crud
+	public function m_registrar($data)
+	{
+		$this->db->insert('banner', $data);
+		return $this->db->insert_id();
+	}
+	public function m_editar($data,$id){
+		$this->db->where('idbanner',$id);
+		return $this->db->update('banner', $data);
 	}
 }

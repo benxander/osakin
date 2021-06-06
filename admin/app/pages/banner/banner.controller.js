@@ -12,26 +12,25 @@
 		$uibModal,
 		SweetAlert,
 		BannerServices,
+		SedeServices,
 		pinesNotifications
 	) {
 
 		var vm = this;
-		
+		vm.dirBanner = angular.patchURLCI + "uploads/banner/";
 		vm.fArr = {};
 
 		// Lista Zonas
-		
 		vm.fArr.listaZonas = [
-			{
-				id: 'cabecera',
-				descripcion: 'CABECERA'
-			},
-			{
-				id: 'lateral',
-				descripcion: 'LATERAL'
-			}
-
+			{ id: 'cabecera', descripcion: 'CABECERA' },
+			{ id: 'lateral', descripcion: 'LATERAL' }
 		];
+
+		// Lista de Sedes
+		SedeServices.sListarSedeCbo().then( rpta => {
+			vm.fArr.listaSedes = rpta.datos;
+			vm.fArr.listaSedes.splice(0, 0, { id: 0, descripcion: 'Todas' });
+		});
 
 
 		// GRILLA PRINCIPAL
@@ -56,12 +55,13 @@
 			{ field: 'idbanner', name: 'idbanner', displayName: 'ID', width: 80, enableFiltering: false },
 			{ field: 'titulo', name: 'titulo', displayName: 'TITULO' },
 			{ field: 'zona', name: 'zona', displayName: 'ZONA' },
+			{ field: 'descripcion_se', name: 'descripcion_se', displayName: 'SEDE' },
 			{
 				field: 'accion', name: 'accion', displayName: 'ACCIONES', width: 120, enableFiltering: false, enableColumnMenu: false,
 				cellTemplate:
 					'<label class="btn text-primary" ng-click="grid.appScope.btnEditar(row);$event.stopPropagation();">' +
 					'<i class="fa fa-edit" tooltip-placement="left" uib-tooltip="EDITAR"></i> </label>' +
-					
+
 					'<label class="btn text-red" ng-click="grid.appScope.btnAnular(row);$event.stopPropagation();">' +
 					'<i class="fa fa-trash" tooltip-placement="left" uib-tooltip="ELIMINAR!"></i> </label>'
 			},
@@ -79,7 +79,7 @@
 		}
 		vm.getPaginationServerSide = () => {
 			var datos = {
-				idioma : localStorage.getItem('language')
+				idioma: localStorage.getItem('language')
 			}
 			BannerServices.sListarBanners(datos).then(rpta => {
 				vm.gridOptions.data = rpta.datos;
@@ -101,19 +101,29 @@
 					console.log('$scope', $scope);
 					var vm = this;
 					vm.fData = {};
-					
+
 					vm.getPaginationServerSide = arrToModal.getPaginationServerSide;
 					vm.fArr = arrToModal.fArr;
-          			vm.fData.zona = vm.fArr.listaZonas[0];
+					vm.dirBanner = arrToModal.dirBanner;
+					vm.fData.zona = vm.fArr.listaZonas[0];
+					vm.fData.sede = vm.fArr.listaSedes[0];
 
 					vm.modalTitle = 'Registro de Banner';
 
 					// BOTONES
 					vm.aceptar = () => {
 						vm.fData.idioma = localStorage.getItem('language');
-						BannerServices.sRegistrarBanner(vm.fData).then(rpta => {
+						console.log('fData', vm.fData);
+						var formData = new FormData();
+						angular.forEach(vm.fData, function (index, val) {
+							formData.append(val, index);
+						});
+						formData.append('objZona', JSON.stringify(vm.fData.zona));
+						formData.append('objSede', JSON.stringify(vm.fData.sede));
+
+						BannerServices.sRegistrarBanner(formData).then(rpta => {
 							if (rpta.flag == 1) {
-								$uibModalInstance.close(vm.fData);
+								$uibModalInstance.close();
 								vm.getPaginationServerSide();
 								var pTitle = 'OK!';
 								var pType = 'success';
@@ -134,8 +144,8 @@
 					arrToModal: () => {
 						return {
 							getPaginationServerSide: vm.getPaginationServerSide,
-							verPopupListaUsuarios: vm.verPopupListaUsuarios,
 							fArr: vm.fArr,
+							dirBanner: vm.dirBanner
 						}
 					}
 				}
@@ -155,19 +165,41 @@
 					var vm = this;
 					vm.fData = {};
 					vm.fData = angular.copy(arrToModal.seleccion);
-
+					vm.dirBanner = arrToModal.dirBanner;
 					vm.modoEdicion = true;
 					vm.getPaginationServerSide = arrToModal.getPaginationServerSide;
+					vm.fArr = arrToModal.fArr;
 
+					// Zonas
+					var objIndex = vm.fArr.listaZonas.filter(function (obj) {
+						return obj.id == vm.fData.zona;
+					}).shift();
+					if (objIndex) {
+						vm.fData.zona = objIndex;
+					}
+
+					// Sedes
+					var objIndex = vm.fArr.listaSedes.filter(function (obj) {
+						return obj.id == vm.fData.idsede;
+					}).shift();
+					if (objIndex) {
+						vm.fData.sede = objIndex;
+					}
 
 					vm.modalTitle = 'Edición de Banner';
 
 					vm.aceptar = () => {
 						// console.log('edicion...', vm.fData);
 						vm.fData.idioma = localStorage.getItem('language');
-						BannerServices.sEditarBanner(vm.fData).then(rpta => {
+						var formData = new FormData();
+						angular.forEach(vm.fData, function (index, val) {
+							formData.append(val, index);
+						});
+						formData.append('objZona', JSON.stringify(vm.fData.zona));
+						formData.append('objSede', JSON.stringify(vm.fData.sede));
+						BannerServices.sEditarBanner(formData).then(rpta => {
 							if (rpta.flag == 1) {
-								$uibModalInstance.close(vm.fData);
+								$uibModalInstance.close();
 								vm.getPaginationServerSide();
 								var pTitle = 'OK!';
 								var pType = 'success';
@@ -188,9 +220,9 @@
 					arrToModal: function () {
 						return {
 							getPaginationServerSide: vm.getPaginationServerSide,
-							verPopupListaUsuarios: vm.verPopupListaUsuarios,
-
-							seleccion: row.entity
+							seleccion: row.entity,
+							fArr: vm.fArr,
+							dirBanner: vm.dirBanner
 						}
 					}
 				}
@@ -266,7 +298,9 @@
 			var request = $http({
 				method: "post",
 				url: angular.patchURLCI + "Banner/registrarBanner",
-				data: datos
+				data: datos,
+				transformRequest: angular.identity,
+				headers: { 'Content-Type': undefined }
 			});
 			return (request.then(handle.success, handle.error));
 		}
@@ -275,7 +309,9 @@
 			var request = $http({
 				method: "post",
 				url: angular.patchURLCI + "Banner/editarBanner",
-				data: datos
+				data: datos,
+				transformRequest: angular.identity,
+				headers: { 'Content-Type': undefined }
 			});
 			return (request.then(handle.success, handle.error));
 		}
