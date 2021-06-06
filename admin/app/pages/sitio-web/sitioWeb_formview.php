@@ -19,11 +19,21 @@
 						autocomplete="off"
 						required
 					>
-					<img
-						ng-if="mp.fData.tipo == 'imagen'"
-						ng-src="{{mp.dirUploads + mp.fData.valor}}"
-						alt="imagen"
-					>
+
+					<div class="text-center" ng-if="mp.fData.tipo == 'imagen'">
+						<div class="fileinput fileinput-new" data-provides="fileinput" style="width: 100%;">
+							<div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 100%; min-height:134px">
+								<img class="" ng-if="mp.fData.valor" ng-src="{{mp.dirUploads + mp.fData.valor}}" />
+							</div>
+							<div>
+								<a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Quitar</a>
+								<span class="btn btn-default btn-file"><span class="fileinput-new">Seleccionar imagen</span>
+									<span class="fileinput-exists">Cambiar</span>
+									<input type="file" name="file" file-model="mp.fData.imagenWeb" />
+								</span>
+							</div>
+						</div>
+					</div>
 				</div>
 
 

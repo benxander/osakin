@@ -78,7 +78,7 @@
 									<a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Quitar</a>
 									<span class="btn btn-default btn-file"><span class="fileinput-new">Seleccionar imagen</span>
 										<span class="fileinput-exists">Cambiar</span>
-										<input type="file" name="file" file-model="mp.fData.imagenBanner" />
+										<input type="file" name="file" file-model="mp.fData.imagenBanner" accept=".jpeg, .jpg, .png"/>
 									</span>
 								</div>
 							</div>

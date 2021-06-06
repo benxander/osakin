@@ -64,9 +64,10 @@ class Banner extends CI_Controller {
 
 		$objectZona = get_object_vars(json_decode($this->input->post('objZona')));
 		$objectSede = get_object_vars(json_decode($this->input->post('objSede')));
+		$idioma = $this->input->post('idioma');
 
 		$allInputs = array(
-			'idioma' => $this->input->post('idioma'),
+			'idioma' => $idioma == 'es'? 'CAS' : 'EUS',
 			'titulo' => strtoupper_total($this->input->post('titulo')),
 			'url' => empty($this->input->post('url'))? null : $this->input->post('url'),
 			'zona' =>$objectZona['id'],
@@ -172,10 +173,11 @@ class Banner extends CI_Controller {
 
 		$objectZona = get_object_vars(json_decode($this->input->post('objZona')));
 		$objectSede = get_object_vars(json_decode($this->input->post('objSede')));
+		$idioma = $this->input->post('idioma');
 
 		$allInputs = array(
 			'idbanner' => $this->input->post('idbanner'),
-			'idioma' => $this->input->post('idioma'),
+			'idioma' => $idioma == 'es'? 'CAS' : 'EUS',
 			'titulo' => strtoupper_total($this->input->post('titulo')),
 			'url' => empty($this->input->post('url'))? null : $this->input->post('url'),
 			'zona' =>$objectZona['id'],
