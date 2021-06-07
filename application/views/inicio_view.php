@@ -16,7 +16,7 @@
 </header>
 
 
-<div class="container">
+<div class="container modulos">
 	<div>
 		<h1 class="mt-5 text-center"><?=$pag_din['titulo']?></h1>
 		<p class="text-center"><?=$pag_din['contenido'] ?></p>

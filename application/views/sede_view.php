@@ -24,7 +24,7 @@
 	</div>
 </div>
 
-<div class="container mt-5">
+<div class="container mt-5 modulos">
 	<div>
 		<h2 class="text-principal text-center"><?= $sede['titulo'] ?></h2>
 

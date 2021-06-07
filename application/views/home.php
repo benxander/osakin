@@ -23,14 +23,6 @@
 	<link rel="stylesheet" href="<?= base_url()?>assets/js/shadowbox/shadowbox.css">
 
 
-	<style>
-		.bd-placeholder-img-lg {
-    		font-size: 3.5rem;
-		}
-		.bd-placeholder-img {
-    		text-anchor: middle;
-		}
-	</style>
 </head>
 <body>
 
@@ -63,21 +55,12 @@
 
 
 	<!-- Principal -->
-	<div class="">
+	<div>
 
 		<?php $this->load->view($vista) ?>
 
 	</div>
-	<div class="btn-group" style="position: fixed; right: 0px; top: 50vh; z-index: 100; display: none;">
-		<button type="button" class="btn btn-share dropdown-toggle" data-toggle="dropdown"> <i class="icon-share"></i> <span class="caret"></span></button>
 
-		<ul class="dropdown-menu dropdown-menu-right floating-icons" id="#iconosSocialMedia" role="menu">
-			<a class="icon-little fb" onclick="javascript:window.open('https://www.facebook.com/sharer/sharer.php?u='+document.URL,'','width=600,height=400,left=50,top=50,toolbar=yes');return false" title="Compartir en Facebook"><i class="icon-fonts icon-facebook2"></i>Facebook</a>
-
-			<a class="icon-little instagram" onclick="javascript:window.open('https://www.instagram.com/share?text=esGratuito.&amp;url='+document.URL+'','Comparte en Instagram','location=no,toolbar=no,width=350,height=350');return false" title="Compartir en Instagram"><i class="icon-fonts icon-instagram2"></i>Instagram</a>
-
-		</ul>
-	</div>
 	<!-- Footer -->
 	<footer class="footer mt-5">
 
@@ -165,22 +148,24 @@
 	<script>
 		$(function(){
 			// var altura = window.innerHeight;
-			var margin = 80;
+			var margin = 100;
 			var posicionInicial = 0;
 			var dom = {}
 			var st = {
 				stickyElement: '.div_flotante',
-				// modulo : '.modulos',
+				modulo : '.modulos',
 				footer : 'footer'
 			};
 			var pos = 0;
 			catchDom = function(){
 				dom.stickyElement = $(st.stickyElement);
-				// dom.modulo = $(st.modulo);
+				dom.modulo = $(st.modulo);
 				dom.footer = $(st.footer);
 			}
 			afterCatchDom = function(){
-				functions.ubicarPosicionInicial()
+				var newPosition = $(window).height() + margin;
+				$(st.stickyElement).css('top', newPosition + "px");
+				posicionInicial = newPosition;
 			}
 			suscribeEvents = function(){
 				$(window).on('scroll', events.moveStick);
@@ -197,29 +182,36 @@
 
 					}
 					windowpos = $(window).scrollTop();
-					console.log('windowpos', windowpos);
+					// console.log('windowpos', windowpos);
 					box = dom.stickyElement;
-					// modulo = dom.modulo.offset();
+					modulo = dom.modulo.offset();
 
 					// console.log('modulo', modulo);
 
 					footer = dom.footer.offset();
+					console.log('box', box.height());
+					console.log('margin', margin);
+					console.log('windowpos', windowpos);
+					console.log('footer.top', footer.top);
 					if ( (box.height() + windowpos + margin) >= footer.top ) {
+						console.log('primer if');
 						pos = footer.top - (box.height() + margin);
+						console.log('pos', pos);
 						dom.stickyElement.css({
 							top: pos + "px",
 							bottom: ''
 						});
 					}else{
 						if ($(window).height() + margin  < (windowpos)) {
-							console.log('primer if');
+							console.log('segundo if');
 							pos = windowpos + margin;
 							dom.stickyElement.css({
 								top: pos + "px",
 								bottom: ''
 							});
 						} else{
-							// pos = modulo.top;
+							console.log('else');
+							pos = modulo.top;
 							dom.stickyElement.css({
 								top: pos + "px",
 								bottom: ''
@@ -228,13 +220,7 @@
 					}
 				}
 			}
-			functions = {
-				ubicarPosicionInicial : function(){
-					var newPosition = $(window).height() + margin;
-					$(st.stickyElement).css('top', newPosition + "px");
-					posicionInicial = newPosition;
-				}
-			}
+
 			var init = function(){
 				catchDom();
 				afterCatchDom();
