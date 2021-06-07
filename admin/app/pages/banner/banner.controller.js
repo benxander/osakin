@@ -192,7 +192,7 @@
 						// console.log('edicion...', vm.fData);
 						vm.fData.idioma = localStorage.getItem('language');
 						var formData = new FormData();
-						angular.forEach(vm.fData, function (index, val) {
+						angular.forEach(vm.fData, (index, val) => {
 							formData.append(val, index);
 						});
 						formData.append('objZona', JSON.stringify(vm.fData.zona));

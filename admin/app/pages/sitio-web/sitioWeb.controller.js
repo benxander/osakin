@@ -10,7 +10,6 @@
 		$scope,
 		$uibModal,
 		pinesNotifications,
-		SweetAlert,
 		SitioWebServices
 	) {
 		var vm = this;
@@ -69,11 +68,11 @@
 				templateUrl: 'app/pages/sitio-web/sitioWeb_formview.php',
 				controllerAs: 'mp',
 				size: 'lg',
-				backdropClass: 'splash splash-2 splash-info splash-ef-12',
+				backdropClass: 'splash splash-2 splash-ef-12',
 				windowClass: 'splash splash-2 splash-ef-12',
 				backdrop: 'static',
 				keyboard: true,
-				controller: function ($scope, $uibModalInstance, arrToModal) {
+				controller: function ($uibModalInstance, arrToModal) {
 					var vm = this;
 					vm.fData = angular.copy(row.entity);
 					vm.modoEdicion = true;
@@ -82,10 +81,14 @@
 					vm.dirUploads = arrToModal.dirUploads;
 					vm.modalTitle = 'Edición de Elemento de Sitio Web';
 					// BOTONES
-					vm.aceptar = function () {
-						SitioWebServices.sEditarSitioWeb(vm.fData).then(function (rpta) {
+					vm.aceptar = () => {
+						var formData = new FormData();
+						angular.forEach(vm.fData, (index, val) => {
+							formData.append(val, index);
+						});
+						SitioWebServices.sEditarSitioWeb(formData).then(function (rpta) {
 							if (rpta.flag == 1) {
-								$uibModalInstance.close(vm.fData);
+								$uibModalInstance.close();
 								vm.getPaginationServerSide();
 								var pTitle = 'OK!';
 								var pType = 'success';
@@ -137,7 +140,9 @@
 			var request = $http({
 				method: "post",
 				url: angular.patchURLCI + "Configuracion/editarSitioWeb",
-				data: datos
+				data: datos,
+				transformRequest: angular.identity,
+				headers: { 'Content-Type': undefined }
 			});
 			return (request.then(handle.success, handle.error));
 		}

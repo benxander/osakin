@@ -165,12 +165,12 @@
 	<script>
 		$(function(){
 			// var altura = window.innerHeight;
-			var margin = 50;
+			var margin = 80;
 			var posicionInicial = 0;
 			var dom = {}
 			var st = {
 				stickyElement: '.div_flotante',
-				modulo : '.modulos',
+				// modulo : '.modulos',
 				footer : 'footer'
 			};
 			var pos = 0;
@@ -197,7 +197,7 @@
 
 					}
 					windowpos = $(window).scrollTop();
-					// console.log('windowpos', windowpos);
+					console.log('windowpos', windowpos);
 					box = dom.stickyElement;
 					// modulo = dom.modulo.offset();
 
@@ -212,6 +212,7 @@
 						});
 					}else{
 						if ($(window).height() + margin  < (windowpos)) {
+							console.log('primer if');
 							pos = windowpos + margin;
 							dom.stickyElement.css({
 								top: pos + "px",
