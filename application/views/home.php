@@ -80,7 +80,7 @@
 
 			</div>
 
-			<div class="text-center">
+			<div class="text-center mt-3">
 				<p><a title="<?= $this->lang->line('aviso_legal') ?>" rel="shadowbox" href="<?=site_url('aviso-legal')?>"><?= $this->lang->line('aviso_legal') ?></a> - &copy; <?=date('Y')?> <?=SITIO_WEB?> - <?= $this->lang->line('design') ?>: <a href="https://www.hementxe.com">Hementxe Comunicación</a></p>
 
 				<!--<a href="/es/sitemap/">Sitemap</a>--><br>
