@@ -189,28 +189,22 @@
 					// console.log('modulo', modulo);
 
 					footer = dom.footer.offset();
-					console.log('box', box.height());
-					console.log('margin', margin);
-					console.log('windowpos', windowpos);
-					console.log('footer.top', footer.top);
+
 					if ( (box.height() + windowpos + margin) >= footer.top ) {
 						console.log('primer if');
 						pos = footer.top - (box.height() + margin);
-						console.log('pos', pos);
 						dom.stickyElement.css({
 							top: pos + "px",
 							bottom: ''
 						});
 					}else{
 						if ($(window).height() + margin  < (windowpos)) {
-							console.log('segundo if');
 							pos = windowpos + margin;
 							dom.stickyElement.css({
 								top: pos + "px",
 								bottom: ''
 							});
 						} else{
-							console.log('else');
 							pos = modulo.top;
 							dom.stickyElement.css({
 								top: pos + "px",

@@ -21,11 +21,9 @@ class Model_banner extends CI_Model {
 		$this->db->join('sede se', 'ba.idsede = se.idsede','left');
 
 		if( !empty($datos['idioma']) ){
-    		$this->db->where('idioma', $datos['idioma']);
-			$this->db->or_where('idioma IS NULL');
+    		$this->db->where('( idioma = '. $this->db->escape($datos['idioma']) . ' OR idioma IS NULL)');
 		}
-    	$this->db->where('estado_ba', 1);
-		// $this->db->order_by('rand()');
+    		$this->db->where('estado_ba', 1);
     	return $this->db->get()->result_array();
     }
 	public function m_get_banners_zona($datos) {
