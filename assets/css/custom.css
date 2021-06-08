@@ -290,6 +290,7 @@ div.checkbox p {
     content: "\e92b";
 }
 footer {
+	font-size: 0.9rem;
 	background-color: #1C3B85;
     background-repeat: no-repeat;
     background-position: center bottom;
