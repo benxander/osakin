@@ -501,28 +501,33 @@ class Main extends CI_Controller {
 		$this->load->view('home',$datos);
     }
 
-	private function correo_confirmacion($datos)
+	public function test_email()
 	{
-		$para = $datos['email'];
-		$asunto = "EsGratuito.es - Confirma tu correo electrónico";
-		$url = base_url() . 'confirmar_subscripcion/' . md5($datos['idparticipante']);
+		// $para = 'rguevarac@hotmail.es';
+		// $asunto = "Email de prueba";
 
-		$mensaje = "<p>¡Hola! Solo necesitamos comprobar que " . $datos['email'] . " es tu dirección de correo electrónico.<br>";
-		$mensaje .= "Utiliza el botón inferior para confirmar:</p>";
-		$mensaje .= '<a class="btn btn-info" href="' . $url . '" style="min-width: 234px;
-				border: 13px solid #081d3a;
-				border-radius: 4px;
-				background-color: #081d3a;
-				font-size: 20px;
-				color: #ffffff;
-				display: inline-block;
-				text-align: center;
-				vertical-align: top;
-				font-weight: 900;
-				text-decoration: none!important;" target="_blank">Confirmar dirección de correo</a>';
-		if(enviar_mail($para, $asunto, $mensaje)){
-			return true;
+		// $mensaje = "<p>Test</p>";
+
+		// if(enviar_mail($para, $asunto, $mensaje)){
+		// 	var_dump('Enviado correctamente');
+		// 	return true;
+		// }
+		// var_dump('Ocurrio un error');
+		// return false;
+
+		$this->load->library('email');
+
+		$this->email->from('noreply@osakin.net');
+        $this->email->to('rguevarac@hotmail.es');
+        $this->email->subject('asunto');
+        $this->email->message('mensaje con prioridad 1');
+
+        if($this->email->send()){
+			echo "enviado ";
+			echo $this->email->print_debugger();
 		}
-		return false;
+		else echo "No enviado ";
+		echo $this->email->print_debugger();
 	}
+
 }

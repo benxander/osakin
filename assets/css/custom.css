@@ -34,6 +34,14 @@ a:hover, a:focus, a:active {
 .text-principal{
 	color: #1C3B85 !important;
 }
+
+.menu-fijo{
+    z-index: 100;
+    width: 100%;
+	position: fixed;
+    top: 0;
+    box-shadow: 0 4px 10px rgb(0 0 0 / 20%);
+}
 /* menu idioma */
 .idioma a.active, .idioma a:hover{
 	font-weight: 700;

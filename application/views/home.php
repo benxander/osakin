@@ -26,7 +26,7 @@
 </head>
 <body>
 
-	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+	<nav id="navegacion" class="navbar navbar-expand-lg navbar-light bg-light">
 		<a class="navbar-brand" href="/">
 			<img src="<?=base_url('uploads/' . $config['imagen']['logo_header'])?>" alt="" style="max-width: 30px;">
 		</a>
@@ -147,6 +147,27 @@
 
 	<script>
 		$(function(){
+
+			var num = 0;
+			$(window).bind('scroll', function() {
+				if ($(window).scrollTop() > num) {
+					$('#navegacion').addClass('menu-fijo').fadeIn();
+					console.log('Alto ventana', window.innerHeight - 55);
+				} else {
+					$('#navegacion').removeClass('menu-fijo');
+				}
+			});
+
+			// Subir hacia arriba fijo
+			// var num3 = 586;
+			// var num3 = window.innerHeight;
+			// $(window).bind('scroll', function() {
+			// 	if ($(window).scrollTop() > num3) {
+			// 		$('#toTop').addClass('visible');
+			// 	} else {
+			// 		$('#toTop').removeClass('visible');
+			// 	}
+			// });
 			// var altura = window.innerHeight;
 			var margin = 100;
 			var posicionInicial = 0;
