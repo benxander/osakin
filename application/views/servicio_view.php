@@ -13,7 +13,7 @@
 </header>
 <link rel="stylesheet" href="<?=base_url();?>assets/js/fancybox/css/jquery.fancybox.css" />
 
-<div class="container mt-5">
+<div class="container mt-5 modulos">
 	<div class="row pt-lg pb-lg pl pr">
 		<?if($servicio['estado_ss'] == 1):?>
 			<div class="col-lg-8">
@@ -79,28 +79,57 @@
 							<div class="input-group-prepend">
 								<span class="input-group-text"><i class="icon-user"></i></span>
 							</div>
-							<input type="text" class="form-control" placeholder="<?= $this->lang->line('nombre'); ?>">
+							<input
+								id="nombre"
+								class="form-control"
+								type="text"
+								name="nombre"
+								placeholder="<?= $this->lang->line('nombre'); ?>"
+								required
+							>
 						</div>
 						<div class="input-group mb-3">
 							<div class="input-group-prepend">
 								<span class="input-group-text"><i class="icon-mail"></i></span>
 							</div>
-							<input type="email" class="form-control" placeholder="<?= $this->lang->line('correo'); ?>">
+							<input
+								id="email"
+								type="email"
+								name="email"
+								class="form-control"
+								placeholder="<?= $this->lang->line('correo'); ?>"
+								required
+							>
 						</div>
 						<div class="input-group mb-3">
 							<div class="input-group-prepend">
 								<span class="input-group-text"><i class="icon-phone2"></i></span>
 							</div>
-							<input type="tel" class="form-control" placeholder="<?= $this->lang->line('telefono'); ?>">
+							<input
+								id="telefono"
+								type="tel"
+								name="telefono"
+								class="form-control"
+								placeholder="<?= $this->lang->line('telefono'); ?>"
+								required
+							>
 						</div>
 
 						<div class="form-group">
 							<label for="comment"><?= $this->lang->line('mensaje'); ?>:</label>
-							<textarea class="form-control" rows="5" id="comment"></textarea>
+							<textarea id="mensaje" name="mensaje" class="form-control" rows="5" id="comment"></textarea>
 						</div>
 
 						<div class="checkbox" style="margin-bottom: 1rem;">
-							<input style="width: 15px;" type="checkbox" name="politica_privacidad" id="politica_privacidad" class="checkbox" value="" required="required"/>
+							<input
+								style="width: 15px;"
+								type="checkbox"
+								name="politica_privacidad"
+								id="terminos"
+								class="checkbox"
+								value=""
+								required
+							/>
 							<?php if($idioma === 'CAS' ): ?>
 								<p style="font-size: 0.8rem;">He leído la <a rel="shadowbox;width=860;height=600;" href="<?=site_url('politica-de-privacidad')?>" target="_blank">información sobre protección de datos </a></p>
 							<?php else: ?>
@@ -108,7 +137,12 @@
 							<?php endif; ?>
 						</div>
 
-						<button type="button" class="btn btn-primary"><?= $this->lang->line('enviar'); ?></button>
+						<input type="hidden" id="servicio" value="<?= $servicio['servicio'] ?>" />
+						<input type="hidden" id="sede" value="<?= $servicio['descripcion_se'] ?>" />
+
+						<button type="button" class="btn btn-primary" onclick="envio(); return false;"><?= $this->lang->line('enviar'); ?></button>
+						<div id="resultado" class="text-success"></div>
+						<div id="error" class="text-danger"></div>
 					</form>
 				</div>
 				<?php if( !empty($servicio['telefono_contacto']) ): ?>

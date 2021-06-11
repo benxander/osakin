@@ -53,7 +53,7 @@
 		<h2 class="text-principal text-center"><?= $this->lang->line('ubicacion'); ?></h2>
 
 		<div>
-			<?= $sede{'ubicacion'} ?>
+			<?= $sede['ubicacion'] ?>
 		</div>
 
 	</div>

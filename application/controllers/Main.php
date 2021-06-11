@@ -263,15 +263,45 @@ class Main extends CI_Controller {
 				$(document).ready(function() {
 					$(".fancybox").fancybox({
 
-			    	openEffect	: \'elastic\',
-			    	closeEffect	: \'elastic\',
-					nextEffect	: \'fade\',
-			    	prevEffect	: \'fade\',
-					openSpeed : \'slow\',
-					closeSpeed : \'slow\',
-					padding: 5
+						openEffect	: \'elastic\',
+						closeEffect	: \'elastic\',
+						nextEffect	: \'fade\',
+						prevEffect	: \'fade\',
+						openSpeed : \'slow\',
+						closeSpeed : \'slow\',
+						padding: 5
 					});
 				});
+
+				function envio() {
+					var parametros = {
+						nombre: $("#nombre").val(),
+						email: $("#email").val(),
+						telefono: $("#telefono").val(),
+						mensaje: $("#mensaje").val(),
+						servicio: $("#servicio").val(),
+						sede: $("#sede").val(),
+						terminos: $("#terminos").prop("checked")
+					};
+					$.ajax({
+						data:parametros,
+						url:"' . base_url() . 'main/envio_solicitud",
+						type: "post",
+						beforeSend: () => {
+							$("#resultado").html("Enviando, espere por favor");
+						},
+						success: rpta => {
+							if(rpta.flag == 1){
+								$("#resultado").html("");
+								$("#error").html("");
+								alert(rpta.msg);
+							}else{
+								$("#resultado").html("");
+								$("#error").html(rpta.msg);
+							}
+						}
+					});
+				}
 			</script>
 		';
 
@@ -280,6 +310,73 @@ class Main extends CI_Controller {
 		$this->load->view('home',$datos);
 
     }
+
+	public function envio_solicitud()
+	{
+
+		$arrData['flag'] = 0;
+
+		$this->form_validation->set_rules('nombre', 'Nombre', 'required');
+		$this->form_validation->set_rules('telefono', 'Teléfono', 'required|numeric');
+		$this->form_validation->set_rules('email', 'Email', 'required|valid_email');
+		$this->form_validation->set_rules('mensaje', 'Mensaje', 'required');
+		$this->form_validation->set_rules('terminos', 'Protección de datos', 'callback_accept_terms');
+
+		if ($this->form_validation->run() == FALSE) {
+
+			// echo validation_errors();
+			$arrData['msg'] = validation_errors();
+		}else{
+			extract($this->input->post());
+			// envio de correo
+			$this->load->library('email');
+
+			$asunto = "Mensaje de " . $servicio . " - " . $sede;
+			$datos['contenido'] = "";
+			$datos['contenido'] .= "Se ha recibido un mensaje de:<br/>";
+			$datos['contenido'] .= "<strong>Nombre:</strong> " . $nombre . "<br/>";
+			$datos['contenido'] .= "<strong>Email:</strong> " . $email . "<br/>";
+			$datos['contenido'] .= "<strong>Teléfono:</strong> " . $telefono . "<br/>";
+			$datos['contenido'] .= "<strong>Mensaje:</strong> " . $mensaje . "<br/>";
+
+			$mensaje = $this->load->view('plantilla_email', $datos, true);
+
+
+			$this->email->from(EMAIL_FROM, NOMBRE_WEB);
+			$this->email->to(EMAIL_WEB);
+			$this->email->subject($asunto);
+			$this->email->message($mensaje);
+
+			if($this->email->send()){
+
+				$arrData['flag'] = 1;
+				$arrData['msg'] = 'Mensaje enviado correctamente';
+			}else{
+
+				$arrData['msg'] = 'Ocurrió un error al enviar mensaje. Inténtelo nuevamente';
+			}
+
+
+		}
+
+		$this->output
+		    ->set_content_type('application/json')
+		    ->set_output(json_encode($arrData));
+
+
+		// exit();
+	}
+
+	function accept_terms($str)
+	{
+        if ( $str === 'true' ) {
+			return TRUE;
+		} else {
+			$error = 'Por favor acepte la protección de datos.';
+			$this->form_validation->set_message('accept_terms', $error);
+			return FALSE;
+		}
+	}
 
 	public function contacto($sede)
 	{

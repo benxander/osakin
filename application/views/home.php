@@ -152,7 +152,7 @@
 			$(window).bind('scroll', function() {
 				if ($(window).scrollTop() > num) {
 					$('#navegacion').addClass('menu-fijo').fadeIn();
-					console.log('Alto ventana', window.innerHeight - 55);
+					// console.log('Alto ventana', window.innerHeight - 55);
 				} else {
 					$('#navegacion').removeClass('menu-fijo');
 				}
@@ -212,7 +212,7 @@
 					footer = dom.footer.offset();
 
 					if ( (box.height() + windowpos + margin) >= footer.top ) {
-						console.log('primer if');
+						// console.log('primer if');
 						pos = footer.top - (box.height() + margin);
 						dom.stickyElement.css({
 							top: pos + "px",
