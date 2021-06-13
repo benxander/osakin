@@ -266,6 +266,7 @@
       vm.gridServOptions.columnDefs = [
         { field: 'id', name: 'idsedeservicio', displayName: 'ID', width: 80, enableFiltering: false },
         { field: 'servicio', name: 'servicio', displayName: 'SERVICIO', minWidth: 250 },
+        { field: 'nombre_serv', name: 'nombre_serv', displayName: 'NOMBRE DE SERVICIO', minWidth: 250 },
         { field: 'titulo', name: 'titulo', displayName: 'TITULO', minWidth: 250, },
         { field: 'telefono_contacto', name: 'telefono_contacto', displayName: 'WHATSAPP', minWidth: 250, },
 

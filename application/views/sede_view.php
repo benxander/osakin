@@ -44,7 +44,7 @@
 								<div class="ficha text-center">
 									<a href="<?= site_url('servicio/' . url_title(convert_accented_characters(($item['servicio'] . '-' . $item['id'])),'-',TRUE));?>">
 										<img style="width:10rem" src="<?= base_url('uploads/servicios/iconos/' . $item['icono']) ?>" alt="">
-										<h4 class="text-center mt-2" style="color: #1C3B85"><?= $item['servicio'] ?></h4>
+										<h4 class="text-center mt-2" style="color: #1C3B85"><?= $item['nombre_serv'] ?></h4>
 
 									</a>
 								</div>
