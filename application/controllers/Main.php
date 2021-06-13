@@ -431,12 +431,97 @@ class Main extends CI_Controller {
 
 		$datos['idioma'] = $idioma;
 
+		$datos['scripts'] = '
+
+			<script type="text/javascript">
+				$("form").submit( event => {
+					event.preventDefault();
+
+					var parametros = {
+						nombre: $("#nombre").val(),
+						email: $("#email").val(),
+						asunto: $("#asunto").val(),
+						mensaje: $("#mensaje").val(),
+						sede: $("#sede").val(),
+						terminos: $("#terminos").prop("checked")
+					};
+					$.ajax({
+						data: parametros,
+						url: "' . base_url() .'main/envio_contacto",
+						type: "post",
+						beforeSend: () => {
+							$("#resultado").html("Enviando, espere por favor");
+						},
+						success: rpta => {
+							if (rpta.flag == 1) {
+								$("#resultado").html("");
+								$("#errores").html("");
+								alert(rpta.msg);
+							} else {
+								$("#resultado").html("");
+								$("#errores").html(rpta.msg);
+							}
+						}
+					});
+				});
+			</script>
+		';
+
+
 		// vista
 		$datos['vista'] = 'contacto_view';
 		$this->load->view('home',$datos);
 	}
 
+	public function envio_contacto()
+	{
+		$arrData['flag'] = 0;
 
+		$this->form_validation->set_rules('nombre', 'Nombre', 'required');
+		$this->form_validation->set_rules('email', 'Email', 'required|valid_email');
+		$this->form_validation->set_rules('mensaje', 'Mensaje', 'required');
+		$this->form_validation->set_rules('asunto', 'Asunto', 'required');
+		// $this->form_validation->set_rules('terminos', 'Política de privacidad', 'callback_accept_terms');
+
+		if ($this->form_validation->run() == FALSE) {
+
+			// echo validation_errors();
+			$arrData['msg'] = validation_errors();
+		}else{
+			extract($this->input->post());
+
+			// envio de correo
+			$this->load->library('email');
+
+			$asunto = $asunto . " de " . $sede;
+			$datos['contenido'] = "";
+			$datos['contenido'] .= "Se ha recibido un mensaje de:<br/>";
+			$datos['contenido'] .= "<strong>Nombre:</strong> " . $nombre . "<br/>";
+			$datos['contenido'] .= "<strong>Email:</strong> " . $email . "<br/>";
+			$datos['contenido'] .= "<strong>Mensaje:</strong> " . $mensaje . "<br/>";
+
+			$mensaje = $this->load->view('plantilla_email', $datos, true);
+
+
+			$this->email->from(EMAIL_FROM, NOMBRE_WEB);
+			$this->email->to(EMAIL_WEB);
+			$this->email->subject($asunto);
+			$this->email->message($mensaje);
+
+			if($this->email->send()){
+
+				$arrData['flag'] = 1;
+				$arrData['msg'] = 'Mensaje enviado correctamente';
+			}else{
+
+				$arrData['msg'] = 'Ocurrió un error al enviar mensaje. Inténtelo nuevamente';
+			}
+
+		}
+		$this->output
+		    ->set_content_type('application/json')
+		    ->set_output(json_encode($arrData));
+	}
 	public function registro()
 	{
 		#CREDENCIALES PARA LA VALIDACIÓN EN GOOGLE

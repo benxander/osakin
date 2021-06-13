@@ -85,7 +85,7 @@
 								type="text"
 								name="nombre"
 								placeholder="<?= $this->lang->line('nombre'); ?>"
-								required
+								required="required"
 							>
 						</div>
 						<div class="input-group mb-3">
@@ -98,7 +98,7 @@
 								name="email"
 								class="form-control"
 								placeholder="<?= $this->lang->line('correo'); ?>"
-								required
+								required="required"
 							>
 						</div>
 						<div class="input-group mb-3">
@@ -111,7 +111,7 @@
 								name="telefono"
 								class="form-control"
 								placeholder="<?= $this->lang->line('telefono'); ?>"
-								required
+								required="required"
 							>
 						</div>
 
@@ -128,7 +128,7 @@
 								id="terminos"
 								class="checkbox"
 								value=""
-								required
+								required="required"
 							/>
 							<?php if($idioma === 'CAS' ): ?>
 								<p style="font-size: 0.8rem;">He leído la <a rel="shadowbox;width=860;height=600;" href="<?=site_url('politica-de-privacidad')?>" target="_blank">información sobre protección de datos </a></p>

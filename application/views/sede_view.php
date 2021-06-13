@@ -14,10 +14,10 @@
 <div class="modulos"></div>
 
 <div class="container mt-5">
-	<div class="row">
+	<div class="row contenedor-sede">
 			<div class="col-md-3">
 				<div class="" style="">
-					<div class="text-center div_flotante">
+					<div id="div_flotante" class="text-center div_flotante">
 						<? foreach ($banners_laterales as $row) :?>
 							<div class="mt10 promocion">
 								<a href="<?php echo $row['url'] ?>">

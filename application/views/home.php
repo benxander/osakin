@@ -102,6 +102,7 @@
 
 	<script type="text/javascript" src="<?= base_url() ?>assets/js/shadowbox/shadowbox.js"></script>
 	<!-- <script src="<?= base_url()?>assets/js/main.js"></script> -->
+	<!-- <script src="<?= base_url()?>assets/js/main.js"></script> -->
 
 
 	<script type="text/javascript" src="<?=base_url();?>assets/js/cookies.js"></script>
@@ -169,11 +170,11 @@
 			// 	}
 			// });
 			// var altura = window.innerHeight;
-			var margin = 100;
+			// var margin = 100;
 			var posicionInicial = 0;
 			var dom = {}
 			var st = {
-				stickyElement: '.div_flotante',
+				stickyElement: '#div_flotante',
 				modulo : '.modulos',
 				footer : 'footer'
 			};
@@ -184,9 +185,25 @@
 				dom.footer = $(st.footer);
 			}
 			afterCatchDom = function(){
-				var newPosition = $(window).height() + margin;
-				$(st.stickyElement).css('top', newPosition + "px");
-				posicionInicial = newPosition;
+				var w = window.innerWidth;
+				if( w < 910){
+					console.log('mobile', w);
+					dom.stickyElement.removeClass("div_flotante");
+					return;
+				}else{
+					dom.stickyElement.addClass("div_flotante");
+					var windowpos = $(window).scrollTop();
+					var modulo = dom.modulo.offset();
+					var pos = windowpos - modulo.top;
+					if(windowpos > modulo.top){
+						$(st.stickyElement).css('top', pos + "px");
+					}
+
+				}
+				// var newPosition = $(window).height() + margin;
+				// posicionInicial = newPosition;
+				posicionInicial = 0;
+				// console.log('windowpos', windowpos);
 			}
 			suscribeEvents = function(){
 				$(window).on('scroll', events.moveStick);
@@ -211,25 +228,18 @@
 
 					footer = dom.footer.offset();
 
-					if ( (box.height() + windowpos + margin) >= footer.top ) {
-						// console.log('primer if');
-						pos = footer.top - (box.height() + margin);
-						dom.stickyElement.css({
-							top: pos + "px",
-							bottom: ''
-						});
-					}else{
-						if ($(window).height() + margin  < (windowpos)) {
-							pos = windowpos + margin;
+					pos = modulo.top;
+
+					if(windowpos > modulo.top){
+						if ( (box.height() + windowpos ) >= footer.top ) {
+							pos = windowpos;
 							dom.stickyElement.css({
 								top: pos + "px",
-								bottom: ''
 							});
-						} else{
-							pos = modulo.top;
+						}else{
+							pos = windowpos - modulo.top;
 							dom.stickyElement.css({
 								top: pos + "px",
-								bottom: ''
 							});
 						}
 					}

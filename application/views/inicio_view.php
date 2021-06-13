@@ -67,7 +67,7 @@
 						<div class="servicios">
 							<ul class="px-4 pt-4 mb-2">
 								<? foreach ($sede['servicios'] as $row): ?>
-									<li><?=$row['servicio'] ?></li>
+									<li><?=$row['nombre_serv'] ?></li>
 								<? endforeach; ?>
 							</ul>
 							<div class="text-center">

@@ -373,10 +373,14 @@ footer #datosContactoFooter div.socialLinks ul li a i {
 	transition: top 0.8s ease-in-out;
 }
 .promocion img{
-	width: 80%;
+	width: 100%;
 }
 .div_flotante > div:nth-child(1){
 	margin-top: 2em;
 }
 
 .icon:before{color: #555}
+
+@media (max-width: 909px){
+	.contenedor-sede{flex-flow: row-reverse wrap-reverse;}
+}
