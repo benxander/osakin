@@ -432,8 +432,13 @@
           windowClass: 'splash splash-2 splash-ef-12',
           backdrop: 'static',
           keyboard: false,
+          scope:$scope,
           controller: function ($scope, $uibModalInstance, arrToModal) {
             var vm = this;
+            vm.options = {
+              language: 'ru',
+              // font_names: 'Arial;Times New Roman;Verdana'
+            }
             vm.fData = {};
             vm.fData = angular.copy(arrToModal.seleccion);
             vm.dirIconos = arrToModal.dirServicios + '/iconos/';

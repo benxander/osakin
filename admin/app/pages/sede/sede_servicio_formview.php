@@ -117,7 +117,8 @@
 					<label class="control-label minotaur-label">Descripción <small class="text-red">(*)</small> </label>
 
 
-					<text-angular ng-model="mp.fData.descripcion"></text-angular>
+					<!-- <text-angular ng-model="mp.fData.descripcion"></text-angular> -->
+					<textarea ckeditor="editorOptions" ng-model="mp.fData.descripcion"></textarea>
 				</div>
 			</div>
 		</form>

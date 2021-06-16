@@ -43,6 +43,7 @@
       'ui.calendar',
       'blockUI',
       'ds.clock',
+      'ngCkeditor'
       // 'highcharts-ng'
     ]);
 
