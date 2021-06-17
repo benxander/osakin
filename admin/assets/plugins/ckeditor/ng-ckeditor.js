@@ -55,6 +55,10 @@
                         toolbar: 'full',
                         toolbar_full: [ //jshint ignore:line
                             {
+                                name: 'styles',
+                                items: ['Format', 'Font', 'FontSize', 'TextColor', 'PasteText', 'PasteFromWord', 'RemoveFormat']
+                            },
+                            {
                                 name: 'basicstyles',
                                 items: ['Bold', 'Italic', 'Strike', 'Underline']
                             },
@@ -63,10 +67,6 @@
                             {name: 'links', items: ['Link', 'Unlink', 'Anchor']},
                             {name: 'tools', items: ['SpellChecker', 'Maximize']},
                             '/',
-                            {
-                                name: 'styles',
-                                items: ['Format', 'FontSize', 'TextColor', 'PasteText', 'PasteFromWord', 'RemoveFormat']
-                            },
                             {name: 'insert', items: ['Image', 'Table', 'SpecialChar']},
                             {name: 'forms', items: ['Outdent', 'Indent']},
                             {name: 'clipboard', items: ['Undo', 'Redo']},

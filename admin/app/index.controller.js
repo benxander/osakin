@@ -192,6 +192,8 @@
     $scope.fArr.valores = [];
     $scope.editorOptions = {
       language: 'es',
+      extraPlugins: 'font,colorbutton,colordialog',
+
 
     };
     var arrSteps = [
