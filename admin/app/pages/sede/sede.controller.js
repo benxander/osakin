@@ -93,7 +93,6 @@
         backdrop: 'static',
         keyboard: false,
         controller: function ($scope, $uibModalInstance, arrToModal) {
-          console.log('$scope', $scope);
           var vm = this;
           vm.fData = {};
           vm.modoEdicion = false;
@@ -198,11 +197,10 @@
             });
           }
           vm.aceptar = function () {
-            // console.log('edicion...', vm.fData);
             vm.fData.idioma = localStorage.getItem('language');
             SedeServices.sEditarSede(vm.fData).then(function (rpta) {
               if (rpta.flag == 1) {
-                $uibModalInstance.close(vm.fData);
+                $uibModalInstance.close();
                 vm.getPaginationServerSide();
                 var pTitle = 'OK!';
                 var pType = 'success';
@@ -216,7 +214,7 @@
             });
           };
           vm.cancel = function () {
-            $uibModalInstance.dismiss('cancel');
+            $uibModalInstance.close();
           };
         },
         resolve: {
@@ -253,7 +251,6 @@
     }
 
     vm.btnServicios = (row) => {
-      console.log('cambio a serv', row);
       vm.verServicios = true;
       vm.serv.fData = row.entity;
 
@@ -286,7 +283,6 @@
       ];
 
       vm.getPaginationServServerSide = () => {
-        // console.log('sesion', $scope.fSessionCI);
         var paramDatos = {
           idioma: localStorage.getItem('language'),
           idsede: row.entity.idsede
@@ -316,7 +312,6 @@
             vm.btnEliminar = arrToModal.btnAnularServicio;
 
             vm.modalTitle = 'Agregar Servicios a ' + vm.fData.descripcion_se;
-            console.log('fData', vm.fData);
 
             // GRID DE SERVICIOS NO AGREGADOS
             vm.gridServNoAgrOptions = {
@@ -340,13 +335,11 @@
 
             ];
             vm.getServiciosNoAgrServerSide = () => {
-              // console.log('sesion', $scope.fSessionCI);
               var paramDatos = {
                 idsede: vm.fData.idsede
               }
               ServicioServices.sListarServiciosNoAgregados(paramDatos).then(rpta => {
                 vm.gridServNoAgrOptions.data = rpta.datos;
-                // vm.mySelectionGrid = [];
               });
             }
             vm.getServiciosNoAgrServerSide();
@@ -435,23 +428,18 @@
           scope:$scope,
           controller: function ($scope, $uibModalInstance, arrToModal) {
             var vm = this;
-            vm.options = {
-              language: 'ru',
-              // font_names: 'Arial;Times New Roman;Verdana'
-            }
+
             vm.fData = {};
             vm.fData = angular.copy(arrToModal.seleccion);
             vm.dirIconos = arrToModal.dirServicios + '/iconos/';
             vm.modoEdicion = true;
             vm.getPaginationServServerSide = arrToModal.getPaginationServServerSide;
 
-            console.log('row', row.entity);
             vm.modalTitle = 'Edición de Servicio ' + row.entity.servicio;
 
             vm.regexTel = /^[6789]\d{8}$/;
 
             vm.aceptar = function () {
-              // console.log('edicion...', vm.fData);
               vm.fData.idioma = localStorage.getItem('language');
               var formData = new FormData();
               angular.forEach(vm.fData, function (index, val) {
@@ -460,7 +448,7 @@
 
               SedeServices.sEditarServicioSede(formData).then(function (rpta) {
                 if (rpta.flag == 1) {
-                  $uibModalInstance.close(vm.fData);
+                  $uibModalInstance.close();
                   vm.getPaginationServServerSide();
                   var pTitle = 'OK!';
                   var pType = 'success';
@@ -504,8 +492,6 @@
             vm.fData = angular.copy(arrToModal.seleccion);
             vm.dirServicios = arrToModal.dirServicios;
             vm.dirThumbs = arrToModal.dirServicios + 'thumbs/';
-            // console.log('ruta', vm.dirIconos);
-            // vm.modoEdicion = true;
             vm.uploadBtn = false;
             vm.getPaginationServServerSide = arrToModal.getPaginationServServerSide;
 
@@ -514,17 +500,12 @@
             });
 
             vm.modalTitle = 'Galeria de Servicio';
-            // console.log('row', row.entity);
             var paramDatos = {
-              // idsedeservicio: row.entity.id
               idsedeservicio: vm.fData.id
             }
             vm.cargarGaleria = () => {
               SedeServices.sCargarGaleriaSedeServicio(paramDatos).then(function (rpta) {
                 vm.fData.galeria = rpta.datos;
-                // console.log('galeria obj', vm.fData.galeria);
-                // vm.fData.galeriaArray = Object.values(vm.fData.galeria);
-                // console.log('galeria array', vm.fData.galeriaArray);
               });
             }
             vm.cargarGaleria();
@@ -534,7 +515,6 @@
             }
 
             vm.subirTodo = function () {
-              console.log('subir todo');
               uploader.uploadAll();
             }
 
@@ -580,11 +560,7 @@
             // CALLBACKS
 
             uploader.onWhenAddingFileFailed = function (item /*{File|FileLikeObject}*/, filter, options) {
-              console.info('onWhenAddingFileFailed', item, filter, options);
             };
-            /*uploader.onAfterAddingFile = function(fileItem) {
-                console.info('onAfterAddingFile', fileItem);
-            };*/
             uploader.onAfterAddingAll = function (addedFileItems) {
               console.info('onAfterAddingAll', addedFileItems);
             };
@@ -594,9 +570,7 @@
                 galeria: JSON.stringify(vm.fData.galeria)
               });
             };
-            /*uploader.onProgressItem = function(fileItem, progress) {
-                console.info('onProgressItem', fileItem, progress);
-            };*/
+
             uploader.onProgressAll = function (progress) {
               console.info('onProgressAll', progress);
             };
@@ -604,7 +578,6 @@
               console.info('onProgressAll', progress);
             };
             uploader.onSuccessItem = function (fileItem, response, status, headers) {
-              console.info('onSuccessItem', fileItem, response, status, headers);
               if (response.flag == 1) {
                 var pTitle = 'OK';
                 var pType = 'success';
@@ -617,7 +590,6 @@
               pinesNotifications.notify({ title: pTitle, text: response.message, type: pType, delay: 3000 });
             };
             uploader.onErrorItem = function (fileItem, response, status, headers) {
-              console.info('onErrorItem', fileItem, response, status, headers);
               if (response.flag == 1) {
                 var pTitle = 'OK';
                 var pType = 'success';
@@ -629,14 +601,7 @@
               }
               pinesNotifications.notify({ title: pTitle, text: response.message, type: pType, delay: 3000 });
             };
-            /*uploader.onCancelItem = function(fileItem, response, status, headers) {
-                console.info('onCancelItem', fileItem, response, status, headers);
-            };
-            uploader.onCompleteItem = function(fileItem, response, status, headers) {
-                console.info('onCompleteItem', fileItem, response, status, headers);
-            };*/
             uploader.onCompleteAll = () => {
-              console.info('onCompleteAll');
               vm.uploadBtn = false;
               uploader.clearQueue();
               vm.cargarGaleria();
@@ -686,8 +651,6 @@
                 alert('Error inesperado.');
               }
               pinesNotifications.notify({ title: pTitle, text: rpta.message, type: pType, delay: 5000 });
-
-              // console.log('callback', callback);
               vm.getPaginationServServerSide();
               if(callback){
                 callback();

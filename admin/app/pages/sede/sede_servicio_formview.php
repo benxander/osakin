@@ -115,9 +115,6 @@
 			<div class="row">
 				<div class="form-group col-md-12">
 					<label class="control-label minotaur-label">Descripción <small class="text-red">(*)</small> </label>
-
-
-					<!-- <text-angular ng-model="mp.fData.descripcion"></text-angular> -->
 					<textarea ckeditor="editorOptions" ng-model="mp.fData.descripcion"></textarea>
 				</div>
 			</div>

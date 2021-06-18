@@ -18,7 +18,7 @@
 				</div>
 				<div class="form-group col-xs-12">
 					<label for="contenido" class="control-label minotaur-label">Contenido <small class="text-red">(*)</small></label>
-					<text-angular ng-model="mp.fData.contenido" name="contenido"></text-angular>
+					<textarea ckeditor="editorOptions" ng-model="mp.fData.contenido"></textarea>
 					<div ng-messages="formSede.contenido.$error" ng-show="formSede.contenido.$dirty" role="alert"
 						class="help-block text-red">
 						<div ng-messages-include="app/components/templates/messages_tmpl.html"></div>

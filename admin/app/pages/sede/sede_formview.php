@@ -146,7 +146,6 @@
 						required
 					> -->
 					<textarea class="form-control" name="horario" id="horario" cols="30" rows="5" ng-model="mp.fData.horario"></textarea>
-					<!-- <text-angular ng-model="mp.fData.horario"></text-angular> -->
 					<div ng-messages="formSede.horario.$error" ng-show="formSede.horario.$dirty" role="alert"
 						class="help-block text-red">
 						<div ng-messages-include="app/components/templates/messages_tmpl.html"></div>
@@ -173,9 +172,7 @@
 			<div class="row">
 				<div class="form-group col-md-12">
 					<label class="control-label minotaur-label">Descripción <small class="text-red">(*)</small> </label>
-
-
-					<text-angular ng-model="mp.fData.descripcion"></text-angular>
+					<textarea ckeditor="editorOptions" ng-model="mp.fData.descripcion"></textarea>
 				</div>
 			</div>
 

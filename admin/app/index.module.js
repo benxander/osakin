@@ -19,7 +19,7 @@
       // 'FBAngular',
       // 'daterangepicker',
       // 'ui.sortable',
-      'textAngular',
+      // 'textAngular',
       // 'ngTagsInput',
       // 'dragularModule',
       'angular-svg-round-progressbar',

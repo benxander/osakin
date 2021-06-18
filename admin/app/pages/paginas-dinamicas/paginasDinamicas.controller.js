@@ -68,56 +68,6 @@
 		}
 		vm.getPaginationServerSide();
 		// mantenimiento
-		vm.btnNuevo = function () {
-			$uibModal.open({
-				templateUrl: 'app/pages/paginas-dinamicas/paginas_formview.php',
-				controllerAs: 'mp',
-				size: 'md',
-				backdropClass: 'splash splash-2 splash-info splash-ef-12',
-				windowClass: 'splash splash-2 splash-ef-12',
-				backdrop: 'static',
-				keyboard: true,
-				controller: function ($scope, $uibModalInstance, arrToModal) {
-					var vm = this;
-					vm.fData = {};
-					vm.modoEdicion = false;
-					vm.getPaginationServerSide = arrToModal.getPaginationServerSide;
-					vm.fArr = arrToModal.fArr;
-					vm.fData.grupo = vm.fArr.listaGrupos[0];
-
-					vm.modalTitle = 'Registro de Página dinámica';
-					// BOTONES
-					vm.aceptar = function () {
-						PaginasDnamicasServices.sRegistrarPaginaDinamica(vm.fData).then(function (rpta) {
-							if (rpta.flag == 1) {
-								$uibModalInstance.close(vm.fData);
-								vm.getPaginationServerSide();
-								var pTitle = 'OK!';
-								var pType = 'success';
-							} else if (rpta.flag == 0) {
-								var pTitle = 'Advertencia!';
-								var pType = 'warning';
-							} else {
-								alert('Ocurrió un error');
-							}
-							pinesNotifications.notify({ title: pTitle, text: rpta.message, type: pType, delay: 3000 });
-						});
-					};
-					vm.cancel = function () {
-						$uibModalInstance.close();
-					};
-				},
-				resolve: {
-					arrToModal: function () {
-						return {
-							getPaginationServerSide: vm.getPaginationServerSide,
-							fArr: vm.fArr
-						}
-					}
-				}
-			});
-		}
-
 		vm.btnEditar = function (row) {
 			$uibModal.open({
 				templateUrl: 'app/pages/paginas-dinamicas/paginas_formview.php',
@@ -127,6 +77,7 @@
 				windowClass: 'splash splash-2 splash-ef-12',
 				backdrop: 'static',
 				keyboard: true,
+				scope: $scope,
 				controller: function ($scope, $uibModalInstance, arrToModal) {
 					var vm = this;
 					vm.fData = angular.copy(row.entity);
@@ -134,21 +85,12 @@
 					vm.getPaginationServerSide = arrToModal.getPaginationServerSide;
 					vm.fArr = arrToModal.fArr;
 
-					// var objIndex = vm.fArr.listaGrupos.filter(function (obj) {
-					// 	return obj.id == vm.fData.grupo.idgrupo;
-					// }).shift();
-					// if (objIndex) {
-					// 	vm.fData.grupo = objIndex;
-					// } else {
-					// 	vm.fData.grupo = vm.fArr.listaGrupos[0];
-					// }
-
 					vm.modalTitle = 'Edición de Página dinámica';
 					// BOTONES
 					vm.aceptar = function () {
 						PaginasDnamicasServices.sEditarPaginaDinamica(vm.fData).then(function (rpta) {
 							if (rpta.flag == 1) {
-								$uibModalInstance.close(vm.fData);
+								$uibModalInstance.close();
 								vm.getPaginationServerSide();
 								var pTitle = 'OK!';
 								var pType = 'success';
